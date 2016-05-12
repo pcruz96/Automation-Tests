@@ -175,19 +175,20 @@ public class TestRailUtilities extends Log4J {
 		}
 	}
 
-	public ArrayList<TestcaseModel> getTestCases(String projectId, String suiteId) {			
-
+	public ArrayList<TestcaseModel> getTestCases(String projectId, String suiteId) {
+				
 		ArrayList<TestcaseModel> list = new ArrayList<TestcaseModel>();
 		try {
 			JSONArray resultArray = (JSONArray) client.sendGet("get_cases/"
 					+ projectId + "&suite_id=" + suiteId);
-
+			
 			for (int i = 0; i < resultArray.size(); i++) {
 				JSONObject jsonTestItem = (JSONObject) resultArray.get(i);
 				TestcaseModel testcaseModel = new TestcaseModel();
 				testcaseModel.setDescription(jsonTestItem.get("title")
 						.toString());
-				testcaseModel.setTestID(jsonTestItem.get("id").toString());
+				testcaseModel.setTestID(jsonTestItem.get("id").toString());				
+				testcaseModel.setType(this.getType(jsonTestItem.get("type_id").toString()));				
 				list.add(testcaseModel);
 			}
 
@@ -430,5 +431,22 @@ public class TestRailUtilities extends Log4J {
 			}
 			return null;
 		}
+	}
+	
+	public String getType(String typeId) {
+		try {
+			JSONArray resultArray = (JSONArray) getClient().sendGet("get_case_types");
+			
+			for (int i = 0; i < resultArray.size(); i++) {
+				JSONObject jsonTestItem = (JSONObject) resultArray.get(i);				
+				if (jsonTestItem.get("id").toString().equals(typeId)) {
+					return jsonTestItem.get("name").toString();					
+				}
+			}
+		} catch (IOException | APIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

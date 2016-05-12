@@ -22,11 +22,11 @@ public class GetTestCases extends Log4J {
 		String projectId = args[0];
 		String suiteId = args[1];
 		String filePath = args[2];
-		TestRailUtilities testRailUtilities = new TestRailUtilities();
-
-		ArrayList<TestcaseModel> results = testRailUtilities.getTestCases(
+		TestRailUtilities tr = new TestRailUtilities();
+		
+		ArrayList<TestcaseModel> results = tr.getTestCases(
 				projectId, suiteId);
-		String suiteName = testRailUtilities.getSuiteName(false, suiteId);
+		String suiteName = tr.getSuiteName(false, suiteId);
 		try {
 			File file = new File(filePath);
 			if (!file.exists()) {
@@ -37,7 +37,7 @@ public class GetTestCases extends Log4J {
 			bw.write("import org.testng.annotations.Test;\n\n");
 			bw.write("public class " + suiteName + " extends BaseTest {\n\n");
 			for (TestcaseModel t : results) {
-				String testCaseMethodStr = "\t@Test(groups={\"\"}, enabled=false)\n"
+				String testCaseMethodStr = "\t@Test(groups={\""+t.getType()+"\"}, enabled=false)\n"
 						+ "\tpublic void c" + t.getTestID() + "_"
 						+ getTestCaseName(t.getDescription())
 						+ "() {\n" + "\t\n" + "\t}\n";
