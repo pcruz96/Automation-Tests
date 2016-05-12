@@ -1,1 +1,1 @@
-# AutomationTests
+Automation tests

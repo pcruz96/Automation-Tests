@@ -1,0 +1,10 @@
+error /AssertionError/
+error /at com.teachscape/
+error /[Ee]xception/
+error /BaseTest.setup/
+
+warning /(?i)warning/
+
+info /(?i)info/
+
+start /BUILD/
