@@ -13,7 +13,7 @@ public class Suite extends BaseTest {
 		Driver.getDriver().get("http://www.yahoo.com");
 	}
 
-	@Test(groups={"smoke"}, enabled=false)
+	@Test(groups={"smoke"}, enabled=true)
 	public void c2_tc2() {
 		System.out.println("step 1b");
 		Driver.getDriver().get("http://www.amazon.com");
