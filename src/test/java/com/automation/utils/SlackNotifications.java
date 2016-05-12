@@ -12,7 +12,8 @@ public class SlackNotifications {
 		HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 
 
 	    try {
-	        HttpPost request = new HttpPost("https://hooks.slack.com/services/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");
+	    	// demotest-group.slack.com
+	        HttpPost request = new HttpPost("https://hooks.slack.com/services/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");
 	        StringEntity params =new StringEntity("payload={\"channel\": \"#automation\", \"username\": \"webhookbot\", \"text\": \""+txt+"\"}");
 	        request.addHeader("content-type", "application/x-www-form-urlencoded");
 	        request.setEntity(params);
