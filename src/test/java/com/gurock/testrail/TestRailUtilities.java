@@ -97,17 +97,9 @@ public class TestRailUtilities extends Log4J {
 			APIClient client = getClient();
 			runId = null;
 			try {
-				JSONArray resultArray = (JSONArray) client.sendGet("get_runs/"
-						+ projectId);
-	
-				for (int i = (resultArray.size() - 1); i < resultArray.size(); i--) {
-					JSONObject jsonTestItem = (JSONObject) resultArray.get(i);
-					String getSuiteId = jsonTestItem.get("suite_id").toString();
-					if (getSuiteId.equals(suiteId)) {
-						runId = jsonTestItem.get("id").toString();
-						return runId;
-					}
-				}
+				JSONArray resultArray = (JSONArray) client.sendGet("get_runs/" + projectId);
+				JSONObject jsonTestItem = (JSONObject) resultArray.get(0);
+				return jsonTestItem.get("id").toString();
 			} catch (APIException e) {
 				logger.error(e.getMessage());
 			} catch (MalformedURLException e) {

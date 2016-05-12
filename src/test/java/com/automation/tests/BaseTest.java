@@ -274,7 +274,7 @@ public class BaseTest extends TestRailUtilities {
 			if (updTestRail) {
 				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId,
 						getCaseId(method));
-				String testResultLink = "http://testrail.automation.com/index.php?/tests/view/"
+				String testResultLink = "https://autotests.testrail.net/index.php?/tests/view/"
 						+ testId;
 				if (testId == null) {
 					testResultLink = "";
