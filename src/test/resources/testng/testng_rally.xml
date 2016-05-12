@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suite name="BUILD_TAG" verbose="1">
+
+	<listeners>
+		<listener class-name="com.automation.testng.RetryListener" />
+		<listener class-name="com.automation.testng.TestListener" />
+	</listeners>
+	<parameter name="projectId" value="PROJECTID" />
+	<!-- get ENV from AutomationTests/src/test/resources/*.conf -->
+	<parameter name="env" value="ENV" />
+	<parameter name="sauceLabs" value="true" />
+	<!-- boolean UPDRALLY -->
+	<parameter name="updateRally" value="UPDRALLY" />
+	<!-- https://docs.saucelabs.com/reference/platforms-configurator/#/ -->
+	<parameter name="platform" value="PLATFORM" />	
+	<parameter name="browser" value="BROWSER" />
+	<!-- optional get DATABASE from AutomationTests/src/test/resources/db.conf. Ex. db.qang1 or db.stg -->
+	<parameter name="database" value="DATABASE" />
+	<!-- who = login* from AutomationTests/src/test/resources/*.conf -->
+	<parameter name="who" value="WHO" />
+	
+	<test name="test ENV" parallel="methods" thread-count="10">			
+		<packages>
+			<!-- <package name="PACKAGE" />  -->
+		</packages>
+		<groups>
+			<run>
+				<include name="INCLUDEGROUP" />
+			</run>
+		</groups>				
+		<classes>
+			<class name="CLASS" />
+			<methods>
+				<include name=".*" />
+			</methods>
+		</classes>
+	</test>
+</suite>

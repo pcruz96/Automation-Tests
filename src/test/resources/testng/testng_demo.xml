@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<suite name="Suite" verbose="1">
+
+	<listeners>
+		<listener class-name="com.automation.testng.RetryListener" />
+		<listener class-name="com.automation.testng.TestListener" />
+	</listeners>
+	<!-- get 1 & 1 from Test Rail -->
+	<parameter name="projectId" value="1" />
+	<parameter name="suiteId" value="1" />
+	<!-- get qa from AutomationTests/src/resources/*.conf -->
+	<parameter name="env" value="qa" />
+	<parameter name="sauceLabs" value="false" />
+	<!-- boolean false -->
+	<parameter name="updateTestRail" value="true" />
+	<!-- boolean add new run in Test Rail -->
+	<parameter name="addRun" value="true" />
+	<!-- update specific run in Test Rail -->
+	<parameter name="runId" value="" />
+	<!-- https://docs.saucelabs.com/reference/platforms-configurator/#/ -->
+	<parameter name="platform" value="MAC" />	
+	<parameter name="browser" value="chrome" />
+	<!-- optional get db.qa from AutomationTests/src/resources/db.conf. Ex. db.qang1 or db.stg -->
+	<parameter name="database" value="db.qa" />
+	<!-- who = login* from AutomationTests/src/resources/*.conf -->
+	<parameter name="who" value="login" />
+	
+	<test name="test qa" parallel="methods" thread-count="10">			
+		<packages>
+			<!-- <package name="com.automation.test.elmo" />  -->
+		</packages>
+		<groups>
+			<run>
+				<include name=".*" />
+			</run>
+		</groups>				
+		<classes>
+			<class name="com.automation.tests.project.Suite" />
+			<methods>
+				<include name=".*" />
+			</methods>
+		</classes>
+	</test>
+</suite>

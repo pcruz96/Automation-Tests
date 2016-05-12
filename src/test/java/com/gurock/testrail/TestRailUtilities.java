@@ -40,9 +40,9 @@ public class TestRailUtilities extends Log4J {
     }
 
 	public APIClient getClient() {
-		APIClient client = new APIClient("http://testrail.automation.com/");
-		client.setUser("");
-		client.setPassword("");
+		APIClient client = new APIClient("https://autotests.testrail.net/");
+		client.setUser("pcruz96@yahoo.com");
+		client.setPassword("XykKZUA115OZkNdd8eD6");
 		return client;
 	}
 	
