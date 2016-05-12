@@ -10,18 +10,17 @@ public class GetTestCases extends Log4J {
 
 	public static void main(String[] args) {
 		
-		logger.info("Usage: projectId suiteId textFilePath");
-		if ((args == null) || (args.length == 0) || (args.length < 3)) {
+		logger.info("Usage: projectId suiteId");
+		if ((args == null) || (args.length == 0) || (args.length < 2)) {
 			logger.info("Empty Args.\n"
-					+ "Usage: projectId suiteId textFilePath");
+					+ "Usage: projectId suiteId");
 			System.exit(0);
 		}
 		logger.info("projectId " + args[0]);
 		logger.info("suiteId " + args[1]);
-		logger.info("testfile " + args[2]);
 		String projectId = args[0];
 		String suiteId = args[1];
-		String filePath = args[2];
+		String filePath = "convertedTestRailTests_TestNGmethods";
 		TestRailUtilities tr = new TestRailUtilities();
 		
 		ArrayList<TestcaseModel> results = tr.getTestCases(
