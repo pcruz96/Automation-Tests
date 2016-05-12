@@ -30,7 +30,7 @@ public class ScreenshotOnFailure extends CustomException {
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 		String error = "";
 		try {
-			error = getStackTrace(testResult, method).replaceAll("[^a-zA-Z0-9]+"," ");
+			error = getStackTrace(testResult, method);
 			logger.error(BaseTest.getMethodName() + " - " + error + "\n");				
 		} catch (Exception e) {
 			logger.error("EXCEPTION: getStackTrace(testResult, method);");

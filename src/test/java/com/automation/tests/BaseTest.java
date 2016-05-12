@@ -58,10 +58,6 @@ public class BaseTest extends TestRailUtilities {
 	public static String database = null;
 	public static boolean sauceLabs = false;
 	public static boolean addRun = false;
-	public static String evaluator = null;
-	public static String teacher = null;
-	public static String peerObs = null;	
-	public static ThreadLocal<String> teacherOrg = new ThreadLocal<String>();
 	
 	public String getTestEnv(String testEnv, boolean tag) {
 		
@@ -133,12 +129,6 @@ public class BaseTest extends TestRailUtilities {
     }
 		
 	public void setActors() {
-		try {
-			evaluator = TestConfiguration.getConfig().getString("login.evaluator.username");
-			teacher = TestConfiguration.getConfig().getString("login.teacher.username");
-			peerObs = TestConfiguration.getConfig().getString("login.peerObs.username");			
-			teacherOrg.set(TestConfiguration.getConfig().getString("teacher.org"));
-		} catch (Exception e) {}
 	}
 	
 	@BeforeSuite(alwaysRun = true)

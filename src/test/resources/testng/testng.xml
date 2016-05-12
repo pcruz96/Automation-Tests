@@ -8,7 +8,7 @@
 	<!-- get PROJECTID & SUITEID from Test Rail -->
 	<parameter name="projectId" value="PROJECTID" />
 	<parameter name="suiteId" value="SUITEID" />
-	<!-- get ENV from nextgen-test/src/test/resources/*.conf -->
+	<!-- get ENV from AutomationTests/src/test/resources/*.conf -->
 	<parameter name="env" value="ENV" />
 	<parameter name="sauceLabs" value="true" />
 	<!-- boolean UPDTESTRAIL -->
@@ -16,13 +16,13 @@
 	<!-- boolean add new run in Test Rail -->
 	<parameter name="addRun" value="ADDRUN" />
 	<!-- update specific run in Test Rail -->
-	<parameter name="runId" value="RUNID" />
+	<parameter name="runId" value="4642" />
 	<!-- https://docs.saucelabs.com/reference/platforms-configurator/#/ -->
 	<parameter name="platform" value="PLATFORM" />	
 	<parameter name="browser" value="BROWSER" />
-	<!-- optional get DATABASE from nextgen-test/src/test/resources/db.conf. Ex. db.qang1 or db.stg -->
+	<!-- optional get DATABASE from AutomationTests/src/test/resources/db.conf. Ex. db.qang1 or db.stg -->
 	<parameter name="database" value="DATABASE" />
-	<!-- who = login* from nextgen-test/src/test/resources/*.conf -->
+	<!-- who = login* from AutomationTests/src/test/resources/*.conf -->
 	<parameter name="who" value="WHO" />
 	
 	<test name="test ENV" parallel="methods" thread-count="10">			
