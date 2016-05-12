@@ -22,9 +22,9 @@ import com.rallydev.rest.util.Fetch;
 public class Rally {
 
 	public final String host = "https://rally1.rallydev.com";
-	final String username = "rim_user@automationtechnologies.com";
-	final String password = "rim_user";
-	final String workspaceRef = "/workspace/11557540772";
+	final String username = "";
+	final String password = "";
+	final String workspaceRef = "/workspace/";
 	
 	public void convertRallyTestCasesToTestNGmethods(String project) throws URISyntaxException, IOException {
 		
