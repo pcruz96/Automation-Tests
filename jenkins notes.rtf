@@ -26,8 +26,7 @@ target/surefire-reports/emailable-report.html, test-output/log4j-application.log
 \
 bash disable_jmeter_tests.sh FocusAPI.jmx\
 \
-sed -i.tmp "s/\\$\{suite\}-\\$\{__time(yyyy-MM-dd'T'hh:mm:ssX)\}/\\$\{suite\}-$BUILD_TAG/g" src/test/jmeter/*.jmx\
-\
+sed -i.tmp "s/\\$\{suite\}-\\$\{__time(yyyy-MM-dd&apos;T&apos;hh:mm:ssX)\}/\\$\{suite\}-$BUILD_TAG/g" src/test/jmeter/*.jmx\
 \
 \
 }
