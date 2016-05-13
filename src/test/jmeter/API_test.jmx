@@ -7,17 +7,6 @@
       <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="ev" elementType="Argument">
-            <stringProp name="Argument.name">ev</stringProp>
-            <stringProp name="Argument.value"></stringProp>
-            <stringProp name="Argument.desc">environment</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="csv" elementType="Argument">
-            <stringProp name="Argument.name">csv</stringProp>
-            <stringProp name="Argument.value">prod</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="project_id" elementType="Argument">
             <stringProp name="Argument.name">project_id</stringProp>
             <stringProp name="Argument.value">1</stringProp>
@@ -375,7 +364,7 @@ vars.put(&quot;suite&quot;, suite);</stringProp>
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
 	&quot;suite_id&quot;: ${suite_id},&#xd;
-	&quot;name&quot;: &quot;test api-${project}-${suite}-${__P(BUILD_TAG,-${__UUID})}&quot;,&#xd;
+	&quot;name&quot;: &quot;test api-${project}-${suite}-${__UUID}&quot;,&#xd;
 	&quot;include_all&quot;: true&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
