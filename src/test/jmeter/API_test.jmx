@@ -375,7 +375,7 @@ vars.put(&quot;suite&quot;, suite);</stringProp>
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
 	&quot;suite_id&quot;: ${suite_id},&#xd;
-	&quot;name&quot;: &quot;test api-${project}-${suite}-${__UUID}&quot;,&#xd;
+	&quot;name&quot;: &quot;test api-${project}-${suite}-${BUILD_TAG}-${__UUID}&quot;,&#xd;
 	&quot;include_all&quot;: true&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
