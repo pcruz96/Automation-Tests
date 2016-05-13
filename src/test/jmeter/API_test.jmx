@@ -422,7 +422,7 @@ vars.put(&quot;suite&quot;, suite);</stringProp>
           </hashTree>
         </hashTree>
       </hashTree>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group - csv test cases 1" enabled="true">
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group - csv test cases" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
@@ -582,55 +582,6 @@ vars.put(&quot;body_data&quot;, bd);
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - actual_response_code" enabled="true">
-                <stringProp name="RegexExtractor.useHeaders">true</stringProp>
-                <stringProp name="RegexExtractor.refname">actual_response_code</stringProp>
-                <stringProp name="RegexExtractor.regex">HTTP/1.1 (.*?) (.*?)</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default"></stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - expected_response_code" enabled="true">
-                <collectionProp name="Asserion.test_strings">
-                  <stringProp name="-498406302">${expected_response_code}</stringProp>
-                </collectionProp>
-                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
-                <intProp name="Assertion.test_type">2</intProp>
-              </ResponseAssertion>
-              <hashTree/>
-              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
-                <collectionProp name="Asserion.test_strings">
-                  <stringProp name="133719110">${response_contains_txt}</stringProp>
-                </collectionProp>
-                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
-                <intProp name="Assertion.test_type">2</intProp>
-              </ResponseAssertion>
-              <hashTree/>
-              <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
-                <stringProp name="filename"></stringProp>
-                <stringProp name="parameters"></stringProp>
-                <boolProp name="resetInterpreter">false</boolProp>
-                <stringProp name="script">import org.apache.jmeter.assertions.AssertionResult; 
-
-AssertionResult[] results = sampleResult.getAssertionResults(); 
-
-for(int i =0,j=1 ; i&lt;results.length;i++) { 
-    AssertionResult result = results[i]; 
-	if(result.isFailure()  || result.isError()) { 
-        vars.put(&quot;assertionResult_&quot; + j, result.getFailureMessage());         
-        j++; 
-	} 
-} 
-String s = vars.get(&quot;assertionResult_1&quot;).trim();
-s = s.replace(&quot;\&quot;&quot;,&quot;&apos;&quot;);     
-s = s.replace(&quot;\n&quot;,&quot;&quot;);     
-String assertionResult_1 = s.replace(&quot;/&quot;,&quot;&quot;);     
-vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
-              </BeanShellListener>
-              <hashTree/>
             </hashTree>
           </hashTree>
           <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${method}&quot; == &quot;post&quot; " enabled="true">
@@ -675,38 +626,40 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
-              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - actual_response_code" enabled="true">
-                <stringProp name="RegexExtractor.useHeaders">true</stringProp>
-                <stringProp name="RegexExtractor.refname">actual_response_code</stringProp>
-                <stringProp name="RegexExtractor.regex">HTTP/1.1 (.*?) (.*?)</stringProp>
-                <stringProp name="RegexExtractor.template">$1$</stringProp>
-                <stringProp name="RegexExtractor.default"></stringProp>
-                <stringProp name="RegexExtractor.match_number">1</stringProp>
-              </RegexExtractor>
-              <hashTree/>
-              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - expected_response_code" enabled="true">
-                <collectionProp name="Asserion.test_strings">
-                  <stringProp name="-498406302">${expected_response_code}</stringProp>
-                </collectionProp>
-                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
-                <intProp name="Assertion.test_type">2</intProp>
-              </ResponseAssertion>
-              <hashTree/>
-              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
-                <collectionProp name="Asserion.test_strings">
-                  <stringProp name="133719110">${response_contains_txt}</stringProp>
-                </collectionProp>
-                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                <boolProp name="Assertion.assume_success">false</boolProp>
-                <intProp name="Assertion.test_type">2</intProp>
-              </ResponseAssertion>
-              <hashTree/>
-              <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
-                <stringProp name="filename"></stringProp>
-                <stringProp name="parameters"></stringProp>
-                <boolProp name="resetInterpreter">false</boolProp>
-                <stringProp name="script">import org.apache.jmeter.assertions.AssertionResult; 
+            </hashTree>
+          </hashTree>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - actual_response_code" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">true</stringProp>
+            <stringProp name="RegexExtractor.refname">actual_response_code</stringProp>
+            <stringProp name="RegexExtractor.regex">HTTP/1.1 (.*?) (.*?)</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - expected_response_code" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="-498406302">${expected_response_code}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
+            <collectionProp name="Asserion.test_strings">
+              <stringProp name="133719110">${response_contains_txt}</stringProp>
+            </collectionProp>
+            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+            <boolProp name="Assertion.assume_success">false</boolProp>
+            <intProp name="Assertion.test_type">2</intProp>
+          </ResponseAssertion>
+          <hashTree/>
+          <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="script">import org.apache.jmeter.assertions.AssertionResult; 
 
 AssertionResult[] results = sampleResult.getAssertionResults(); 
 
@@ -722,10 +675,8 @@ s = s.replace(&quot;\&quot;&quot;,&quot;&apos;&quot;);
 s = s.replace(&quot;\n&quot;,&quot;&quot;);     
 String assertionResult_1 = s.replace(&quot;/&quot;,&quot;&quot;);     
 vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
-              </BeanShellListener>
-              <hashTree/>
-            </hashTree>
-          </hashTree>
+          </BeanShellListener>
+          <hashTree/>
         </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${loadTest}&quot; == &quot;false&quot;" enabled="true">
           <stringProp name="IfController.condition">&quot;${loadTest}&quot; == &quot;false&quot;</stringProp>
@@ -849,7 +800,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 5,&#xd;
-	&quot;comment&quot;:&quot;${assertionResult_1}\nActual Response Code: ${actual_response_code}&quot;&#xd;
+	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}&quot;&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
