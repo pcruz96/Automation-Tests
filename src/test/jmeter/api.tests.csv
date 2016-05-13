@@ -1,1 +1,1 @@
-,case_id,scenario,method,http_request,body_data,expected_response_code,response_contains_txt,comment<case><title>happy path</title></case>,1,happy path,post,/index.php?/api/v2/add_result_for_case/27/1,"{ ""status_id"": 1}",400,,
+,case_id,scenario,method,http_request,body_data,expected_response_code,response_contains_txt,comment<case><title>happy path</title></case>,1,happy path,post,/index.php?/api/v2/add_result_for_case/27/1,"{ ""status_id"": 1}",200,,
