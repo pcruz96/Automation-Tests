@@ -34,5 +34,5 @@ post-build\
 run_id=`grep runs target/jmeter/logs/API_test.jmx.log | awk -F'view' '\{print $2\}' | sed 's/\\\\\\//' | sed 's/"\}"//'`\
 java -jar /Users/pcruz/Documents/jenkins/jenkins-cli.jar -noKeyAuth -s http://localhost:8080/ set-build-description jmeter $BUILD_NUMBER "https://autotests.testrail.net\uc0\u8203 /index.php?/runs/view"$run_id\
 \
-\
+bash /Users/pcruz/Jmeter/apache-jmeter-2.13/bin/jmeter.sh -n -t src/test/jmeter/API_test.jmx\
 }
