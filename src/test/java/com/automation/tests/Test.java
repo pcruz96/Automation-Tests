@@ -12,6 +12,8 @@ import java.util.Map;
 import java.util.Random;
 
 import org.json.simple.JSONObject;
+
+import com.automation.utils.ExecuteShellCommand;
 import com.google.gson.JsonObject;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -170,6 +172,16 @@ public class Test {
 	}	
 
 	public static void main(String[] args) throws URISyntaxException, IOException {
+		
+		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/test summary/g", "src/test/jmeter/jira.jmx"};
+		ExecuteShellCommand es = new ExecuteShellCommand();
+		es.executeArrayCommand(cmd);
+		
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/test desc/g", "src/test/jmeter/jira.jmx"};
+		es.executeArrayCommand(cmd2);
+		
+		String[] cmd3 = new String[] {"bash", "/Users/pcruz/Jmeter/apache-jmeter-2.13/bin/jmeter.sh", "-n", "-t", "src/test/jmeter/jira.jmx"};
+		es.executeArrayCommand(cmd3);
 		
 		//System.out.println(removeDups("((a))(b))"));
 		//System.out.println(getSimpleDir("/a/b/../../c/../d"));
