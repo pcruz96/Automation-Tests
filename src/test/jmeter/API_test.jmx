@@ -27,6 +27,11 @@
             <stringProp name="Argument.value">false</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="build_url" elementType="Argument">
+            <stringProp name="Argument.name">build_url</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -753,7 +758,8 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
-	&quot;status_id&quot;: 1&#xd;
+	&quot;status_id&quot;: 1,&#xd;
+	&quot;comment&quot;: &quot;${build_url}&quot;&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
@@ -800,7 +806,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 5,&#xd;
-	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}&quot;&#xd;
+	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}&quot;&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
