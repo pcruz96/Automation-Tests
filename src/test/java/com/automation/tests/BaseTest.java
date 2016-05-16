@@ -281,7 +281,7 @@ public class BaseTest extends TestRailUtilities {
 					testResultLink = "";
 				}
 				cn.postMsg(msg + " - " + testResultLink);
-				this.createJiraIssue(method.getName() + " - " + error, msg + " - " + testResultLink.replace("/", "\\/"));
+				this.createJiraIssue(method.getName() + "_" + error.replaceAll("[^a-zA-Z0-9]+","_").replaceAll(" ", ""), msg + " - " + testResultLink.replace("/", "\\/"));				
 			} else if (sauceLabs) {
 				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
 			}
