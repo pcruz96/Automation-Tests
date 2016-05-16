@@ -217,7 +217,7 @@
             </collectionProp>
           </HeaderManager>
           <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - contains search" enabled="true">
+          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - not contains search" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="941783838">${search}</stringProp>
             </collectionProp>
