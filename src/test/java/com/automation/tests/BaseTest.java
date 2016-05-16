@@ -327,7 +327,9 @@ public class BaseTest extends TestRailUtilities {
 		}
 		String[] command = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//2g", "testng_retryFailed.xml"};
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		es.executeArrayCommand(command);			
+		es.executeArrayCommand(command);	
+		es.executeCommand("rm src/test/jmeter/*Copy*");
+		es.executeCommand("rm src/test/jmeter/*.tmp");		
 	}	
 	
 	public void appendSkippedAndFailedTests(ITestResult result, Method method) {
