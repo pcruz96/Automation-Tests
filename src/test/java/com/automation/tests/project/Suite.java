@@ -20,4 +20,11 @@ public class Suite extends BaseTest {
 		Driver.getDriver().get("http://www.amazon.com");
 		Assert.assertTrue(false);
 	}
+	
+	@Test(groups={"Acceptance"}, enabled=true)
+	public void c3_tc3() {
+		System.out.println("step 1c");
+		Driver.getDriver().get("http://www.apple.com");
+		Assert.assertTrue(false);
+	}
 }

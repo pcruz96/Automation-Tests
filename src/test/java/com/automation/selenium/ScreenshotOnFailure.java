@@ -23,7 +23,7 @@ public class ScreenshotOnFailure extends CustomException {
 	
 	StringWriter errors = new StringWriter();
 	
-	public void takeScreenShotOnFailure(ITestResult testResult, WebDriver driver, Method method, String sauceLabsJobIdLink) throws IOException {			
+	public String takeScreenShotOnFailure(ITestResult testResult, WebDriver driver, Method method, String sauceLabsJobIdLink) throws IOException {			
 
 		TestRailUtilities tr = new TestRailUtilities();
 		String caseId = tr.getCaseId(method);					
@@ -59,6 +59,7 @@ public class ScreenshotOnFailure extends CustomException {
 				logger.error(errors);
 			}
 		}
+		return error;
 	}
 }
 

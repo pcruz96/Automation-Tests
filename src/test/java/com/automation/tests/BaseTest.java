@@ -262,8 +262,9 @@ public class BaseTest extends TestRailUtilities {
 		}
 		if (Retry.retryCount == Retry.MAXRETRYCOUNT && result.getStatus() == ITestResult.FAILURE) {
 			ScreenshotOnFailure ss = new ScreenshotOnFailure();
+			String error = null;
 			try {
-				ss.takeScreenShotOnFailure(result, Driver.getDriver(), method, sauceLabsJobIdLink);
+				error = ss.takeScreenShotOnFailure(result, Driver.getDriver(), method, sauceLabsJobIdLink);
 			} catch (Exception e) {}
 			
 			//ChatNotifications cn = new ChatNotifications();
@@ -280,7 +281,7 @@ public class BaseTest extends TestRailUtilities {
 					testResultLink = "";
 				}
 				cn.postMsg(msg + " - " + testResultLink);
-				this.createJiraIssue(method.getName(), msg + " - " + testResultLink.replace("/", "\\/"));
+				this.createJiraIssue(method.getName() + " - " + error, msg + " - " + testResultLink.replace("/", "\\/"));
 			} else if (sauceLabs) {
 				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
 			}
@@ -383,6 +384,9 @@ public class BaseTest extends TestRailUtilities {
 		String jmx = "src/test/jmeter/jira.jmx";
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		es.executeCommand("cp " + jmx + " " + jmx.replace("jira", "jiraCopy"));
+				
+		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+summary+"/g", jmx};
+		es.executeArrayCommand(cmd);
 				
 		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+summary+"/g", jmx};
 		es.executeArrayCommand(cmd1);
