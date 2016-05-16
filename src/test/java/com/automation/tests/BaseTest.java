@@ -280,6 +280,7 @@ public class BaseTest extends TestRailUtilities {
 					testResultLink = "";
 				}
 				cn.postMsg(msg + " - " + testResultLink);
+				this.createJiraIssue(method.getName(), msg + " - " + testResultLink.replace("/", "\\/"));
 			} else if (sauceLabs) {
 				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
 			}
@@ -290,13 +291,7 @@ public class BaseTest extends TestRailUtilities {
 			if(Driver.getDriver() != null) {
 				Driver.getDriver().quit();
 			}
-		} catch (Exception e) {
-			/*
-			logger.error("EXCEPTION: Driver.getDriver().quit();");
-			e.printStackTrace(new PrintWriter(errors));
-			logger.error(errors);
-			*/
-		}			
+		} catch (Exception e) {}			
 	}
 	
 	@AfterSuite(alwaysRun = true)
@@ -369,10 +364,8 @@ public class BaseTest extends TestRailUtilities {
 		try {
 			currentTestNG = fu.scanFiles(testngDir, "<parameter name=\"suiteId\" value=\""+suiteId+"\"");
 		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
@@ -382,8 +375,33 @@ public class BaseTest extends TestRailUtilities {
 			File to = new File(testngDir + "testng_retryFailed.xml");
 			FileUtilities.copyFile(from, to);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void createJiraIssue(String summary, String desc) {
+		String jmx = "src/test/jmeter/jira.jmx";
+		ExecuteShellCommand es = new ExecuteShellCommand();
+		es.executeCommand("cp " + jmx + " " + jmx.replace("jira", "jiraCopy"));
+				
+		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+summary+"/g", jmx};
+		es.executeArrayCommand(cmd1);
+		
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+desc+"/g", jmx};
+		es.executeArrayCommand(cmd2);
+		
+		String[] cmd3 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		es.executeArrayCommand(cmd3);
+		
+		String[] cmd4 = new String[] {"bash", "disable_jmeter_tests.sh", "jira.jmx", "-x"};
+		es.executeArrayCommand(cmd4);
+		
+		String[] cmd5 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
+		es.executeArrayCommand(cmd5);
+				
+		es.executeCommand("cp " + jmx.replace("jira", "jiraCopy") + " " + jmx);
+		
+		String[] cmd6 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		es.executeArrayCommand(cmd6);
 	}
 }

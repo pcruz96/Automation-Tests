@@ -180,7 +180,7 @@ public class Test {
 		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/test desc/g", "src/test/jmeter/jira.jmx"};
 		es.executeArrayCommand(cmd2);
 		
-		String[] cmd3 = new String[] {"bash", "/Users/pcruz/Jmeter/apache-jmeter-2.13/bin/jmeter.sh", "-n", "-t", "src/test/jmeter/jira.jmx"};
+		String[] cmd3 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
 		es.executeArrayCommand(cmd3);
 		
 		//System.out.println(removeDups("((a))(b))"));

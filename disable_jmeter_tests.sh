@@ -2,7 +2,7 @@
 
 ary=(`echo $1|tr "," "\n"`)
 
-for files in src/test/jmeter/*/*.jmx
+for files in src/test/jmeter/*.jmx
 do
     for file in "${ary[@]}"
     do
