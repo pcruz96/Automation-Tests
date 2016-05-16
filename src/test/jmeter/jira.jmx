@@ -223,7 +223,7 @@
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">2</intProp>
+            <intProp name="Assertion.test_type">6</intProp>
           </ResponseAssertion>
           <hashTree/>
           <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
@@ -250,7 +250,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
           <hashTree/>
         </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
-          <stringProp name="IfController.condition">&quot;${assertionResult_1}&quot; != &quot;null&quot;</stringProp>
+          <stringProp name="IfController.condition">&quot;${assertionResult_1}&quot;.indexOf(&quot;Test failed&quot;) == -1</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
