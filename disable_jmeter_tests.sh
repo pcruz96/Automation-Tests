@@ -11,7 +11,7 @@ do
             if [ `echo "$files"|grep -v "$file"` ]
             then
                 echo "disabled $files"
-                sed -i .tmp '1,/true/s/true/false/' "$files"
+                sed -i .tmp 's/testname="Test Plan" enabled="true"/testname="Test Plan" enabled="false"/' "$files"
                 break
             fi
         elif [ "$2" == "-xe" ]
@@ -19,7 +19,7 @@ do
             if [ `echo "$files"|grep -v "$file"` ]
             then
                 echo "enabled $files"
-                sed -i .tmp '1,/false/s/false/true/' "$files"
+                sed -i .tmp 's/testname="Test Plan" enabled="false"/testname="Test Plan" enabled="true"/' "$files"
                 break
             fi
         else
@@ -28,11 +28,11 @@ do
                 if [ "$2" == "-e" ]
                 then
                     echo "enabled $files"
-                    sed -i .tmp '1,/false/s/false/true/' "$files"
+                    sed -i .tmp 's/testname="Test Plan" enabled="false"/testname="Test Plan" enabled="true"/' "$files"
                     break
                 else
                     echo "disabled $files"
-                    sed -i .tmp '1,/true/s/true/false/' "$files"
+                    sed -i .tmp 's/testname="Test Plan" enabled="true"/testname="Test Plan" enabled="false"/' "$files"
                     break
                 fi
             fi
