@@ -32,7 +32,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 public class BaseTest extends TestRailUtilities {
@@ -58,6 +61,7 @@ public class BaseTest extends TestRailUtilities {
 	public static String database = null;
 	public static boolean sauceLabs = false;
 	public static boolean addRun = false;
+	HashMap<String, String> jiraMap = new HashMap<String, String>(); 
 	
 	public String getTestEnv(String testEnv, boolean tag) {
 		
@@ -281,7 +285,9 @@ public class BaseTest extends TestRailUtilities {
 					testResultLink = "";
 				}
 				cn.postMsg(msg + " - " + testResultLink);
-				this.createJiraIssue(method.getName() + "_" + error.replaceAll("[^a-zA-Z0-9]+","_").replaceAll(" ", ""), msg + " - " + testResultLink.replace("/", "\\/"));				
+				String jiraSummary = method.getName() + "_" + error.replaceAll("[^a-zA-Z0-9]+","_").replaceAll(" ", "");
+				String jiraDesc = msg + " - " + testResultLink.replace("/", "\\/"); 
+				jiraMap.put(jiraSummary, jiraDesc);		
 			} else if (sauceLabs) {
 				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
 			}
@@ -293,6 +299,18 @@ public class BaseTest extends TestRailUtilities {
 				Driver.getDriver().quit();
 			}
 		} catch (Exception e) {}			
+	}
+	
+	@AfterClass(alwaysRun = true)
+	public void afterClass() {
+		if (updTestRail) {			
+			Iterator<?> it = jiraMap.entrySet().iterator();
+		    while (it.hasNext()) {
+		        @SuppressWarnings("rawtypes")
+				Map.Entry pair = (Map.Entry)it.next();
+		        createJiraIssue(pair.getKey().toString(), pair.getValue().toString());
+		    }
+		}
 	}
 	
 	@AfterSuite(alwaysRun = true)
@@ -309,7 +327,7 @@ public class BaseTest extends TestRailUtilities {
 		}
 		String[] command = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//2g", "testng_retryFailed.xml"};
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		es.executeArrayCommand(command);
+		es.executeArrayCommand(command);			
 	}	
 	
 	public void appendSkippedAndFailedTests(ITestResult result, Method method) {
