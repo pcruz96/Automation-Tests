@@ -30,15 +30,29 @@ public class Suite extends BaseTest {
 	
 	@Test(groups={"Other"}, enabled=true)
 	public void c4_tc4() {
-		System.out.println("step 1c");
+		System.out.println("step 1d");
 		Driver.getDriver().get("http://www.nike.com");
 		Assert.assertTrue(false);
 	}
 	
 	@Test(groups={"Other"}, enabled=true)
 	public void c5_tc5() {
-		System.out.println("step 1c");
+		System.out.println("step 1e");
 		Driver.getDriver().get("http://www.converse.com");
+		Assert.assertTrue(false);
+	}
+	
+	@Test(groups={"Other"}, enabled=true)
+	public void c6_tc6() {
+		System.out.println("step 1f");
+		Driver.getDriver().get("http://www.adidas.com");
+		Assert.assertTrue(false);
+	}
+	
+	@Test(groups={"Other"}, enabled=true)
+	public void c7_tc7() {
+		System.out.println("step 1g");
+		Driver.getDriver().get("http://www.vans.com");
 		Assert.assertTrue(false);
 	}
 }
