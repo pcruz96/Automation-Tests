@@ -916,21 +916,12 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                   </HeaderManager>
                   <hashTree/>
                 </hashTree>
-                <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="get summary substring" enabled="true">
-                  <stringProp name="BeanShellSampler.query">String jiraSummary = vars.get(&quot;case_id&quot;) + &quot; - &quot; + vars.get(&quot;scenario&quot;) + &quot; - &quot; + vars.get(&quot;assertionResult_1&quot;);
-jiraSummary = jiraSummary.substring(0,255);
-vars.put(&quot;jiraSummary&quot;, jiraSummary)</stringProp>
-                  <stringProp name="BeanShellSampler.filename"></stringProp>
-                  <stringProp name="BeanShellSampler.parameters"></stringProp>
-                  <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-                </BeanShellSampler>
-                <hashTree/>
                 <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="search issues" enabled="true">
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                     <collectionProp name="Arguments.arguments">
                       <elementProp name="summary" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                        <stringProp name="Argument.value">failed - ${case_id} - ${scenario}</stringProp>
+                        <stringProp name="Argument.value">API failed - ${case_id} - ${scenario}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                         <boolProp name="HTTPArgument.use_equals">true</boolProp>
                         <stringProp name="Argument.name">summary</stringProp>
@@ -1010,7 +1001,7 @@ vars.put(&quot;jiraResult_1&quot;, assertionResult_1);</stringProp>
                   </BeanShellListener>
                   <hashTree/>
                 </hashTree>
-                <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Controller" enabled="true">
+                <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If unique issue" enabled="true">
                   <stringProp name="IfController.condition">&quot;$jiraResult_1}&quot;.indexOf(&quot;Test failed&quot;) == -1</stringProp>
                   <boolProp name="IfController.evaluateAll">false</boolProp>
                 </IfController>
@@ -1027,7 +1018,7 @@ vars.put(&quot;jiraResult_1&quot;, assertionResult_1);</stringProp>
        { &#xd;
           &quot;key&quot;: &quot;DEM&quot;&#xd;
        },&#xd;
-       &quot;summary&quot;: &quot;failed - ${case_id} - ${scenario}&quot;,&#xd;
+       &quot;summary&quot;: &quot;API failed - ${case_id} - ${scenario}&quot;,&#xd;
        &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}\n\n${testRail}${run_id}\n\n${build_url}&quot;,&#xd;
        &quot;issuetype&quot;: {&#xd;
           &quot;name&quot;: &quot;Bug&quot;&#xd;
