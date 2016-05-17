@@ -1019,7 +1019,7 @@ vars.put(&quot;jiraResult_1&quot;, assertionResult_1);</stringProp>
           &quot;key&quot;: &quot;DEM&quot;&#xd;
        },&#xd;
        &quot;summary&quot;: &quot;API failed - ${case_id} - ${scenario}&quot;,&#xd;
-       &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}\n\n${testRail}${run_id}\n\n${build_url}&quot;,&#xd;
+       &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}\n\n${testRail}${run_id}&quot;,&#xd;
        &quot;issuetype&quot;: {&#xd;
           &quot;name&quot;: &quot;Bug&quot;&#xd;
        },&#xd;
