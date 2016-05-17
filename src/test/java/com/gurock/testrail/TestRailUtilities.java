@@ -238,7 +238,7 @@ public class TestRailUtilities extends Log4J {
 	
 	public String addRun(String env, String browser) {
 
-		Map<String, String> data = new HashMap<String, String>();
+		Map<String, Object> data = new HashMap<String, Object>();
 		String tag = this.getBuildTag().replace("-", " ");
 		String runName = "";
 		if (tag == "") {
@@ -252,9 +252,16 @@ public class TestRailUtilities extends Log4J {
 		data.put("suite_id", BaseTest.suiteId);		
 		data.put("name", runName.toLowerCase());
 		
+		/*
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		al.add(1);
+		al.add(2);
+		data.put("case_ids", al);
+		*/
+				
 		try {
 			String uri = "add_run/" + BaseTest.projectId;
-			JSONObject response = (JSONObject) client.sendPost(uri, data);			
+			JSONObject response = (JSONObject) client.sendPost(uri, data);
 
 			if (response == null) {
 				// Write the test results into file
@@ -441,37 +448,5 @@ public class TestRailUtilities extends Log4J {
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	public void addRunUsingJmeter(String runName, String caseIds) {
-		String jmx = "src/test/jmeter/addTestRailRun.jmx";
-		ExecuteShellCommand es = new ExecuteShellCommand();
-		es.executeCommand("cp " + jmx + " " + jmx.replace("addTestRailRun", "addTestRailRunCopy"));
-				
-		String[] cmd = new String[] {"sed", "-i.tmp", "s/PROJECTID/"+BaseTest.projectId+"/g", jmx};
-		es.executeArrayCommand(cmd);
-				
-		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/SUITEID/"+BaseTest.suiteId+"/g", jmx};
-		es.executeArrayCommand(cmd1);
-		
-		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/RUNNAME/"+runName+"/g", jmx};
-		es.executeArrayCommand(cmd2);
-		
-		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/CASEIDS/"+caseIds+"/g", jmx};
-		es.executeArrayCommand(cmd3);
-		
-		String[] cmd4 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
-		es.executeArrayCommand(cmd4);
-		
-		String[] cmd5 = new String[] {"bash", "disable_jmeter_tests.sh", "addTestRailRun.jmx", "-x"};
-		es.executeArrayCommand(cmd5);
-		
-		String[] cmd6 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
-		es.executeArrayCommand(cmd6);
-				
-		es.executeCommand("cp " + jmx.replace("addTestRailRun", "addTestRailRunCopy") + " " + jmx);
-		
-		String[] cmd7 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
-		es.executeArrayCommand(cmd7);
 	}
 }

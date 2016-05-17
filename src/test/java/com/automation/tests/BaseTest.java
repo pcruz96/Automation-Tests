@@ -137,7 +137,7 @@ public class BaseTest extends TestRailUtilities {
 	
 	@BeforeSuite(alwaysRun = true)
 	@Parameters({ "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "sauceLabs", "browser", "database" }) 
-	void beforeSuite(String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {		
+	public void beforeSuite(String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {		
 		String[] suite = this.getClass().getName().split("\\.");
 		BaseTest.suiteName = suite[suite.length - 1];
 		BaseTest.project = suite[suite.length - 2];
@@ -178,7 +178,7 @@ public class BaseTest extends TestRailUtilities {
 
 	@BeforeMethod(alwaysRun = true)
 	@Parameters({ "name", "platform", "browser", "version", "deviceName", "deviceOrientation", "who" })			
-	void setup(@Optional String name, @Optional Platform platform,
+	public void setup(@Optional String name, @Optional Platform platform,
 			@Optional String browser, @Optional String version,
 			@Optional String deviceName, @Optional String deviceOrientation, @Optional String who, Method method)			
 			throws MalformedURLException {
@@ -220,7 +220,7 @@ public class BaseTest extends TestRailUtilities {
 	}
 
 	@AfterMethod(alwaysRun = true)
-	void tearDown(ITestContext context, ITestResult result, Method method) throws IOException {
+	public void tearDown(ITestContext context, ITestResult result, Method method) throws IOException {
 		
 		String sauceLabsJobIdLink  = "";
 		
@@ -303,7 +303,7 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	@AfterClass(alwaysRun = true)
-	void afterClass() {
+	public void afterClass() {
 		if (updTestRail) {			
 			Iterator<?> it = jiraMap.entrySet().iterator();
 		    while (it.hasNext()) {
@@ -315,7 +315,7 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	@AfterSuite(alwaysRun = true)
-	void afterSuite() {
+	public void afterSuite() {
 		if (sauceLabs) {
 			SauceLabs sl = new SauceLabs();
 			sl.createShellScriptUpdateResults(testResults);
@@ -429,7 +429,7 @@ public class BaseTest extends TestRailUtilities {
 		es.executeArrayCommand(cmd6);
 	}
 	
-	void cleanupJmeterDir() {
+	public void cleanupJmeterDir() {
 		File jmeterDir = new File("src/test/jmeter");
 
 		for (File f : jmeterDir.listFiles())
