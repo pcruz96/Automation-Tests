@@ -39,7 +39,7 @@
           </elementProp>
           <elementProp name="testRail" elementType="Argument">
             <stringProp name="Argument.name">testRail</stringProp>
-            <stringProp name="Argument.value">https://autotests.testrail.net/index.php?/runs/view/</stringProp>
+            <stringProp name="Argument.value">https://autotests.testrail.net/index.php?/tests/view/</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="jiraUrl" elementType="Argument">
@@ -1093,6 +1093,15 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                     </collectionProp>
                   </HeaderManager>
                   <hashTree/>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="get test_id" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                    <stringProp name="RegexExtractor.refname">test_id</stringProp>
+                    <stringProp name="RegexExtractor.regex">test_id&quot;:(.*?),</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default"></stringProp>
+                    <stringProp name="RegexExtractor.match_number">1</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
                 </hashTree>
               </hashTree>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If jira key exists false" enabled="true">
@@ -1140,6 +1149,15 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                     </collectionProp>
                   </HeaderManager>
                   <hashTree/>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="get test_id" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                    <stringProp name="RegexExtractor.refname">test_id</stringProp>
+                    <stringProp name="RegexExtractor.regex">test_id&quot;:(.*?),</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default"></stringProp>
+                    <stringProp name="RegexExtractor.match_number">1</stringProp>
+                  </RegexExtractor>
+                  <hashTree/>
                 </hashTree>
               </hashTree>
               <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="slack notification" enabled="true">
@@ -1148,7 +1166,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                      <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#automation&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;API failed - ${case_id} - ${scenario} - ${testRail}${__property(run_id)}&quot;}</stringProp>
+                      <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#automation&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;API failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
                   </collectionProp>
