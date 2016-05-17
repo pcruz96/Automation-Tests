@@ -127,9 +127,8 @@ public class BaseTest extends TestRailUtilities {
 		String cr = caseResults.get();
 		if (cr != null) {
 			return cr;
-		} else {
-			return "";
-		}
+		} 
+		return "";
     }
 		
 	public void setActors() {
@@ -137,7 +136,8 @@ public class BaseTest extends TestRailUtilities {
 	
 	@BeforeSuite(alwaysRun = true)
 	@Parameters({ "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "sauceLabs", "browser", "database" }) 
-	public void beforeSuite(String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {		
+	public void beforeSuite(String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {
+		
 		String[] suite = this.getClass().getName().split("\\.");
 		BaseTest.suiteName = suite[suite.length - 1];
 		BaseTest.project = suite[suite.length - 2];
@@ -222,10 +222,10 @@ public class BaseTest extends TestRailUtilities {
 	@AfterMethod(alwaysRun = true)
 	public void tearDown(ITestContext context, ITestResult result, Method method) throws IOException {
 		
-		String sauceLabsJobIdLink  = "";
+		String sauceLabsJobIdLink = "";
 		
 		//will display testId for faster tracking
-		this.getCaseResults(projectId, suiteId, getCaseId(method));
+		this.getCaseResults(projectId, suiteId, getCaseId(method));		
 		
 		if (sauceLabs) {
 			SauceLabs sl = new SauceLabs();
@@ -235,7 +235,9 @@ public class BaseTest extends TestRailUtilities {
 			} catch (Exception e) {
 				jobId = null;
 			}
+			
 			String steps;
+			
 			if (updTestRail) {
 				steps = GetTestCases.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
 			} else {
@@ -272,23 +274,25 @@ public class BaseTest extends TestRailUtilities {
 				error = ss.takeScreenShotOnFailure(result, Driver.getDriver(), method, sauceLabsJobIdLink);
 			} catch (Exception e) {}
 			
-			//ChatNotifications cn = new ChatNotifications();
+			//SparkNotifications cn = new SparkNotifications();
 			SlackNotifications cn = new SlackNotifications();
 			String msg = "failed - " + getTestEnv(env, false)
 					+ BaseTest.suiteName + " - " + BaseTest.getMethodName();
 
 			if (updTestRail) {
-				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId,
-						getCaseId(method));
-				String testResultLink = "https://autotests.testrail.net/index.php?/tests/view/"
-						+ testId;
+				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId, getCaseId(method));
+						
+				String testResultLink = "https://autotests.testrail.net/index.php?/tests/view/" + testId;
+						
 				if (testId == null) {
 					testResultLink = "";
 				}
 				cn.postMsg(msg + " - " + testResultLink);
-				String jiraSummary = method.getName() + " " + error;
+				
+				String jiraSummary = method.getName() + " - " + error;
 				String jiraDesc = msg + " - " + testResultLink.replace("/", "\\/"); 
-				jiraMap.put(jiraSummary, jiraDesc);		
+				jiraMap.put(jiraSummary, jiraDesc);
+				
 			} else if (sauceLabs) {
 				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
 			}
@@ -351,17 +355,7 @@ public class BaseTest extends TestRailUtilities {
 			logger.error(errors);
 		}        
 	}
-	
-	public void loginAsAdmin() {
-		String url = TestConfiguration.getConfig().getString("login.url");
-		Driver.getDriver().get(url + "#/admin");	
-	}
-	
-	public void loginAsUser() {
-		String url = TestConfiguration.getConfig().getString("login.url");
-		Driver.getDriver().get(url);	
-	}	
-	
+		
 	public void addFailedTestsToTestNG(Method method) {
 		String[] command = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>"
 				+ "/\\<include name\\=\\\""+method.getName()+"\\\" \\/\\>"
@@ -413,9 +407,11 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+desc+"/g", jmx};
 		es.executeArrayCommand(cmd2);
 		
+		// enable all the tests
 		String[] cmd3 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd3);
 		
+		// disable all the tests except for jira.jmx
 		String[] cmd4 = new String[] {"bash", "disable_jmeter_tests.sh", "jira.jmx", "-x"};
 		es.executeArrayCommand(cmd4);
 		
