@@ -137,7 +137,7 @@ public class BaseTest extends TestRailUtilities {
 	
 	@BeforeSuite(alwaysRun = true)
 	@Parameters({ "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "sauceLabs", "browser", "database" }) 
-	public void beforeSuite(String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {		
+	void beforeSuite(String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {		
 		String[] suite = this.getClass().getName().split("\\.");
 		BaseTest.suiteName = suite[suite.length - 1];
 		BaseTest.project = suite[suite.length - 2];
@@ -172,12 +172,13 @@ public class BaseTest extends TestRailUtilities {
 		if(!env.equals("default"))
 			TestConfiguration.setConfig(env);		
 		
-		createTestNGfailed(fu);				
+		createTestNGfailed(fu);
+		cleanupJmeterDir();		
 	}
 
 	@BeforeMethod(alwaysRun = true)
 	@Parameters({ "name", "platform", "browser", "version", "deviceName", "deviceOrientation", "who" })			
-	public void setup(@Optional String name, @Optional Platform platform,
+	void setup(@Optional String name, @Optional Platform platform,
 			@Optional String browser, @Optional String version,
 			@Optional String deviceName, @Optional String deviceOrientation, @Optional String who, Method method)			
 			throws MalformedURLException {
@@ -219,7 +220,7 @@ public class BaseTest extends TestRailUtilities {
 	}
 
 	@AfterMethod(alwaysRun = true)
-	public void tearDown(ITestContext context, ITestResult result, Method method) throws IOException {
+	void tearDown(ITestContext context, ITestResult result, Method method) throws IOException {
 		
 		String sauceLabsJobIdLink  = "";
 		
@@ -302,7 +303,7 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	@AfterClass(alwaysRun = true)
-	public void afterClass() {
+	void afterClass() {
 		if (updTestRail) {			
 			Iterator<?> it = jiraMap.entrySet().iterator();
 		    while (it.hasNext()) {
@@ -314,7 +315,7 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	@AfterSuite(alwaysRun = true)
-	public void afterSuite() {
+	void afterSuite() {
 		if (sauceLabs) {
 			SauceLabs sl = new SauceLabs();
 			sl.createShellScriptUpdateResults(testResults);
@@ -327,9 +328,8 @@ public class BaseTest extends TestRailUtilities {
 		}
 		String[] command = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//2g", "testng_retryFailed.xml"};
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		es.executeArrayCommand(command);	
-		es.executeCommand("rm src/test/jmeter/*Copy*");
-		es.executeCommand("rm src/test/jmeter/*.tmp");		
+		es.executeArrayCommand(command);
+		cleanupJmeterDir();
 	}	
 	
 	public void appendSkippedAndFailedTests(ITestResult result, Method method) {
@@ -427,5 +427,13 @@ public class BaseTest extends TestRailUtilities {
 		
 		String[] cmd6 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd6);
+	}
+	
+	void cleanupJmeterDir() {
+		File jmeterDir = new File("src/test/jmeter");
+
+		for (File f : jmeterDir.listFiles())
+			if (f.getName().contains(".tmp") || f.getName().contains("Copy"))
+				f.delete();
 	}
 }
