@@ -17,8 +17,8 @@
             <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="run_id2" elementType="Argument">
-            <stringProp name="Argument.name">run_id2</stringProp>
+          <elementProp name="run_id" elementType="Argument">
+            <stringProp name="Argument.name">run_id</stringProp>
             <stringProp name="Argument.value">247</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
@@ -1019,7 +1019,7 @@ vars.put(&quot;jiraResult_1&quot;, assertionResult_1);</stringProp>
           &quot;key&quot;: &quot;DEM&quot;&#xd;
        },&#xd;
        &quot;summary&quot;: &quot;API failed - ${case_id} - ${scenario}&quot;,&#xd;
-       &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}\n\n${testRail}${run_id}&quot;,&#xd;
+       &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}\n\n${testRail}${__property(run_id)}&quot;,&#xd;
        &quot;issuetype&quot;: {&#xd;
           &quot;name&quot;: &quot;Bug&quot;&#xd;
        },&#xd;
