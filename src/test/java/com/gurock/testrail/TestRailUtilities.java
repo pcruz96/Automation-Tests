@@ -249,7 +249,7 @@ public class TestRailUtilities extends Log4J {
 			runName = "automation - " + env + tag;
 		}
 		
-		addRunUsingJmeter(runName, GetTestCases.getAutomatedTests(BaseTest.suiteName));
+		addRunUsingJmeter(runName.toLowerCase(), GetTestCases.getAutomatedTests(BaseTest.suiteName));
 		
 		try {
 			JSONArray resultArray = (JSONArray) client.sendGet("get_runs/"
