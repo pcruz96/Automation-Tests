@@ -270,6 +270,9 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
        &quot;description&quot;: &quot;REPLACE_DESC&quot;,&#xd;
        &quot;issuetype&quot;: {&#xd;
           &quot;name&quot;: &quot;Bug&quot;&#xd;
+       },&#xd;
+        &quot;assignee&quot;: {&#xd;
+       	&quot;name&quot;:&quot;REPLACE_ASSIGNEE&quot;&#xd;
        }&#xd;
    }&#xd;
 }</stringProp>

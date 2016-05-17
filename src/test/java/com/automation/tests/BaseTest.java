@@ -313,7 +313,10 @@ public class BaseTest extends TestRailUtilities {
 		    while (it.hasNext()) {
 		        @SuppressWarnings("rawtypes")
 				Map.Entry pair = (Map.Entry)it.next();
-		        createJiraIssue(pair.getKey().toString(), pair.getValue().toString());
+		        String summary = pair.getKey().toString();
+		        String desc = pair.getValue().toString();
+		        String assignee = TestConfiguration.getJiraConfig().getString("assignee"); 		        		
+		        createJiraIssue(summary, desc, assignee);
 		    }
 		}
 	}
@@ -393,7 +396,7 @@ public class BaseTest extends TestRailUtilities {
 		}
 	}
 	
-	public void createJiraIssue(String summary, String desc) {
+	public void createJiraIssue(String summary, String desc, String assignee) {
 		String jmx = "src/test/jmeter/jira.jmx";
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		es.executeCommand("cp " + jmx + " " + jmx.replace("jira", "jiraCopy"));
@@ -407,21 +410,24 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+desc+"/g", jmx};
 		es.executeArrayCommand(cmd2);
 		
-		// enable all the tests
-		String[] cmd3 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/REPLACE_ASSIGNEE/"+assignee+"/g", jmx};
 		es.executeArrayCommand(cmd3);
 		
-		// disable all the tests except for jira.jmx
-		String[] cmd4 = new String[] {"bash", "disable_jmeter_tests.sh", "jira.jmx", "-x"};
+		// enable all the tests
+		String[] cmd4 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd4);
 		
-		String[] cmd5 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
+		// disable all the tests except for jira.jmx
+		String[] cmd5 = new String[] {"bash", "disable_jmeter_tests.sh", "jira.jmx", "-x"};
 		es.executeArrayCommand(cmd5);
+		
+		String[] cmd6 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
+		es.executeArrayCommand(cmd6);
 				
 		es.executeCommand("cp " + jmx.replace("jira", "jiraCopy") + " " + jmx);
 		
-		String[] cmd6 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
-		es.executeArrayCommand(cmd6);
+		String[] cmd7 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		es.executeArrayCommand(cmd7);
 	}
 	
 	public void cleanupJmeterDir() {
