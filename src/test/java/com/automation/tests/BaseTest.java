@@ -286,7 +286,7 @@ public class BaseTest extends TestRailUtilities {
 					testResultLink = "";
 				}
 				cn.postMsg(msg + " - " + testResultLink);
-				String jiraSummary = method.getName() + "_" + error.replaceAll("[^a-zA-Z0-9]+","_").replaceAll(" ", "");
+				String jiraSummary = method.getName() + " " + error;
 				String jiraDesc = msg + " - " + testResultLink.replace("/", "\\/"); 
 				jiraMap.put(jiraSummary, jiraDesc);		
 			} else if (sauceLabs) {
