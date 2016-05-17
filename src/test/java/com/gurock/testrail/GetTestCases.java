@@ -5,6 +5,7 @@ import com.automation.utils.Log4J;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GetTestCases extends Log4J {
 
@@ -101,5 +102,47 @@ public class GetTestCases extends Log4J {
 			e.printStackTrace();
 		}
 		return testCaseSteps;
+	}
+	
+	public static List<Integer> getAutomatedTests(String suite) {
+
+		TestRailUtilities tr = new TestRailUtilities();
+		String project;
+		if (BaseTest.updTestRail) {
+			project = tr.getProjectName(BaseTest.projectId).replace(" ", "_");
+		} else {
+			project = BaseTest.project;
+		}
+		
+		List<Integer> caseIds = new ArrayList<Integer>();
+		
+		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+".java"))) {
+			
+			String line = br.readLine();
+			boolean foundTest = false;
+
+			while (line != null) {
+				line = br.readLine();
+				try {
+					if (line.contains("@Test") && line.replaceAll(" ", "").contains("enabled=true")) {
+						foundTest = true;
+					}
+				} catch (Exception e) {}
+				
+				if (foundTest && !line.contains("@Test")) {
+					
+					String[] s1 = line.split(" ");
+					String[] s2 = s1[2].split("_");
+					Integer caseId = Integer.parseInt(s2[0].replace("c", ""));
+					caseIds.add(caseId);
+					foundTest = false;
+				}				
+			}			
+			return caseIds;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return caseIds;
 	}
 }

@@ -25,14 +25,14 @@ public class Suite extends BaseTest {
 	public void c3_tc3() {
 		System.out.println("step 1c");
 		Driver.getDriver().get("http://www.apple.com");
-		Assert.assertTrue(false);
+		Assert.assertTrue(true);
 	}
 	
 	@Test(groups={"Other"}, enabled=true)
 	public void c4_tc4() {
 		System.out.println("step 1d");
 		Driver.getDriver().get("http://www.nike.com");
-		Assert.assertTrue(false);
+		Assert.assertTrue(true);
 	}
 	
 	@Test(groups={"Other"}, enabled=true)
@@ -53,6 +53,6 @@ public class Suite extends BaseTest {
 	public void c7_tc7() {
 		System.out.println("step 1g");
 		Driver.getDriver().get("http://www.vans.com");
-		Assert.assertTrue(false);
+		Assert.assertTrue(true);
 	}
 }
