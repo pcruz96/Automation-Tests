@@ -990,7 +990,7 @@ vars.put(&quot;jiraResult_1&quot;, assertionResult_1);</stringProp>
           &quot;key&quot;: &quot;DEM&quot;&#xd;
        },&#xd;
        &quot;summary&quot;: &quot;API failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario}&quot;,&#xd;
-       &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}\n\n${testRail}${__property(run_id)}&quot;,&#xd;
+       &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}&quot;,&#xd;
        &quot;issuetype&quot;: {&#xd;
           &quot;name&quot;: &quot;Bug&quot;&#xd;
        },&#xd;
@@ -1061,7 +1061,8 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
                         <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 5,&#xd;
-	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}\n\n${jiraUrl}&quot;&#xd;
+	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}&quot;,&#xd;
+	&quot;defects&quot;: &quot;${key}&quot;&#xd;
 }</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                       </elementProp>
