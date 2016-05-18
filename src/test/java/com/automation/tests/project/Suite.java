@@ -11,7 +11,8 @@ public class Suite extends BaseTest {
 	@Test(groups={"Acceptance"}, enabled=true)
 	public void c1_tc1() {
 		System.out.println("step 1a");
-		Driver.getDriver().get("http://www.yahoo.com");
+		Assert.assertTrue(false);
+		Driver.getDriver().get("http://www.yahoo.com");		
 	}
 
 	@Test(groups={"Other"}, enabled=false)
