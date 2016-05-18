@@ -397,7 +397,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                   <elementProp name="" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
-	&quot;comment&quot;: &quot;https://autotest123.atlassian.net/browse/${key}&quot;&#xd;
+	&quot;comment&quot;: &quot;Jira bug - https://autotest123.atlassian.net/browse/${key}&quot;&#xd;
 }</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                   </elementProp>
