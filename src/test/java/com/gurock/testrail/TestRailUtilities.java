@@ -123,7 +123,8 @@ public class TestRailUtilities extends Log4J {
 		if (result.getStatus() == ITestResult.SUCCESS) {
 			statusId = "1";
 		} else if (result.getStatus() == ITestResult.FAILURE) {
-			statusId = "5";			
+			statusId = "5";	
+			/*
 			try {
 				CustomException ce = new CustomException();
 				String error = ce.getStackTrace(result, method);
@@ -134,6 +135,7 @@ public class TestRailUtilities extends Log4J {
 			} catch (Exception e) {
 				data.put("defects", "");
 			}
+			*/
 		}
 		
 		// Add parameters to the hash map

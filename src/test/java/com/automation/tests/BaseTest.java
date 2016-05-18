@@ -278,6 +278,8 @@ public class BaseTest extends TestRailUtilities {
 			SlackNotifications cn = new SlackNotifications();
 			String msg = "failed - " + getTestEnv(env, false)
 					+ BaseTest.suiteName + " - " + BaseTest.getMethodName();
+			
+			msg = msg.toLowerCase();
 
 			if (updTestRail) {
 				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId, getCaseId(method));
@@ -290,8 +292,10 @@ public class BaseTest extends TestRailUtilities {
 				cn.postMsg(msg + " - " + testResultLink);
 				
 				String jiraSummary = method.getName() + " - " + error;
-				String jiraDesc = msg + " - " + testResultLink.replace("/", "\\/"); 
-				jiraMap.put(jiraSummary, jiraDesc);
+				String jiraDesc = msg + " - " + testResultLink.replace("/", "\\/");
+				
+				TestRailUtilities tr = new TestRailUtilities();
+				jiraMap.put(BaseTest.runId + "TESTRAIL" + tr.getCaseId(method) + "JIRA" + jiraSummary, jiraDesc);
 				
 			} else if (sauceLabs) {
 				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
@@ -397,6 +401,13 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	public void createJiraIssue(String summary, String desc, String assignee) {
+		
+		String[] s1 = summary.split("TESTRAIL");
+		String testRailRunId = s1[0];
+		String[] s2 = s1[1].split("JIRA");
+		String testRailcaseId = s2[0];
+		summary = s2[1];
+		
 		String jmx = "src/test/jmeter/jira.jmx";
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		es.executeCommand("cp " + jmx + " " + jmx.replace("jira", "jiraCopy"));
@@ -413,21 +424,27 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/REPLACE_ASSIGNEE/"+assignee+"/g", jmx};
 		es.executeArrayCommand(cmd3);
 		
-		// enable all the tests
-		String[] cmd4 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		String[] cmd4 = new String[] {"sed", "-i.tmp", "s/RUN_ID/"+testRailRunId+"/g", jmx};
 		es.executeArrayCommand(cmd4);
 		
-		// disable all the tests except for jira.jmx
-		String[] cmd5 = new String[] {"bash", "disable_jmeter_tests.sh", "jira.jmx", "-x"};
+		String[] cmd5 = new String[] {"sed", "-i.tmp", "s/CASE_ID/"+testRailcaseId+"/g", jmx};
 		es.executeArrayCommand(cmd5);
 		
-		String[] cmd6 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
+		// enable all the tests
+		String[] cmd6 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd6);
+		
+		// disable all the tests except for jira.jmx
+		String[] cmd7 = new String[] {"bash", "disable_jmeter_tests.sh", "jira.jmx", "-x"};
+		es.executeArrayCommand(cmd7);
+		
+		String[] cmd8 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
+		es.executeArrayCommand(cmd8);
 				
 		es.executeCommand("cp " + jmx.replace("jira", "jiraCopy") + " " + jmx);
 		
-		String[] cmd7 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
-		es.executeArrayCommand(cmd7);
+		String[] cmd9 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		es.executeArrayCommand(cmd9);
 	}
 	
 	public void cleanupJmeterDir() {
