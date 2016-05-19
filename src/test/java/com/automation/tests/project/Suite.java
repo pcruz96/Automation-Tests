@@ -9,10 +9,11 @@ import com.automation.tests.BaseTest;
 public class Suite extends BaseTest {
 
 	@Test(groups={"Acceptance"}, enabled=true)
-	public void c1_tc1() {
+	public void c1_tc1() {		
 		System.out.println("step 1a");
+		System.out.println("step 1b");
+		Driver.getDriver().get("http://www.yahoo.com");
 		Assert.assertTrue(false);
-		Driver.getDriver().get("http://www.yahoo.com");		
 	}
 
 	@Test(groups={"Other"}, enabled=false)
@@ -39,8 +40,8 @@ public class Suite extends BaseTest {
 	@Test(groups={"Other"}, enabled=true)
 	public void c5_tc5() {
 		System.out.println("step 1e");
-		Driver.getDriver().get("http://www.converse.com");
 		Assert.assertTrue(false);
+		Driver.getDriver().get("http://www.converse.com");		
 	}
 	
 	@Test(groups={"Other"}, enabled=true)
