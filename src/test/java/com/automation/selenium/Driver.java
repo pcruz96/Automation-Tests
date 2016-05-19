@@ -61,7 +61,7 @@ public class Driver {
 
         } else if (browser.equalsIgnoreCase("chrome")) {
             if (!sauceLabs) {
-                System.setProperty("webdriver.chrome.driver", System.getenv("HOME") + "/Selenium/chromedriver");
+                System.setProperty("webdriver.chrome.driver", "selenium/chromedriver");
             }
             cap = DesiredCapabilities.chrome();
             cap.setPlatform(platform);
