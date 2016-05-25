@@ -7,6 +7,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 public class SlackNotifications {
+	
+	//demoTest-group/autotest
 
 	public void postMsg(String txt) {
 		HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 

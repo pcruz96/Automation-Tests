@@ -136,7 +136,7 @@
 					</configuration>
 				</plugin>
 				<plugin>
-					<!--mvn install dependency:copy-dependencies -->
+					<!-- mvn dependency:copy-dependencies -Dclassifer=sources -->										
 					<artifactId>maven-dependency-plugin</artifactId>
 					<executions>
 						<execution>
