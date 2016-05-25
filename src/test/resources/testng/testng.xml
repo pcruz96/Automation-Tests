@@ -5,6 +5,7 @@
 		<listener class-name="com.automation.testng.RetryListener" />
 		<listener class-name="com.automation.testng.TestListener" />
 	</listeners>
+	<parameter name="repo" value="REPO" />
 	<!-- get PROJECTID & SUITEID from Test Rail -->
 	<parameter name="projectId" value="PROJECTID" />
 	<parameter name="suiteId" value="SUITEID" />

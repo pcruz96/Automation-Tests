@@ -51,16 +51,17 @@ public class BaseTest extends TestRailUtilities {
 	Hashtable<String, ITestResult> testResults = new Hashtable<String, ITestResult>();
 	StringWriter errors = new StringWriter();
 	StringBuilder sb = new StringBuilder();
-	public static boolean updTestRail = false;
-	public static String suiteName = null;
+	public static String repo = null;
 	public static String project = null;
 	public static String projectId = null;
 	public static String suiteId = null;
+	public static String suiteName = null;
 	public static String env = null;
 	public static String runId = null;
 	public static String database = null;
-	public static boolean sauceLabs = false;
+	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
+	public static boolean sauceLabs = false;
 	HashMap<String, String> jiraMap = new HashMap<String, String>(); 
 	
 	public String getTestEnv(String testEnv, boolean tag) {
@@ -135,19 +136,20 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	@BeforeSuite(alwaysRun = true)
-	@Parameters({ "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "sauceLabs", "browser", "database" }) 
-	public void beforeSuite(String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {
+	@Parameters({ "repo", "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "sauceLabs", "browser", "database" }) 
+	public void beforeSuite(String repo, String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {
 		
-		String[] suite = this.getClass().getName().split("\\.");
-		BaseTest.suiteName = suite[suite.length - 1];
+		BaseTest.repo = repo;
+		String[] suite = this.getClass().getName().split("\\.");		
 		BaseTest.project = suite[suite.length - 2];
 		BaseTest.projectId = projectId; 
 		BaseTest.suiteId = suiteId;
-		BaseTest.env = env.replace(".conf", "");
-		BaseTest.sauceLabs = sauceLabs;
+		BaseTest.suiteName = suite[suite.length - 1];
+		BaseTest.env = env.replace(".conf", "");		
 		BaseTest.updTestRail = updateTestRail;	
 		BaseTest.addRun = addRun;
 		BaseTest.runId = runId;
+		BaseTest.sauceLabs = sauceLabs;
 		BaseTest.database = database;
 		
 		FileUtilities fu = new FileUtilities();		

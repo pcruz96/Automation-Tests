@@ -142,7 +142,7 @@ public class TestRailUtilities extends Log4J {
 		data.put("status_id", statusId);
 		
 		String steps = GetTestCases.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
-		steps += "\n" + sauceLabUrl;
+		steps += "\n" + BaseTest.repo + "\n\n" + sauceLabUrl;
 		comment += "\n\n" + steps;
 
 		if (!sauceLabUrl.contains(BaseTest.getBuildUrl())) {
