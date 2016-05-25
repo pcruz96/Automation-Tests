@@ -60,9 +60,7 @@ public class Driver {
             cap.setCapability("device-orientation", deviceOrientation);
 
         } else if (browser.equalsIgnoreCase("chrome")) {
-            if (!sauceLabs) {
-                System.setProperty("webdriver.chrome.driver", "selenium/chromedriver");
-            }
+            
             cap = DesiredCapabilities.chrome();
             cap.setPlatform(platform);
             cap.setBrowserName(DesiredCapabilities.chrome().getBrowserName());
