@@ -54,7 +54,7 @@
           </elementProp>
           <elementProp name="repoUrl" elementType="Argument">
             <stringProp name="Argument.name">repoUrl</stringProp>
-            <stringProp name="Argument.value">https://github.com/Mercatus/automation</stringProp>
+            <stringProp name="Argument.value">https://github.com/...</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
