@@ -1172,7 +1172,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                      <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#automation&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;API failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
+                      <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#automation&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;api failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
                   </collectionProp>
