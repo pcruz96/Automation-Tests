@@ -246,9 +246,9 @@ public class TestRailUtilities extends Log4J {
 		String runName = "";
 		if (tag == "") {
 			tag = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-			runName = "automation - " + env + getSuiteName(true, BaseTest.suiteId) + " - " + tag;
+			runName = "automation - ui - " + env + getSuiteName(true, BaseTest.suiteId) + " - " + tag;
 		} else {
-			runName = "automation - " + env + tag;
+			runName = "automation - ui - " + env + tag;
 		}
 		
 		addRunUsingJmeter(runName.toLowerCase(), GetTestCases.getAutomatedTests(BaseTest.suiteName));
