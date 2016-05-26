@@ -505,4 +505,18 @@ public class TestRailUtilities extends Log4J {
 		String[] cmd7 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd7);
 	}
+	
+	public String getSection(String caseId) {
+		try {
+			JSONObject jsonTestItem = (JSONObject) getClient().sendGet("get_case/" + caseId);
+			String sectionId = jsonTestItem.get("section_id").toString();
+			
+			JSONObject jsonTestItem2 = (JSONObject) getClient().sendGet("get_section/" + sectionId);
+			return jsonTestItem2.get("name").toString();
+		} catch (IOException | APIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -37,7 +37,10 @@ public class GetTestCases extends Log4J {
 			bw.write("import org.testng.annotations.Test;\n\n");
 			bw.write("public class " + suiteName + " extends BaseTest {\n\n");
 			for (TestcaseModel t : results) {
-				String testCaseMethodStr = "\t@Test(groups={\""+t.getType()+"\"}, enabled=false)\n"
+				
+				String section = tr.getSection(t.getTestID());
+				
+				String testCaseMethodStr = "\t@Test(groups={\""+section+", "+t.getType()+"\"}, enabled=false)\n"
 						+ "\tpublic void c" + t.getTestID() + "_"
 						+ getTestCaseName(t.getDescription())
 						+ "() {\n" + "\t\n" + "\t}\n";
