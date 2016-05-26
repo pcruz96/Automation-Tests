@@ -418,10 +418,15 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+summary+"/g", jmx};
 		es.executeArrayCommand(cmd);
 				
-		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+summary+"/g", jmx};
+		//String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+summary+"/g", jmx};
+		String[] s3 = desc.split(" - ");
+		String descWithoutLink = desc.replace(" - " + s3[4], "");
+		String testRailLink = s3[4];
+		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+descWithoutLink+"/g", jmx};
 		es.executeArrayCommand(cmd1);
 		
-		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+desc+"/g", jmx};
+		//String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+desc+"/g", jmx};
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+testRailLink+"/g", jmx};
 		es.executeArrayCommand(cmd2);
 		
 		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/REPLACE_ASSIGNEE/"+assignee+"/g", jmx};
