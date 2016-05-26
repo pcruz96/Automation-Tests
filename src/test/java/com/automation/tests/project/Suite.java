@@ -12,6 +12,10 @@ public class Suite extends BaseTest {
 	public void c1_tc1() {		
 		System.out.println("step 1a");
 		System.out.println("step 1b");
+		System.out.println("step 1c");
+		System.out.println("step 1d");
+		System.out.println("step 1e");
+		System.out.println("step 1f");
 		Driver.getDriver().get("http://www.yahoo.com");
 		Assert.assertTrue(false);
 	}
