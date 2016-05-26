@@ -266,7 +266,7 @@ public class BaseTest extends TestRailUtilities {
 				if (result.getStatus() == ITestResult.SUCCESS) {				
 					uploadResults(method, result, "", sauceLabsJobIdLink);
 				}
-				updateCase(method, "1", result, sauceLabsJobIdLink); // 1 = Automated
+				updateCase(method, "3", result, sauceLabsJobIdLink); // 1 = Automated
 			}
 		}
 		if (Retry.retryCount == Retry.MAXRETRYCOUNT && result.getStatus() == ITestResult.FAILURE) {
