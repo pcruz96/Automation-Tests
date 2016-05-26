@@ -994,7 +994,7 @@ vars.put(&quot;jiraResult_1&quot;, assertionResult_1);</stringProp>
        { &#xd;
           &quot;key&quot;: &quot;DEM&quot;&#xd;
        },&#xd;
-       &quot;summary&quot;: &quot;API failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario}&quot;,&#xd;
+       &quot;summary&quot;: &quot;api failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario}&quot;,&#xd;
        &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}&quot;,&#xd;
        &quot;issuetype&quot;: {&#xd;
           &quot;name&quot;: &quot;Bug&quot;&#xd;
