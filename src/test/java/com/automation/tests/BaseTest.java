@@ -176,9 +176,10 @@ public class BaseTest extends TestRailUtilities {
 						
 			ExecuteShellCommand es = new ExecuteShellCommand();
 			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};			
-			String[] cmd2 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng.xml"};
+			String[] cmd2 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng.xml"};			
 			es.executeArrayCommand(cmd1);
 			es.executeArrayCommand(cmd2);
+			System.setProperty("BUILD_TAG", runName);
 		}			
 		if(!env.equals("default"))
 			TestConfiguration.setConfig(env);		
