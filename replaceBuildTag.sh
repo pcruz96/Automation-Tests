@@ -1,3 +1,4 @@
 #! /bin/bash
-echo $BUILD_TAG
-sed -i.tmp "s/BUILD_TAG/$BUILD_TAG/g" src/test/resources/testng/testng.xml
+echo $SUITE
+sed -i.tmp "s/BUILD_TAG/$SUITE/g" $BUILD_NUMBER/artifact/src/test/resources/testng/testng.xml
+sed -i.tmp "s/BUILD_TAG/$SUITE/g" $BUILD_NUMBER/artifact/target/surefire-reports/emailable-report.html

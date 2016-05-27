@@ -179,7 +179,7 @@ public class BaseTest extends TestRailUtilities {
 			String[] cmd2 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng.xml"};			
 			es.executeArrayCommand(cmd1);
 			es.executeArrayCommand(cmd2);
-			System.setProperty("BUILD_TAG", runName);
+			System.setProperty("SUITE", runName);
 		}			
 		if(!env.equals("default"))
 			TestConfiguration.setConfig(env);		
