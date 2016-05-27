@@ -266,7 +266,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
        { &#xd;
           &quot;key&quot;: &quot;DEM&quot;&#xd;
        },&#xd;
-       &quot;summary&quot;: &quot;REPLACE_SUMMARY&quot;,&#xd;
+       &quot;summary&quot;: &quot;automation - REPLACE_SUMMARY&quot;,&#xd;
        &quot;description&quot;: &quot;REPLACE_DESC&quot;,&#xd;
        &quot;issuetype&quot;: {&#xd;
           &quot;name&quot;: &quot;Bug&quot;&#xd;

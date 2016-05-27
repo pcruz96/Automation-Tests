@@ -60,6 +60,7 @@ public class BaseTest extends TestRailUtilities {
 	public static String env = null;
 	public static String runId = null;
 	public static String database = null;
+	String runName;
 	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
 	public static boolean sauceLabs = false;
@@ -171,10 +172,10 @@ public class BaseTest extends TestRailUtilities {
 			List lst = (List) addRun(getTestEnv(env, false), browser);
 			
 			BaseTest.runId = lst.get(0).toString();
-			String runName = lst.get(1).toString();
+			runName = lst.get(1).toString();
 						
 			ExecuteShellCommand es = new ExecuteShellCommand();
-			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};
+			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};			
 			String[] cmd2 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng.xml"};
 			es.executeArrayCommand(cmd1);
 			es.executeArrayCommand(cmd2);
@@ -183,7 +184,7 @@ public class BaseTest extends TestRailUtilities {
 			TestConfiguration.setConfig(env);		
 		
 		createTestNGfailed(fu);
-		cleanupJmeterDir();		
+		removeTmpFiles();		
 	}
 
 	@BeforeMethod(alwaysRun = true)
@@ -347,10 +348,12 @@ public class BaseTest extends TestRailUtilities {
 		if (updTestRail) {
 			//this.closeRun(runId);
 		}
-		String[] command = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//2g", "testng_retryFailed.xml"};
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		es.executeArrayCommand(command);
-		cleanupJmeterDir();
+		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//2g", "testng_retryFailed.xml"};
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/"+runName+"/BUILD_TAG/g", "src/test/resources/testng/testng.xml"};
+		es.executeArrayCommand(cmd1);		
+		es.executeArrayCommand(cmd2);
+		removeTmpFiles();
 	}	
 	
 	public void appendSkippedAndFailedTests(ITestResult result, Method method) {
@@ -463,11 +466,18 @@ public class BaseTest extends TestRailUtilities {
 		es.executeArrayCommand(cmd9);
 	}
 	
-	public void cleanupJmeterDir() {
+	public void removeTmpFiles() {
 		File jmeterDir = new File("src/test/jmeter");
 
 		for (File f : jmeterDir.listFiles())
 			if (f.getName().contains(".tmp") || f.getName().contains("Copy"))
 				f.delete();
+		
+		File testngDir = new File("src/test/resources/testng");
+
+		for (File f : testngDir.listFiles())
+			if (f.getName().contains(".tmp"))
+				f.delete();
+
 	}
 }
