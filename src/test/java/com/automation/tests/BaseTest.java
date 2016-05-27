@@ -23,6 +23,7 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 
+import java.util.List;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -166,10 +167,17 @@ public class BaseTest extends TestRailUtilities {
 		org.apache.log4j.PropertyConfigurator.configure("src/test/resources/log4j.properties");
 		
 		if (updTestRail && addRun) {
-			BaseTest.runId = addRun(getTestEnv(env, false), browser);
-			String[] cmd = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};
+			
+			List lst = (List) addRun(getTestEnv(env, false), browser);
+			
+			BaseTest.runId = lst.get(0).toString();
+			String runName = lst.get(1).toString();
+						
 			ExecuteShellCommand es = new ExecuteShellCommand();
-			es.executeArrayCommand(cmd);
+			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};
+			String[] cmd2 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng.xml"};
+			es.executeArrayCommand(cmd1);
+			es.executeArrayCommand(cmd2);
 		}			
 		if(!env.equals("default"))
 			TestConfiguration.setConfig(env);		

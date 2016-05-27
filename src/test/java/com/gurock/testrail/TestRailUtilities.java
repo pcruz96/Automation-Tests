@@ -239,9 +239,9 @@ public class TestRailUtilities extends Log4J {
 		}
 	}
 	
-	public String addRun(String env, String browser) {
+	public List<String> addRun(String env, String browser) {
 
-		Map<String, Object> data = new HashMap<String, Object>();
+		List<String> data = new ArrayList<String>();
 		String tag = this.getBuildTag().replace("-", " ");
 		String runName = "";
 		if (tag == "") {
@@ -258,9 +258,12 @@ public class TestRailUtilities extends Log4J {
 					+ BaseTest.projectId);
 			
 			for (int i = 0; i < resultArray.size(); i++) {
-				JSONObject jsonTestItem = (JSONObject) resultArray.get(i);
+				JSONObject jsonTestItem = (JSONObject) resultArray.get(i);												
 				String runId = jsonTestItem.get("id").toString();
-				return runId;
+				String name = jsonTestItem.get("name").toString();
+				data.add(runId);
+				data.add(name);
+				return data;
 			}
 			
 		} catch (MalformedURLException e1) {
