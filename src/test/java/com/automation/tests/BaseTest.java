@@ -421,7 +421,7 @@ public class BaseTest extends TestRailUtilities {
 		String testRailRunId = s1[0];
 		String[] s2 = s1[1].split("JIRA");
 		String testRailcaseId = s2[0];
-		summary = s2[1].replaceAll("[^a-zA-Z0-9]+"," ");
+		summary = s2[1].replaceAll("[^a-zA-Z0-9]+"," ").replaceAll(" ", "_");
 		
 		String jmx = "src/test/jmeter/jira.jmx";
 		ExecuteShellCommand es = new ExecuteShellCommand();
