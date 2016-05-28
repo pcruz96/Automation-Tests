@@ -173,7 +173,7 @@ public class BaseTest extends TestRailUtilities {
 			
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();
-			logger.info("\n\n run name: " + runName + "\n\n");
+			logger.info("\n\nrun name: " + runName + "\n");
 						
 			ExecuteShellCommand es = new ExecuteShellCommand();
 			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};			
@@ -421,19 +421,19 @@ public class BaseTest extends TestRailUtilities {
 		String testRailRunId = s1[0];
 		String[] s2 = s1[1].split("JIRA");
 		String testRailcaseId = s2[0];
-		summary = s2[1].replaceAll("[^a-zA-Z0-9]+"," ").replaceAll(" ", "_");
+		summary = s2[1].replaceAll("[^a-zA-Z0-9]+"," ");
 		
 		String jmx = "src/test/jmeter/jira.jmx";
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		es.executeCommand("cp " + jmx + " " + jmx.replace("jira", "jiraCopy"));
-				
-		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+summary+"/g", jmx};
-		es.executeArrayCommand(cmd);
-				
-		//String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+summary+"/g", jmx};
+		
 		String[] s3 = desc.split(" - ");
 		String descWithoutLink = desc.replace(" - " + s3[4], "").replace(" - ", "_");
 		String testRailLink = s3[4];
+				
+		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+descWithoutLink+"/g", jmx};
+		es.executeArrayCommand(cmd);
+						
 		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+descWithoutLink+"/g", jmx};
 		es.executeArrayCommand(cmd1);
 		
@@ -458,7 +458,10 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd7 = new String[] {"bash", "disable_jmeter_tests.sh", "jira.jmx", "-x"};
 		es.executeArrayCommand(cmd7);
 		
-		String[] cmd8 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
+		String jenkinsHome = null;
+		jenkinsHome = System.getProperty("JENKINS_HOME") != null ? jenkinsHome : System.getProperty("user.home") + "/.jenkins";
+		
+		String[] cmd8 = new String[] {jenkinsHome + "/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
 		es.executeArrayCommand(cmd8);
 				
 		es.executeCommand("cp " + jmx.replace("jira", "jiraCopy") + " " + jmx);
