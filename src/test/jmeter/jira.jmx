@@ -32,6 +32,11 @@
             <stringProp name="Argument.value">demotest3214124</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="responseDataTxt" elementType="Argument">
+            <stringProp name="Argument.name">responseDataTxt</stringProp>
+            <stringProp name="Argument.value">responseData.txt</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="shellScript" elementType="Argument">
             <stringProp name="Argument.name">shellScript</stringProp>
             <stringProp name="Argument.value">jiraFileUpload.sh</stringProp>
@@ -450,34 +455,101 @@
               </HeaderManager>
               <hashTree/>
             </hashTree>
-          </hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="write shell script to upload jira files" enabled="true">
-            <stringProp name="BeanShellSampler.query">// Pass true if you want to append to existing file
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="get_results_for_case" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value"></stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol">https</stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+              <stringProp name="HTTPSampler.path">/index.php?/api/v2/get_results_for_case/533/1</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="get response data" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">response = prev.getResponseDataAsString();
+vars.put(&quot;responseData&quot;, response);</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="replace special chars" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">String rd = vars.get(&quot;responseData&quot;).replaceAll(&quot;[^a-zA-Z0-9]&quot;, &quot; &quot;);
+vars.put(&quot;responseData&quot;, rd);</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+            </hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="write response data" enabled="true">
+              <stringProp name="BeanShellSampler.query">// Pass true if you want to append to existing file
+// If you want to overwrite, then don&apos;t pass the second argument
+f = new FileOutputStream(&quot;${responseDataTxt}&quot;);
+p = new PrintStream(f); 
+this.interpreter.setOut(p); 
+print(&quot;${responseData}&quot;);
+f.close();</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="write shell script to upload jira files" enabled="true">
+              <stringProp name="BeanShellSampler.query">// Pass true if you want to append to existing file
 // If you want to overwrite, then don&apos;t pass the second argument
 f = new FileOutputStream(&quot;${shellScript}&quot;);
 p = new PrintStream(f); 
 this.interpreter.setOut(p); 
 print(&quot;#! /bin/bash&quot;);
-print(&quot;curl -D- -u ${jiraUsername}:${jiraPwd} -X POST -H \&quot;X-Atlassian-Token: nocheck\&quot; -F \&quot;file=@/Users/paulcruz/workspace/AutomationTests/logParsingRules.txt\&quot; ${jiraHost}/rest/api/2/issue/${key}/attachments&quot;);
+print(&quot;curl -D- -u ${jiraUsername}:${jiraPwd} -X POST -H \&quot;X-Atlassian-Token: nocheck\&quot; -F \&quot;file=@${responseDataTxt}\&quot; ${jiraHost}/rest/api/2/issue/${key}/attachments&quot;);
 f.close();</stringProp>
-            <stringProp name="BeanShellSampler.filename"></stringProp>
-            <stringProp name="BeanShellSampler.parameters"></stringProp>
-            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-          </BeanShellSampler>
-          <hashTree/>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="upload jira file" enabled="true">
-            <stringProp name="BeanShellSampler.query">import org.apache.jmeter.services.FileServer;
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="upload jira file" enabled="true">
+              <stringProp name="BeanShellSampler.query">import org.apache.jmeter.services.FileServer;
 
 StringBuilder command = new StringBuilder();
 command.append(&quot;bash ${shellScript}&quot;);
 Process process = Runtime.getRuntime().exec(command.toString());
 int returnValue = process.waitFor();
 return String.valueOf(returnValue);</stringProp>
-            <stringProp name="BeanShellSampler.filename"></stringProp>
-            <stringProp name="BeanShellSampler.parameters"></stringProp>
-            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-          </BeanShellSampler>
-          <hashTree/>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
         </hashTree>
         <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
           <boolProp name="displayJMeterProperties">false</boolProp>
