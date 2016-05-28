@@ -173,6 +173,7 @@ public class BaseTest extends TestRailUtilities {
 			
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();
+			logger.info("\n\n run name: " + runName + "\n\n");
 						
 			ExecuteShellCommand es = new ExecuteShellCommand();
 			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};			

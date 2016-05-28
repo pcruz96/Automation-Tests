@@ -39,4 +39,15 @@ java -jar /Users/pcruz/Documents/jenkins/jenkins-cli.jar -noKeyAuth -s http://lo
 bash /Users/pcruz/Jmeter/apache-jmeter-2.13/bin/jmeter.sh -n -t src/test/jmeter/API_test.jmx\
 \
 Performance Plugin use 1.9 - {\field{\*\fldinst{HYPERLINK "http://updates.jenkins-ci.org/download/plugins/performance/"}}{\fldrslt http://updates.jenkins-ci.org/download/plugins/performance/}}\
+\
+ /* replace build tag in html report\
+\
+cp ~/.jenkins/jobs/demo\\ project/workspace/target/surefire-reports/emailable-report.html ~/.jenkins/jobs/email\\ report/workspace\
+cp ~/.jenkins/jobs/demo\\ project/workspace/test-output/log4j-application.log ~/.jenkins/jobs/email\\ report/workspace\
+\
+buildTag=`cat ~/.jenkins/jobs/demo\\ project/workspace/test-output/log4j-application.log|grep 'run name'|sed -e 's/run name: //g'`\
+\
+sed -i.tmp "s/BUILD_TAG/$buildTag/g" ~/.jenkins/jobs/email\\ report/workspace/emailable-report.html\
+\
+*/\
 }
