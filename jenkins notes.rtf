@@ -42,18 +42,22 @@ Performance Plugin use 1.9 - {\field{\*\fldinst{HYPERLINK "http://updates.jenkin
 \
  /* replace build tag in html report\
 \
-cp $JENKINS_HOME/jobs/demo\\ project/workspace/target/surefire-reports/emailable-report.html $JENKINS_HOME/jobs/email\\ report/workspace\
-#cp $JENKINS_HOME/jobs/demo\\ project/workspace/target/surefire-reports/html/overview.html $JENKINS_HOME/jobs/email\\ report/workspace\
-#cp $JENKINS_HOME/jobs/demo\\ project/workspace/target/surefire-reports/html/* $JENKINS_HOME/jobs/email\\ report/workspace\
-cp $JENKINS_HOME/jobs/demo\\ project/workspace/test-output/log4j-application.log $JENKINS_HOME/jobs/email\\ report/workspace\
+cp $JENKINS_HOME/jobs/demo\\ project/workspace/target/surefire-reports/emailable-report.html $JENKINS_HOME/jobs/send\\ report/workspace\
+#cp $JENKINS_HOME/jobs/demo\\ project/workspace/target/surefire-reports/html/overview.html $JENKINS_HOME/jobs/send\\ report/workspace\
+#cp $JENKINS_HOME/jobs/demo\\ project/workspace/target/surefire-reports/html/* $JENKINS_HOME/jobs/send\\ report/workspace\
+cp $JENKINS_HOME/jobs/demo\\ project/workspace/test-output/log4j-application.log $JENKINS_HOME/jobs/send\\ report/workspace\
 \
 buildTag=`cat $JENKINS_HOME/jobs/demo\\ project/workspace/test-output/log4j-application.log|grep 'run name'|sed -e 's/run name: //g'`\
 \
 #html=overview.html\
 html=emailable-report.html\
 \
-sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/email\\ report/workspace/$html\
+sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/send\\ report/workspace/$html\
 \
-curl -F file=@$html -F channels=#automation -F token=xoxp-42585230193-42580314247-46594657922-4e8e9229eb https://demotest-group.slack.com/api/files.upload\
+newHtml=`echo $buildTag | sed 's/ - /-/g' | sed 's/ /_/g'`.html\
+mv $html $newHtml\
+\
+curl -F file=@$newHtml -F channels=#automation -F token=xoxp-42585230193-42580314247-46592245025-b3c20c220f https://demotest-group.slack.com/api/files.upload\
+									\
 */\
 }
