@@ -543,7 +543,8 @@ f = new FileOutputStream(&quot;${shellScript}&quot;);
 p = new PrintStream(f); 
 this.interpreter.setOut(p); 
 print(&quot;#! /bin/bash&quot;);
-print(&quot;curl -D- -u ${jiraUsername}:${jiraPwd} -X POST -H \&quot;X-Atlassian-Token: nocheck\&quot; -F \&quot;file=@test-output/screenshots/cCASE_ID.png\&quot; ${jiraHost}/rest/api/2/issue/${key}/attachments&quot;);
+print(&quot;curl -D- -u ${jiraUsername}:${jiraPwd} -X POST -H \&quot;X-Atlassian-Token: nocheck\&quot; -F \&quot;file=@test-output/screenshots/cCASE_ID-1.png\&quot; ${jiraHost}/rest/api/2/issue/${key}/attachments&quot;);
+print(&quot;curl -D- -u ${jiraUsername}:${jiraPwd} -X POST -H \&quot;X-Atlassian-Token: nocheck\&quot; -F \&quot;file=@test-output/screenshots/cCASE_ID-2.png\&quot; ${jiraHost}/rest/api/2/issue/${key}/attachments&quot;);
 f.close();</stringProp>
               <stringProp name="BeanShellSampler.filename"></stringProp>
               <stringProp name="BeanShellSampler.parameters"></stringProp>
