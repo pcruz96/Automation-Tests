@@ -543,7 +543,7 @@ public class TestRailUtilities extends Log4J {
 		dvr.get(TestConfiguration.getTestRailConfig().getString("url") + "tests/view/" + testId);			
 		File scrFile = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
 		try {
-			FileUtils.copyFile(scrFile, new File("test-output/screenshots/c"+BaseTest.getTestCaseId()+".png"));
+			FileUtils.copyFile(scrFile, new File("test-output/screenshots/"+BaseTest.getTestCaseId()+".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
