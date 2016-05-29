@@ -455,7 +455,7 @@
               </HeaderManager>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="get_results_for_case" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="get_results_for_case" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -509,7 +509,7 @@ vars.put(&quot;responseData&quot;, rd);</stringProp>
               </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
-            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="write response data" enabled="true">
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="write response data" enabled="false">
               <stringProp name="BeanShellSampler.query">// Pass true if you want to append to existing file
 // If you want to overwrite, then don&apos;t pass the second argument
 f = new FileOutputStream(&quot;${responseDataTxt}&quot;);
@@ -522,7 +522,7 @@ f.close();</stringProp>
               <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
             </BeanShellSampler>
             <hashTree/>
-            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="curl cmd to post resposeDataTxt" enabled="true">
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="curl cmd to post resposeDataTxt" enabled="false">
               <stringProp name="BeanShellSampler.query">// Pass true if you want to append to existing file
 // If you want to overwrite, then don&apos;t pass the second argument
 f = new FileOutputStream(&quot;${shellScript}&quot;);
