@@ -17,7 +17,7 @@
 	<!-- boolean add new run in Test Rail -->
 	<parameter name="addRun" value="ADDRUN" />
 	<!-- update specific run in Test Rail -->
-	<parameter name="runId" value="4642" />
+	<parameter name="runId" value="" />
 	<!-- https://docs.saucelabs.com/reference/platforms-configurator/#/ -->
 	<parameter name="platform" value="PLATFORM" />	
 	<parameter name="browser" value="BROWSER" />
@@ -26,7 +26,7 @@
 	<!-- who = login* from AutomationTests/src/test/resources/*.conf -->
 	<parameter name="who" value="WHO" />
 	
-	<test name="test ENV" parallel="methods" thread-count="10">			
+	<test name="test ENV env" parallel="methods" thread-count="10">			
 		<packages>
 			<!-- <package name="PACKAGE" />  -->
 		</packages>
