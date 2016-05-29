@@ -414,6 +414,22 @@
                 </collectionProp>
               </HeaderManager>
               <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="get response data" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">response = prev.getResponseDataAsString();
+vars.put(&quot;responseData&quot;, response);</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
+              <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="replace special chars" enabled="true">
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="script">String rd = vars.get(&quot;responseData&quot;).replaceAll(&quot;[^a-zA-Z0-9]&quot;, &quot; &quot;);
+vars.put(&quot;responseData&quot;, rd);</stringProp>
+              </BeanShellPostProcessor>
+              <hashTree/>
             </hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="add testrail result with link to jira bug" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -472,7 +488,7 @@
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
               <stringProp name="HTTPSampler.protocol">https</stringProp>
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-              <stringProp name="HTTPSampler.path">/index.php?/api/v2/get_results_for_case/533/1</stringProp>
+              <stringProp name="HTTPSampler.path">/index.php?/api/v2/get_results_for_case/RUN_ID/CASE_ID</stringProp>
               <stringProp name="HTTPSampler.method">GET</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>

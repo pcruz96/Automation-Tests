@@ -1,10 +1,17 @@
 package com.gurock.testrail;
 
+import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 
-import com.automation.exceptionHandling.CustomException;
+import com.automation.config.TestConfiguration;
+import com.automation.selenium.Driver;
+import com.automation.selenium.SeleniumUtils;
 import com.automation.tests.BaseTest;
 import com.automation.utils.CamelCaseString;
 import com.automation.utils.ExecuteShellCommand;
@@ -113,7 +120,7 @@ public class TestRailUtilities extends Log4J {
 		}
 	}
 
-	public void uploadResults(Method method, ITestResult result, String comment, String sauceLabUrl) {			
+	public String uploadResults(Method method, ITestResult result, String comment, String sauceLabUrl) {			
 
 		String caseId = getCaseId(method);
 		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
@@ -162,6 +169,8 @@ public class TestRailUtilities extends Log4J {
 				// Write the test results into file
 				writeResultsToFile(caseId, statusId);
 			}
+			
+			return response.get("test_id").toString();
 		} catch (APIException e) {
 			logger.error(e.getMessage());
 		} catch (MalformedURLException e) {
@@ -169,6 +178,7 @@ public class TestRailUtilities extends Log4J {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
+		return null;
 	}
 
 	public ArrayList<TestcaseModel> getTestCases(String projectId, String suiteId) {
@@ -521,5 +531,22 @@ public class TestRailUtilities extends Log4J {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void getTestResultScreenshot(String testId) {
+		SeleniumUtils su = new SeleniumUtils();
+		WebDriver dvr = Driver.getDriver(); 
+		dvr.get(TestConfiguration.getTestRailConfig().getString("url") + "auth/login/");
+		su.fillTxt(By.id("name"), TestConfiguration.getTestRailConfig().getString("username"));
+		su.fillTxt(By.id("password"), TestConfiguration.getTestRailConfig().getString("password"));
+		su.clickElement(By.cssSelector("button[type='submit']"));
+		dvr.get(TestConfiguration.getTestRailConfig().getString("url") + "tests/view/" + testId);			
+		File scrFile = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
+		try {
+			FileUtils.copyFile(scrFile, new File("test-output/screenshots/"+BaseTest.getTestCaseId()+".png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
