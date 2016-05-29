@@ -142,7 +142,7 @@
 					<version>2.16</version>
 					<configuration>
 						<suiteXmlFiles>
-							<suiteXmlFile>src/test/resources/testng/testng_demo.xml</suiteXmlFile>
+							<suiteXmlFile>src/test/resources/testng/testng.xml</suiteXmlFile>
 						</suiteXmlFiles>
 						<properties>
 							<property>
