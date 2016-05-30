@@ -296,7 +296,7 @@ public class BaseTest extends TestRailUtilities {
 			
 			sprint = sprint != null ? sprint : "";
 			
-			String msg = "ui automation - failed - " + sprint + " - " + getTestEnv(env, false)
+			String msg = "failed - automation - ui - " + sprint + " - " + getTestEnv(env, false)
 					+ BaseTest.suiteName + " - " + BaseTest.getMethodName();
 			
 			msg = msg.toLowerCase();
