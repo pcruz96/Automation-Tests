@@ -77,6 +77,11 @@
             <stringProp name="Argument.value">https://github.com/...</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="closedTicketStatus" elementType="Argument">
+            <stringProp name="Argument.name">closedTicketStatus</stringProp>
+            <stringProp name="Argument.value">Done</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -1098,17 +1103,16 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                   </HeaderManager>
                   <hashTree/>
                 </hashTree>
+                <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - put summary var" enabled="true">
+                  <stringProp name="BeanShellSampler.query">vars.put(&quot;summary&quot;, &quot;automation_api_failed_${__property(project)}_${__property(suite)}_${case_id}_${scenario}&quot;.replaceAll(&quot; &quot;,&quot;_&quot;))</stringProp>
+                  <stringProp name="BeanShellSampler.filename"></stringProp>
+                  <stringProp name="BeanShellSampler.parameters"></stringProp>
+                  <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+                </BeanShellSampler>
+                <hashTree/>
                 <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="search issues" enabled="true">
                   <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-                    <collectionProp name="Arguments.arguments">
-                      <elementProp name="summary" elementType="HTTPArgument">
-                        <boolProp name="HTTPArgument.always_encode">true</boolProp>
-                        <stringProp name="Argument.value">api failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario})</stringProp>
-                        <stringProp name="Argument.metadata">=</stringProp>
-                        <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                        <stringProp name="Argument.name">summary</stringProp>
-                      </elementProp>
-                    </collectionProp>
+                    <collectionProp name="Arguments.arguments"/>
                   </elementProp>
                   <stringProp name="HTTPSampler.domain">autotest123.atlassian.net</stringProp>
                   <stringProp name="HTTPSampler.port"></stringProp>
@@ -1116,7 +1120,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                   <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol"></stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                  <stringProp name="HTTPSampler.path">rest/api/2/search?</stringProp>
+                  <stringProp name="HTTPSampler.path">rest/api/2/search?jql=summary~${summary}&amp;fields=summary,status</stringProp>
                   <stringProp name="HTTPSampler.method">GET</stringProp>
                   <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                   <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1151,40 +1155,27 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                     </collectionProp>
                   </HeaderManager>
                   <hashTree/>
-                  <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - not contains search" enabled="true">
-                    <collectionProp name="Asserion.test_strings">
-                      <stringProp name="661093630">api failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario}</stringProp>
-                    </collectionProp>
-                    <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-                    <boolProp name="Assertion.assume_success">false</boolProp>
-                    <intProp name="Assertion.test_type">6</intProp>
-                  </ResponseAssertion>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - total" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                    <stringProp name="RegexExtractor.refname">total</stringProp>
+                    <stringProp name="RegexExtractor.regex">total&quot;:(.*?),</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default"></stringProp>
+                    <stringProp name="RegexExtractor.match_number">1</stringProp>
+                  </RegexExtractor>
                   <hashTree/>
-                  <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
-                    <stringProp name="filename"></stringProp>
-                    <stringProp name="parameters"></stringProp>
-                    <boolProp name="resetInterpreter">false</boolProp>
-                    <stringProp name="script">import org.apache.jmeter.assertions.AssertionResult; 
-
-AssertionResult[] results = sampleResult.getAssertionResults(); 
-
-for(int i =0,j=1 ; i&lt;results.length;i++) { 
-    AssertionResult result = results[i]; 
-	if(result.isFailure()  || result.isError()) { 
-        vars.put(&quot;jiraResult_&quot; + j, result.getFailureMessage());         
-        j++; 
-	} 
-} 
-String s = vars.get(&quot;jiraResult_1&quot;).trim();
-s = s.replace(&quot;\&quot;&quot;,&quot;&apos;&quot;);     
-s = s.replace(&quot;\n&quot;,&quot;&quot;);     
-String assertionResult_1 = s.replace(&quot;/&quot;,&quot;&quot;);     
-vars.put(&quot;jiraResult_1&quot;, assertionResult_1);</stringProp>
-                  </BeanShellListener>
+                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - status" enabled="true">
+                    <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                    <stringProp name="RegexExtractor.refname">status</stringProp>
+                    <stringProp name="RegexExtractor.regex">name&quot;:&quot;(.*?)&quot;</stringProp>
+                    <stringProp name="RegexExtractor.template">$1$</stringProp>
+                    <stringProp name="RegexExtractor.default"></stringProp>
+                    <stringProp name="RegexExtractor.match_number">1</stringProp>
+                  </RegexExtractor>
                   <hashTree/>
                 </hashTree>
-                <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If unique issue" enabled="true">
-                  <stringProp name="IfController.condition">&quot;${jiraResult_1}&quot;.indexOf(&quot;Test failed&quot;) == -1</stringProp>
+                <IfController guiclass="IfControllerPanel" testclass="IfController" testname="post bug if summary doesn&apos;t exist or status is ${closedTicketStatus}" enabled="true">
+                  <stringProp name="IfController.condition">&quot;${total}&quot; == 0 || &quot;${status}&quot; == &quot;${closedTicketStatus}&quot;</stringProp>
                   <boolProp name="IfController.evaluateAll">false</boolProp>
                 </IfController>
                 <hashTree>
@@ -1200,7 +1191,7 @@ vars.put(&quot;jiraResult_1&quot;, assertionResult_1);</stringProp>
        { &#xd;
           &quot;key&quot;: &quot;DEM&quot;&#xd;
        },&#xd;
-       &quot;summary&quot;: &quot;api failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario}&quot;,&#xd;
+       &quot;summary&quot;: &quot;${summary}&quot;,&#xd;
        &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}&quot;,&#xd;
        &quot;issuetype&quot;: {&#xd;
           &quot;name&quot;: &quot;Bug&quot;&#xd;
@@ -1378,7 +1369,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="" elementType="HTTPArgument">
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                      <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#automation&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;api failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
+                      <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#automation&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;api automation - failed - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
                   </collectionProp>
