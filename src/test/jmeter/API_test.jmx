@@ -646,11 +646,33 @@ vars.put(&quot;suite&quot;, suite);</stringProp>
                 <stringProp name="RegexExtractor.match_number">1</stringProp>
               </RegexExtractor>
               <hashTree/>
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor" enabled="true">
+                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                <stringProp name="RegexExtractor.refname">runname</stringProp>
+                <stringProp name="RegexExtractor.regex">name&quot;:&quot;(.*?)&quot;</stringProp>
+                <stringProp name="RegexExtractor.template">$1$</stringProp>
+                <stringProp name="RegexExtractor.default"></stringProp>
+                <stringProp name="RegexExtractor.match_number">1</stringProp>
+              </RegexExtractor>
+              <hashTree/>
             </hashTree>
             <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - set global vars" enabled="true">
               <stringProp name="BeanShellSampler.query">${__setProperty(project, ${project})};
 ${__setProperty(suite, ${suite})};
 ${__setProperty(run_id, ${run_id})};</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="write testrail runname" enabled="true">
+              <stringProp name="BeanShellSampler.query">// Pass true if you want to append to existing file
+// If you want to overwrite, then don&apos;t pass the second argument
+f = new FileOutputStream(&quot;apiRun.txt&quot;);
+p = new PrintStream(f); 
+this.interpreter.setOut(p); 
+print(&quot;${runname}&quot;);
+f.close();</stringProp>
               <stringProp name="BeanShellSampler.filename"></stringProp>
               <stringProp name="BeanShellSampler.parameters"></stringProp>
               <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>

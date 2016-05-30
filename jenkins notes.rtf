@@ -33,8 +33,16 @@ sed -i.tmp "s/\\$\{build_url\}/http\\:\\/\\/localhost\\:8080\\/job\\/jmeter\\/$B
 \
 post-build\
 \
-run_id=`grep runs target/jmeter/logs/API_test.jmx.log | awk -F'view' '\{print $2\}' | sed 's/\\\\\\//' | sed 's/"\}"//'`\
-java -jar /Users/pcruz/Documents/jenkins/jenkins-cli.jar -noKeyAuth -s http://localhost:8080/ set-build-description jmeter $BUILD_NUMBER "https://autotests.testrail.net\uc0\u8203 /index.php?/runs/view"$run_id\
+#run_id=`grep runs target/jmeter/logs/API_test.jmx.log | awk -F'view' '\{print $2\}' | sed 's/\\\\\\//' | sed 's/"\}"//'`\
+#java -jar $JENKINS_HOME/jenkins-cli.jar -noKeyAuth -s http://localhost:8080/ set-build-description "$JOB_NAME" $BUILD_NUMBER "https://autotests.testrail.net\uc0\u8203 /index.php?/runs/view"$run_id\
+\
+run=`cat apiRun.txt`\
+java -jar $JENKINS_HOME/jenkins-cli.jar -noKeyAuth -s http://localhost:8080/ set-build-description "$JOB_NAME" $BUILD_NUMBER "$run"\
+\
+buildTag=`cat $JENKINS_HOME/jobs/demo\\ project/workspace/test-output/log4j-application.log|grep 'run name'|sed -e 's/run name: //g'`\
+java -jar $JENKINS_HOME/jenkins-cli.jar -s http://localhost:8080/ set-build-description "$JOB_NAME" $BUILD_NUMBER "$buildTag"\
+\
+java -jar $JENKINS_HOME/jenkins-cli.jar -s http://localhost:8080/ set-build-result passed\
 \
 bash /Users/pcruz/Jmeter/apache-jmeter-2.13/bin/jmeter.sh -n -t src/test/jmeter/API_test.jmx\
 \
