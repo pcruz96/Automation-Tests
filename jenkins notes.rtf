@@ -42,7 +42,7 @@ java -jar $JENKINS_HOME/jenkins-cli.jar -noKeyAuth -s http://localhost:8080/ set
 buildTag=`cat $JENKINS_HOME/jobs/demo\\ project/workspace/test-output/log4j-application.log|grep 'run name'|sed -e 's/run name: //g'`\
 java -jar $JENKINS_HOME/jenkins-cli.jar -s http://localhost:8080/ set-build-description "$JOB_NAME" $BUILD_NUMBER "$buildTag"\
 \
-java -jar $JENKINS_HOME/jenkins-cli.jar -s http://localhost:8080/ set-build-result passed\
+java -jar $JENKINS_HOME/jenkins-cli.jar -s http://localhost:8080/ set-build-result success\
 \
 bash /Users/pcruz/Jmeter/apache-jmeter-2.13/bin/jmeter.sh -n -t src/test/jmeter/API_test.jmx\
 \
