@@ -61,6 +61,7 @@ public class BaseTest extends TestRailUtilities {
 	public static String runId = null;
 	public static String database = null;
 	String runName;
+	String sprint;
 	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
 	public static boolean sauceLabs = false;
@@ -70,7 +71,7 @@ public class BaseTest extends TestRailUtilities {
 		
 		String env = System.getenv("ENV");
 		if (env != null) {
-			testEnv = env;
+			testEnv = env + " env";
 		}
 		if (tag) {
 			return testEnv;
@@ -173,6 +174,10 @@ public class BaseTest extends TestRailUtilities {
 			
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();
+			
+			String[] s = runName.split(" - ");
+			sprint = s[s.length - 1];
+			
 			logger.info("\n\nrun name: " + runName + "\n");
 						
 			ExecuteShellCommand es = new ExecuteShellCommand();
@@ -288,7 +293,10 @@ public class BaseTest extends TestRailUtilities {
 			
 			//SparkNotifications cn = new SparkNotifications();
 			SlackNotifications cn = new SlackNotifications();
-			String msg = "failed - " + getTestEnv(env, false)
+			
+			sprint = sprint != null ? sprint : "";
+			
+			String msg = "automation failed - " + sprint + " - " + getTestEnv(env, false)
 					+ BaseTest.suiteName + " - " + BaseTest.getMethodName();
 			
 			msg = msg.toLowerCase();
