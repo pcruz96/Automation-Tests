@@ -25,8 +25,8 @@ If the emailable-report.html is not attached, the build was aborted. Results are
 \
 target/surefire-reports/emailable-report.html, test-output/log4j-application.log, test-output/failedAndSkippedTests.txt, src/test/resources/testng/testng.xml\
 \
-bash disable_jmeter_tests.sh *.jmx -xe\
-bash disable_jmeter_tests.sh $JMX -x\
+bash shell\\ scripts/disable_jmeter_tests.sh *.jmx -xe\
+bash shell\\ scripts/disable_jmeter_tests.sh $JMX -x\
 \
 sed -i.tmp "s/\\$\{suite\} - \\$\{__time(yyyy-MM-dd&apos;T&apos;hh:mm:ssX)\}/\\$\{suite\} - $BUILD_TAG/g" src/test/jmeter/*.jmx\
 sed -i.tmp "s/\\$\{build_url\}/http\\:\\/\\/localhost\\:8080\\/job\\/jmeter\\/$BUILD_NUMBER/g" src/test/jmeter/*.jmx\
