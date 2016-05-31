@@ -436,7 +436,7 @@ public class BaseTest extends TestRailUtilities {
 		es.executeCommand("cp " + jmx + " " + jmx.replace("jira", "jiraCopy"));
 		
 		String[] s3 = desc.split(" - ");
-		String descWithoutLink = desc.replace(" - " + s3[4], "").replace(" - ", "_");
+		String descWithoutLink = desc.replace(" - " + s3[7], "").replace(" - ", "_").replace(" ", "");
 		String testRailLink = s3[4];
 				
 		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+descWithoutLink+"/g", jmx};
@@ -459,11 +459,11 @@ public class BaseTest extends TestRailUtilities {
 		es.executeArrayCommand(cmd5);
 		
 		// enable all the tests
-		String[] cmd6 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		String[] cmd6 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd6);
 		
 		// disable all the tests except for jira.jmx
-		String[] cmd7 = new String[] {"bash", "disable_jmeter_tests.sh", "jira.jmx", "-x"};
+		String[] cmd7 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "jira.jmx", "-x"};
 		es.executeArrayCommand(cmd7);
 		
 		String jenkinsHome = null;
@@ -474,7 +474,7 @@ public class BaseTest extends TestRailUtilities {
 				
 		es.executeCommand("cp " + jmx.replace("jira", "jiraCopy") + " " + jmx);
 		
-		String[] cmd9 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		String[] cmd9 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd9);
 	}
 	

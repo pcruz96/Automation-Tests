@@ -505,10 +505,10 @@ public class TestRailUtilities extends Log4J {
 		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/CASEIDS/"+caseIds+"/g", jmx};
 		es.executeArrayCommand(cmd3);
 		
-		String[] cmd4 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		String[] cmd4 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd4);
 		
-		String[] cmd5 = new String[] {"bash", "disable_jmeter_tests.sh", "addTestRailRun.jmx", "-x"};
+		String[] cmd5 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "addTestRailRun.jmx", "-x"};
 		es.executeArrayCommand(cmd5);
 		
 		String[] cmd6 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
@@ -516,7 +516,7 @@ public class TestRailUtilities extends Log4J {
 				
 		es.executeCommand("cp " + jmx.replace("addTestRailRun", "addTestRailRunCopy") + " " + jmx);
 		
-		String[] cmd7 = new String[] {"bash", "disable_jmeter_tests.sh", "*.jmx", "-xe"};
+		String[] cmd7 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd7);
 	}
 	
