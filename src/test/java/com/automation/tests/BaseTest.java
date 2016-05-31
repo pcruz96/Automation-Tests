@@ -437,7 +437,7 @@ public class BaseTest extends TestRailUtilities {
 		
 		String[] s3 = desc.split(" - ");
 		String descWithoutLink = desc.replace(" - " + s3[7], "").replace(" - ", "_").replace(" ", "");
-		String testRailLink = s3[4];
+		String testRailLink = s3[7];
 				
 		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+descWithoutLink+"/g", jmx};
 		es.executeArrayCommand(cmd);
