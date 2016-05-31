@@ -436,7 +436,7 @@ public class BaseTest extends TestRailUtilities {
 		es.executeCommand("cp " + jmx + " " + jmx.replace("jira", "jiraCopy"));
 		
 		String[] s3 = desc.split(" - ");
-		String descWithoutLink = desc.replace(" - " + s3[7], "").replace(" - ", "_").replace(" ", "");
+		String descWithoutLink = desc.replace(" - " + s3[7], "").replace(" - ", "_").replace(" ", "_");
 		String testRailLink = s3[7];
 				
 		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+descWithoutLink+"/g", jmx};
