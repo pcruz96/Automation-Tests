@@ -26,7 +26,7 @@ public class GetTestCases extends Log4J {
 		
 		ArrayList<TestcaseModel> results = tr.getTestCases(
 				projectId, suiteId);
-		String suiteName = tr.getSuiteName(false, suiteId);
+		String suiteName = tr.getSuiteName(false, suiteId).replace("Tests", "") + "Tests";
 		try {
 			File file = new File(filePath);
 			if (!file.exists()) {
