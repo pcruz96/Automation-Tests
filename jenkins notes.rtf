@@ -50,6 +50,7 @@ Performance Plugin use 1.9 - {\field{\*\fldinst{HYPERLINK "http://updates.jenkin
 \
  /* replace build tag in html report\
 \
+rm -r $JENKINS_HOME/jobs/send\\ report/workspace/\
 mkdir -p $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports\
 cp -R $JENKINS_HOME/jobs/demo\\ project/workspace/target/surefire-reports/ $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports\
 \
@@ -80,9 +81,10 @@ zip=`echo $HOME/Downloads/$newHtml.zip  | sed 's/.html//g'`\
 \
 mv $HOME/Downloads/workspace.zip $zip\
 \
-curl -F file=@$zip -F channels=#automation -F token=xoxp-42585230193-42580314247-46619288098-ff43b33008 https://demotest-group.slack.com/api/files.upload\
+#https://api.slack.com/docs/oauth-test-tokens?team_id=T18H76S5P&action=reissue&sudo=1\
+curl -F file=@$zip -F channels=#automation -F token=xoxp-42585230193-42580314247-46656864784-c719c8fb90 https://demotest-group.slack.com/api/files.upload\
 \
 curl -X POST --data-urlencode 'payload=\{"channel": "#automation", "text": "open workspace/target/surefire-reports/html/'$newHtml'"\}' https://hooks.slack.com/services/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\
-				\
+					\
 */\
 }

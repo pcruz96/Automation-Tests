@@ -20,7 +20,7 @@
 	<parameter name="runId" value="" />
 	<!-- https://docs.saucelabs.com/reference/platforms-configurator/#/ -->
 	<parameter name="platform" value="MAC" />	
-	<parameter name="browser" value="chrome" />
+	<parameter name="browser" value="phantomjs" />
 	<!-- optional get db.qa from AutomationTests/src/resources/db.conf. Ex. db.qang1 or db.stg -->
 	<parameter name="database" value="db.qa" />
 	<!-- who = login* from AutomationTests/src/resources/*.conf -->
