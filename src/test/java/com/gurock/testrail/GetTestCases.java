@@ -74,7 +74,7 @@ public class GetTestCases extends Log4J {
 			project = BaseTest.project;
 		}
 		
-		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+"Tests.java"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+".java"))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 			String group = null;
