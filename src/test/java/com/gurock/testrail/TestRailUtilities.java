@@ -182,21 +182,18 @@ public class TestRailUtilities extends Log4J {
 		return null;
 	}
 
-	public ArrayList<TestcaseModel> getTestCases(String projectId, String suiteId) {
+	public ArrayList<TestcaseModel> getTestCases(String projectId, String suiteId, int startTCID, int endTCID) {
 				
 		ArrayList<TestcaseModel> list = new ArrayList<TestcaseModel>();
 		try {
-			JSONArray resultArray = (JSONArray) client.sendGet("get_cases/"
-					+ projectId + "&suite_id=" + suiteId);
-			
-			for (int i = 0; i < resultArray.size(); i++) {
-				JSONObject jsonTestItem = (JSONObject) resultArray.get(i);
+			for (int i = startTCID; i <= endTCID; i++) {
+				JSONObject jsonTestItem = (JSONObject) client.sendGet("get_case/" + i);						
 				TestcaseModel testcaseModel = new TestcaseModel();
-				testcaseModel.setDescription(jsonTestItem.get("title")
-						.toString());
+				testcaseModel.setDescription(jsonTestItem.get("title").toString());						
 				testcaseModel.setTestID(jsonTestItem.get("id").toString());				
 				testcaseModel.setType(this.getType(jsonTestItem.get("type_id").toString()));				
 				list.add(testcaseModel);
+				logger.info("getting test case id: " + jsonTestItem.get("id").toString());
 			}
 
 		} catch (APIException e) {
@@ -511,7 +508,10 @@ public class TestRailUtilities extends Log4J {
 		String[] cmd5 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "addTestRailRun.jmx", "-x"};
 		es.executeArrayCommand(cmd5);
 		
-		String[] cmd6 = new String[] {System.getProperty("user.home") + "/.jenkins/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
+		String jenkinsHome = System.getProperty("JENKINS_HOME");
+		jenkinsHome = jenkinsHome != null ? jenkinsHome : System.getProperty("user.home") + "/.jenkins";
+		
+		String[] cmd6 = new String[] {jenkinsHome + "/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
 		es.executeArrayCommand(cmd6);
 				
 		es.executeCommand("cp " + jmx.replace("addTestRailRun", "addTestRailRunCopy") + " " + jmx);

@@ -11,21 +11,20 @@ public class GetTestCases extends Log4J {
 
 	public static void main(String[] args) {
 		
-		logger.info("Usage: projectId suiteId");
+		logger.info("Usage: projectId suiteId startTCID endTCID");
 		if ((args == null) || (args.length == 0) || (args.length < 2)) {
 			logger.info("Empty Args.\n"
-					+ "Usage: projectId suiteId");
+					+ "Usage: projectId suiteId startTCID endTCID");
 			System.exit(0);
 		}
-		logger.info("projectId " + args[0]);
-		logger.info("suiteId " + args[1]);
 		String projectId = args[0];
 		String suiteId = args[1];
-		String filePath = "convertedTestRailTests_TestNGmethods";
+		int startTCID = Integer.parseInt(args[2]);
+		int endTCID = Integer.parseInt(args[3]);
+		String filePath = "convertedTestRailTests_TestNGmethods.txt";
 		TestRailUtilities tr = new TestRailUtilities();
 		
-		ArrayList<TestcaseModel> results = tr.getTestCases(
-				projectId, suiteId);
+		ArrayList<TestcaseModel> results = tr.getTestCases(projectId, suiteId, startTCID, endTCID);				
 		String suiteName = tr.getSuiteName(false, suiteId).replace("Tests", "") + "Tests";
 		try {
 			File file = new File(filePath);
@@ -44,10 +43,14 @@ public class GetTestCases extends Log4J {
 						+ "\tpublic void c" + t.getTestID() + "_"
 						+ getTestCaseName(t.getDescription())
 						+ "() {\n" + "\t\n" + "\t}\n";
+				
+				logger.info("ADDED: " + testCaseMethodStr);
+				
 				bw.write(testCaseMethodStr + "\n");
 			}
 			bw.write("}");
 			bw.close();
+			logger.info("created convertedTestRailTests_TestNGmethods.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -71,7 +74,7 @@ public class GetTestCases extends Log4J {
 			project = BaseTest.project;
 		}
 		
-		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+".java"))) {
+		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+"Tests.java"))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 			String group = null;

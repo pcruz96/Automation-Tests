@@ -466,7 +466,7 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd7 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "jira.jmx", "-x"};
 		es.executeArrayCommand(cmd7);
 		
-		String jenkinsHome = null;
+		String jenkinsHome = System.getProperty("JENKINS_HOME");
 		jenkinsHome = System.getProperty("JENKINS_HOME") != null ? jenkinsHome : System.getProperty("user.home") + "/.jenkins";
 		
 		String[] cmd8 = new String[] {jenkinsHome + "/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
