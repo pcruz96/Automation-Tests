@@ -27,9 +27,10 @@ target/surefire-reports/emailable-report.html, test-output/log4j-application.log
 \
 bash shell\\ scripts/disable_jmeter_tests.sh *.jmx -xe\
 bash shell\\ scripts/disable_jmeter_tests.sh $JMX -x\
+BUILD_TAG=`echo $BUILD_TAG | tr '[:upper:]' '[:lower:]'`\
 \
-sed -i.tmp "s/\\$\{suite\} - \\$\{__time(yyyy-MM-dd&apos;T&apos;hh:mm:ssX)\}/\\$\{suite\} - $BUILD_TAG/g" src/test/jmeter/*.jmx\
-sed -i.tmp "s/\\$\{build_url\}/http\\:\\/\\/localhost\\:8080\\/job\\/jmeter\\/$BUILD_NUMBER/g" src/test/jmeter/*.jmx\
+sed -i.tmp "s/\\$\{suite\} - \\$\{__time(yyyy-MM-dd)\}/\\$\{suite\} - $BUILD_TAG/g" src/test/jmeter/*.jmx\
+sed -i.tmp "s/\\$\{build_url\}/http\\:\\/\\/10.10.1.217\\:8080\\/job\\/jmeter\\/$BUILD_NUMBER/g" src/test/jmeter/*.jmx\
 \
 post-build\
 \
