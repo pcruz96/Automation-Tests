@@ -256,8 +256,8 @@
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cnt}&quot; == 1 &amp;&amp; &quot;${method}&quot; != &quot;blocked&quot;" enabled="true">
-          <stringProp name="IfController.condition">&quot;${cnt}&quot; == 1 &amp;&amp; &quot;${method}&quot; != &quot;blocked&quot; </stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cnt}&quot; == 1 &amp;&amp; &quot;${enabled}&quot; == &quot;TRUE&quot; " enabled="true">
+          <stringProp name="IfController.condition">&quot;${cnt}&quot; == 1 &amp;&amp; &quot;${enabled}&quot; == &quot;TRUE&quot; </stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
@@ -272,8 +272,8 @@ vars.put(&quot;case_ids&quot;, cid);
           </BeanShellSampler>
           <hashTree/>
         </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cnt}&quot; &gt; 1 &amp;&amp; &quot;${method}&quot; != &quot;blocked&quot;" enabled="true">
-          <stringProp name="IfController.condition">&quot;${cnt}&quot; &gt;  1 &amp;&amp; &quot;${method}&quot; != &quot;blocked&quot;</stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cnt}&quot; &gt; 1 &amp;&amp; &quot;${enabled}&quot; == &quot;TRUE&quot; " enabled="true">
+          <stringProp name="IfController.condition">&quot;${cnt}&quot; &gt;  1 &amp;&amp; &quot;${enabled}&quot; == &quot;TRUE&quot; </stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
@@ -291,6 +291,7 @@ vars.put(&quot;cids&quot;, vars.get(&quot;case_ids&quot;) + &quot;, &quot; + cid
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If EOF" enabled="true">
           <stringProp name="IfController.condition">&quot;${case_id}&quot; == &quot;&quot;</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
+          <boolProp name="IfController.useExpression">true</boolProp>
         </IfController>
         <hashTree>
           <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - set global var for case ids" enabled="true">
@@ -905,8 +906,8 @@ vars.put(&quot;body_data&quot;, bd);
           </HeaderManager>
           <hashTree/>
         </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${method}&quot; != &quot;blocked&quot; " enabled="true">
-          <stringProp name="IfController.condition">&quot;${method}&quot; != &quot;blocked&quot;</stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${enabled}&quot; == &quot;TRUE&quot; " enabled="true">
+          <stringProp name="IfController.condition">&quot;${enabled}&quot; == &quot;TRUE&quot; </stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
           <stringProp name="TestPlan.comments">			</stringProp>
         </IfController>
@@ -1060,12 +1061,12 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
             <boolProp name="displaySystemProperties">false</boolProp>
           </DebugSampler>
           <hashTree/>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${method}&quot; == &quot;blocked&quot;" enabled="true">
-            <stringProp name="IfController.condition">&quot;${method}&quot; == &quot;blocked&quot;</stringProp>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${enabled}&quot; == &quot;FALSE&quot;" enabled="true">
+            <stringProp name="IfController.condition">&quot;${enabled}&quot; == &quot;FALSE&quot;</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="blocked - ${case_id}" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="disabled - ${case_id}" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -1107,13 +1108,13 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
               <hashTree/>
             </hashTree>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${method}&quot; != &quot;blocked&quot;" enabled="true">
-            <stringProp name="IfController.condition">&quot;${method}&quot; != &quot;blocked&quot;</stringProp>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${enabled}&quot; != &quot;FALSE&quot;" enabled="true">
+            <stringProp name="IfController.condition">&quot;${enabled}&quot; != &quot;FALSE&quot;</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
             <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If passed" enabled="true">
-              <stringProp name="IfController.condition">&quot;${method}&quot; != &quot;blocked&quot; &amp;&amp; &quot;${assertionResult_1}&quot;.indexOf(&quot;failed&quot;) == -1</stringProp>
+              <stringProp name="IfController.condition">&quot;${enabled}&quot; != &quot;FALSE&quot; &amp;&amp; &quot;${assertionResult_1}&quot;.indexOf(&quot;failed&quot;) == -1</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
             <hashTree>
@@ -1160,7 +1161,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
               </hashTree>
             </hashTree>
             <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If failed" enabled="true">
-              <stringProp name="IfController.condition">&quot;${method}&quot; != &quot;blocked&quot; &amp;&amp; &quot;${assertionResult_1}&quot;.indexOf(&quot;failed&quot;) &gt; -1 || &quot;${assertionResult_1}&quot;.indexOf(&quot;expected&quot;) &gt; -1</stringProp>
+              <stringProp name="IfController.condition">&quot;${enabled}&quot; != &quot;FALSE&quot; &amp;&amp; &quot;${assertionResult_1}&quot;.indexOf(&quot;failed&quot;) &gt; -1 || &quot;${assertionResult_1}&quot;.indexOf(&quot;expected&quot;) &gt; -1</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
             <hashTree>
