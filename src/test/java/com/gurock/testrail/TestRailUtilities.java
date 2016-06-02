@@ -82,7 +82,7 @@ public class TestRailUtilities extends Log4J {
 			} else {
 				suiteName = CamelCaseString.toCamelCase(suiteName);
 			}						
-			return suiteName;
+			return suiteName + "Tests";
 		} catch (APIException e) {
 			logger.error(e.getMessage());
 		} catch (MalformedURLException e) {
@@ -518,6 +518,32 @@ public class TestRailUtilities extends Log4J {
 		
 		String[] cmd7 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd7);
+	}
+	
+	public String getSections(String caseId) {
+		try {
+			JSONObject jsonTestItem = (JSONObject) getClient().sendGet("get_case/" + caseId);
+			String sectionId = jsonTestItem.get("section_id").toString();
+			String sections = "";
+			JSONObject jsonTestItem2;
+						
+			do {
+				jsonTestItem2 = (JSONObject) getClient().sendGet("get_section/" + sectionId);
+				sections += jsonTestItem2.get("name").toString() + ",";
+				try {
+					sectionId = jsonTestItem2.get("parent_id").toString();
+				} catch (Exception e) {
+					sectionId = null;
+				}
+			} while (sectionId != null);
+			
+			return sections.substring(0, sections.length() - 1);
+			
+		} catch (IOException | APIException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public String getSection(String caseId) {
