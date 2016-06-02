@@ -37,9 +37,9 @@ public class GetTestCases extends Log4J {
 			bw.write("public class " + suiteName + " extends BaseTest {\n\n");
 			for (TestcaseModel t : results) {
 				
-				String section = tr.getSections(t.getTestID());
+				String sections = tr.getSections(t.getTestID());
 				
-				String testCaseMethodStr = "\t@Test(groups={\""+section+", "+t.getType()+"\"}, enabled=false)\n"
+				String testCaseMethodStr = "\t@Test(groups={\""+sections+", "+t.getType()+"\"}, enabled=false)\n"
 						+ "\tpublic void c" + t.getTestID() + "_"
 						+ getTestCaseName(t.getDescription())
 						+ "() {\n" + "\t\n" + "\t}\n";
