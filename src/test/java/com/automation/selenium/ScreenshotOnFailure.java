@@ -51,8 +51,11 @@ public class ScreenshotOnFailure extends CustomException {
 		}			
 		if (BaseTest.updTestRail) {
 			try {
-				String testId = tr.uploadResults(method, testResult, error, sauceLabsJobIdLink);				
-				tr.getTestResultScreenshot(testId);				
+				String testId = tr.uploadResults(method, testResult, error, sauceLabsJobIdLink);
+				
+				if (!BaseTest.sauceLabs) {
+					tr.getTestResultScreenshot(testId);
+				}
 				tr.updateCase(method, "3", testResult, sauceLabsJobIdLink);
 			} catch (Exception e) {
 				logger.error("EXCEPTION: tr.uploadResults(projectId, suiteId, method, testResult, error, sauceLabsJobId);");
