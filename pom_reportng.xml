@@ -85,28 +85,6 @@
 			<version>2.2.1</version>
 		</dependency>
 		<dependency>
-			<groupId>kg.apc</groupId>
-			<artifactId>jmeter-plugins</artifactId>
-			<version>1.0.0</version>
-			<exclusions>
-				<!-- Unfortunately some transitive dependencies cannot be found on mvncentral 
-					and we have to explicitly exclude them. For a complete list, see https://github.com/mlex/jmeter-maven-example/ -->
-				<exclusion>
-					<groupId>kg.apc</groupId>
-					<artifactId>perfmon</artifactId>
-				</exclusion>
-				<!-- ... -->
-
-				<!-- Because of a bug in the jmeter-maven-plugin (see https://github.com/Ronnie76er/jmeter-maven-plugin/issues/77) 
-					we have to exclude jmeter dependencies here, too. -->
-				<exclusion>
-					<groupId>org.apache.jmeter</groupId>
-					<artifactId>jorphan</artifactId>
-				</exclusion>
-				<!-- ... -->
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>org.uncommons</groupId>
 			<artifactId>reportng</artifactId>
 			<version>1.1.4</version>
