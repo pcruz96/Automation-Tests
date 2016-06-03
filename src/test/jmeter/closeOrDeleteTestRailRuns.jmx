@@ -9,12 +9,22 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="host" elementType="Argument">
             <stringProp name="Argument.name">host</stringProp>
-            <stringProp name="Argument.value">https://autotests.testrail.net</stringProp>
+            <stringProp name="Argument.value">https://mercatus.testrail.net</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="project_id" elementType="Argument">
             <stringProp name="Argument.name">project_id</stringProp>
             <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cmd" elementType="Argument">
+            <stringProp name="Argument.name">cmd</stringProp>
+            <stringProp name="Argument.value">delete_run</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cmd1" elementType="Argument">
+            <stringProp name="Argument.name">cmd1</stringProp>
+            <stringProp name="Argument.value">close_run</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -26,8 +36,8 @@
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
-        <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
-        <stringProp name="HTTPSampler.port">autotest123.atlassian.net</stringProp>
+        <stringProp name="HTTPSampler.domain">mercatus.testrail.net</stringProp>
+        <stringProp name="HTTPSampler.port"></stringProp>
         <stringProp name="HTTPSampler.connect_timeout"></stringProp>
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
         <stringProp name="HTTPSampler.protocol">https</stringProp>
@@ -100,14 +110,14 @@
               <elementProp name="name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">name</stringProp>
-                <stringProp name="Argument.value">pcruz96@yahoo.com</stringProp>
+                <stringProp name="Argument.value">development@gomercatus.com</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
               <elementProp name="password" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">password</stringProp>
-                <stringProp name="Argument.value">XykKZUA115OZkNdd8eD6</stringProp>
+                <stringProp name="Argument.value">r8Po*^OfUr%rK^BWi</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -120,7 +130,7 @@
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+          <stringProp name="HTTPSampler.domain">mercatus.testrail.net</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -141,7 +151,7 @@
             <collectionProp name="HeaderManager.headers">
               <elementProp name="Referer" elementType="Header">
                 <stringProp name="Header.name">Referer</stringProp>
-                <stringProp name="Header.value">https://autotests.testrail.net/index.php?/auth/login</stringProp>
+                <stringProp name="Header.value">https://mercatus.testrail.net/index.php?/auth/login</stringProp>
               </elementProp>
               <elementProp name="Accept-Language" elementType="Header">
                 <stringProp name="Header.name">Accept-Language</stringProp>
@@ -169,19 +179,23 @@
         </hashTree>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">293</stringProp>
+          <stringProp name="LoopController.loops">1</stringProp>
         </LoopController>
         <hashTree>
           <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
-            <stringProp name="CounterConfig.start">244</stringProp>
-            <stringProp name="CounterConfig.end">387</stringProp>
+            <stringProp name="CounterConfig.start">170</stringProp>
+            <stringProp name="CounterConfig.end">170</stringProp>
             <stringProp name="CounterConfig.incr">1</stringProp>
             <stringProp name="CounterConfig.name">run_id</stringProp>
             <stringProp name="CounterConfig.format"></stringProp>
             <boolProp name="CounterConfig.per_user">false</boolProp>
           </CounterConfig>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="close run" enabled="true">
+          <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+            <stringProp name="ConstantTimer.delay">300</stringProp>
+          </ConstantTimer>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="close or delete run" enabled="true">
             <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
               <collectionProp name="Arguments.arguments">
@@ -192,13 +206,13 @@
                 </elementProp>
               </collectionProp>
             </elementProp>
-            <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+            <stringProp name="HTTPSampler.domain">mercatus.testrail.net</stringProp>
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
             <stringProp name="HTTPSampler.protocol">https</stringProp>
             <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
-            <stringProp name="HTTPSampler.path">/index.php?/api/v2/close_run/${run_id}</stringProp>
+            <stringProp name="HTTPSampler.path">/index.php?/api/v2/${cmd}/${run_id}</stringProp>
             <stringProp name="HTTPSampler.method">POST</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
