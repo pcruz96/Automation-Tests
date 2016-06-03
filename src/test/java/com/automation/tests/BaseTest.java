@@ -61,7 +61,6 @@ public class BaseTest extends TestRailUtilities {
 	public static String runId = null;
 	public static String database = null;
 	String runName;
-	String sprint;
 	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
 	public static boolean sauceLabs = false;
@@ -71,7 +70,7 @@ public class BaseTest extends TestRailUtilities {
 		
 		String env = System.getenv("ENV");
 		if (env != null) {
-			testEnv = env + " env";
+			testEnv = env;
 		}
 		if (tag) {
 			return testEnv;
@@ -173,11 +172,7 @@ public class BaseTest extends TestRailUtilities {
 			List lst = (List) addRun(getTestEnv(env, false), browser);
 			
 			BaseTest.runId = lst.get(0).toString();
-			runName = lst.get(1).toString();
-			
-			String[] s = runName.split(" - ");
-			sprint = s[s.length - 1];
-			
+			runName = lst.get(1).toString();			
 			logger.info("\n\nrun name: " + runName + "\n");
 						
 			ExecuteShellCommand es = new ExecuteShellCommand();
@@ -292,11 +287,9 @@ public class BaseTest extends TestRailUtilities {
 			} catch (Exception e) {}
 			
 			//SparkNotifications cn = new SparkNotifications();
-			SlackNotifications cn = new SlackNotifications();
+			SlackNotifications cn = new SlackNotifications();		
 			
-			sprint = sprint != null ? sprint : "";
-			
-			String msg = "failed - automation - ui - " + sprint + " - " + getTestEnv(env, false)
+			String msg = "failed - automation - ui - " + getTestEnv(env, false)
 					+ BaseTest.suiteName + " - " + BaseTest.getMethodName();
 			
 			msg = msg.toLowerCase();
