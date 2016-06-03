@@ -305,9 +305,13 @@ public class BaseTest extends TestRailUtilities {
 				cn.postMsg(msg + " - " + testResultLink);
 				
 				String jiraSummary = method.getName() + " - " + error;
+				String jiraDesc; 
 				
-				String jiraDesc = msg + " - " + sauceLabsJobIdLink.replace("/", "\\/");
-				//String jiraDesc = msg + " - " + testResultLink.replace("/", "\\/");
+				if (sauceLabs) {
+					jiraDesc = msg + " - " + sauceLabsJobIdLink.replace("/", "\\/");	
+				} else {
+					jiraDesc = msg + " - " + testResultLink.replace("/", "\\/");
+				}
 				
 				TestRailUtilities tr = new TestRailUtilities();
 				jiraMap.put(BaseTest.runId + "TESTRAIL" + tr.getCaseId(method) + "JIRA" + jiraSummary, jiraDesc);
@@ -432,7 +436,7 @@ public class BaseTest extends TestRailUtilities {
 		
 		String[] s3 = desc.split(" - ");
 		String descWithoutLink = desc.replace(" - " + s3[s3.length - 1], "").replace(" - ", "_").replace(" ", "_");
-		String testRailLink = s3[s3.length - 1];
+		String testRailOrSauceLabsLink = s3[s3.length - 1];
 				
 		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+descWithoutLink+"/g", jmx};
 		es.executeArrayCommand(cmd);
@@ -441,7 +445,7 @@ public class BaseTest extends TestRailUtilities {
 		es.executeArrayCommand(cmd1);
 		
 		//String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+desc+"/g", jmx};
-		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+testRailLink+"/g", jmx};
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+testRailOrSauceLabsLink+"/g", jmx};
 		es.executeArrayCommand(cmd2);
 		
 		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/REPLACE_ASSIGNEE/"+assignee+"/g", jmx};
