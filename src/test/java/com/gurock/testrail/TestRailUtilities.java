@@ -539,10 +539,7 @@ public class TestRailUtilities extends Log4J {
 			
 			return sections.substring(0, sections.length() - 2);
 			
-		} catch (IOException | APIException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (IOException | APIException e) {}
 		return null;
 	}
 	
@@ -560,25 +557,14 @@ public class TestRailUtilities extends Log4J {
 		return null;
 	}
 	
-	public void getTestResultScreenshot(String testId) throws IOException {
+	public void getTestResults(String testId) throws IOException {
 		SeleniumUtils su = new SeleniumUtils();
 		WebDriver dvr = Driver.getDriver(); 
 		dvr.get(TestConfiguration.getTestRailConfig().getString("url") + "auth/login/");
 		su.fillTxt(By.id("name"), TestConfiguration.getTestRailConfig().getString("username"));
 		su.fillTxt(By.id("password"), TestConfiguration.getTestRailConfig().getString("password"));
 		su.clickElement(By.cssSelector("button[type='submit']"));
-		dvr.get(TestConfiguration.getTestRailConfig().getString("url") + "tests/view/" + testId);
-		File scrFile = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
-		try {
-			FileUtils.copyFile(scrFile, new File("test-output/screenshots/"+BaseTest.getTestCaseId()+"-1.png"));					
-			su.sendkeys(By.tagName("body"), Keys.PAGE_DOWN);
-			su.threadSleep(3000);
-			File scrFile2 = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);
-			FileUtils.copyFile(scrFile2, new File("test-output/screenshots/"+BaseTest.getTestCaseId()+"-2.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		dvr.get(TestConfiguration.getTestRailConfig().getString("url") + "tests/view/" + testId);			
+		su.sendkeys(By.tagName("body"), Keys.PAGE_DOWN);
 	}
 }
