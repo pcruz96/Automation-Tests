@@ -189,7 +189,7 @@
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
           <stringProp name="HTTPSampler.protocol">https</stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">rest/api/2/search?jql=summary~${search}&amp;fields=summary,status</stringProp>
+          <stringProp name="HTTPSampler.path">rest/api/2/search?jql=summary~${search}&amp;fields=summary,status,customfield_11401</stringProp>
           <stringProp name="HTTPSampler.method">GET</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
           <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -226,9 +226,18 @@
             <stringProp name="RegexExtractor.match_number">1</stringProp>
           </RegexExtractor>
           <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - resolution" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">resolution</stringProp>
+            <stringProp name="RegexExtractor.regex">value&quot;:&quot;(.*?)&quot;,</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
         </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="post bug if summary doesn&apos;t exist or status is resolved" enabled="true">
-          <stringProp name="IfController.condition">&quot;${total}&quot; == 0 || &quot;${status}&quot; == &quot;Resolved&quot;</stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="post bug if summary doesn&apos;t exist, status is resolved, or resolution is fixed" enabled="true">
+          <stringProp name="IfController.condition">&quot;${total}&quot; == 0 || &quot;${status}&quot; == &quot;Resolved&quot; || &quot;${resolution}&quot; == &quot;Fixed&quot; </stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
