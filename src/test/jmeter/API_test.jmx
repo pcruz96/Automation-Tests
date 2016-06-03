@@ -92,6 +92,16 @@
             <stringProp name="Argument.value">2</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="case_ids" elementType="Argument">
+            <stringProp name="Argument.name">case_ids</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="cids" elementType="Argument">
+            <stringProp name="Argument.name">cids</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </elementProp>
       <stringProp name="TestPlan.user_define_classpath"></stringProp>
@@ -248,7 +258,7 @@
         <hashTree/>
         <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
           <stringProp name="CounterConfig.start">1</stringProp>
-          <stringProp name="CounterConfig.end">2</stringProp>
+          <stringProp name="CounterConfig.end">${testCaseCount}</stringProp>
           <stringProp name="CounterConfig.incr">1</stringProp>
           <stringProp name="CounterConfig.name">cnt</stringProp>
           <stringProp name="CounterConfig.format"></stringProp>
@@ -261,37 +271,57 @@
           <boolProp name="displaySystemProperties">false</boolProp>
         </DebugSampler>
         <hashTree/>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cnt}&quot; == 1 &amp;&amp; &quot;${enabled}&quot; == &quot;TRUE&quot; " enabled="true">
-          <stringProp name="IfController.condition">&quot;${cnt}&quot; == 1 &amp;&amp; &quot;${enabled}&quot; == &quot;TRUE&quot; </stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${enabled}&quot; == &quot;TRUE&quot; " enabled="true">
+          <stringProp name="IfController.condition">&quot;${enabled}&quot; == &quot;TRUE&quot; </stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
-            <stringProp name="BeanShellSampler.query">String cid = vars.get(&quot;case_id&quot;);
-vars.put(&quot;case_ids&quot;, cid);
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${case_ids}&quot;.length == 0" enabled="true">
+            <stringProp name="IfController.condition">&quot;${case_ids}&quot;.length == 0</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 1" enabled="true">
+              <stringProp name="BeanShellSampler.query">String case_id = vars.get(&quot;case_id&quot;);
+vars.put(&quot;case_ids&quot;, case_id);
 
 </stringProp>
-            <stringProp name="BeanShellSampler.filename"></stringProp>
-            <stringProp name="BeanShellSampler.parameters"></stringProp>
-            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-          </BeanShellSampler>
-          <hashTree/>
-        </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cnt}&quot; &gt; 1 &amp;&amp; &quot;${enabled}&quot; == &quot;TRUE&quot; " enabled="true">
-          <stringProp name="IfController.condition">&quot;${cnt}&quot; &gt;  1 &amp;&amp; &quot;${enabled}&quot; == &quot;TRUE&quot; </stringProp>
-          <boolProp name="IfController.evaluateAll">false</boolProp>
-        </IfController>
-        <hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
-            <stringProp name="BeanShellSampler.query">String cid = vars.get(&quot;case_id&quot;);
-vars.put(&quot;cids&quot;, vars.get(&quot;case_ids&quot;) + &quot;, &quot; + cid);
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cids}&quot;.length &gt; 0" enabled="true">
+            <stringProp name="IfController.condition">&quot;${cids}&quot;.length &gt; 0</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 2" enabled="true">
+              <stringProp name="BeanShellSampler.query">vars.put(&quot;cids&quot;, vars.get(&quot;cids&quot;) + &quot;, &quot; + vars.get(&quot;case_id&quot;));
 
 </stringProp>
-            <stringProp name="BeanShellSampler.filename"></stringProp>
-            <stringProp name="BeanShellSampler.parameters"></stringProp>
-            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-          </BeanShellSampler>
-          <hashTree/>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cids}&quot;.length == 0 &amp;&amp; &quot;${case_ids}&quot;.indexOf(&quot;${case_id}&quot;) == -1" enabled="true">
+            <stringProp name="IfController.condition">&quot;${cids}&quot;.length == 0 &amp;&amp; &quot;${case_ids}&quot;.indexOf(&quot;${case_id}&quot;) == -1</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 3" enabled="true">
+              <stringProp name="BeanShellSampler.query">vars.put(&quot;cids&quot;, vars.get(&quot;case_ids&quot;) + &quot;, &quot; + vars.get(&quot;case_id&quot;));
+
+</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
         </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If EOF" enabled="true">
           <stringProp name="IfController.condition">&quot;${cnt}&quot; == &quot;${testCaseCount}&quot;</stringProp>
