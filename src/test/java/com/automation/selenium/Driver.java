@@ -81,7 +81,7 @@ public class Driver {
         
         cap.setCapability("name", method.getName());
         cap.setCapability("tags", env);
-        cap.setCapability("build", System.getenv("BUILD_TAG"));
+        cap.setCapability("build", System.getenv("BUILD_TAG").toLowerCase());
 		//cap.setCapability("commandTimeout", 120);
         
         if (sauceLabs) {        	
