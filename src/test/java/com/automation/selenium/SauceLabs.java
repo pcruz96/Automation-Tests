@@ -103,7 +103,7 @@ public class SauceLabs extends Log4J {
 		StringBuilder sb = new StringBuilder();		
 		BufferedWriter output;
 		try {
-			output = new BufferedWriter(new FileWriter("updateSauceLabsResults.sh"));
+			output = new BufferedWriter(new FileWriter("shell scripts/updateSauceLabsResults.sh"));
 			Set<String> keys = testResults.keySet();
 			boolean passed = false;
 	        for(String jobId: keys){

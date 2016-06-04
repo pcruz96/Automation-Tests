@@ -1,7 +1,7 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf470
 {\fonttbl\f0\fswiss\fcharset0 Helvetica;}
 {\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww14200\viewh15240\viewkind0
+\margl1440\margr1440\vieww14200\viewh16500\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
 \f0\fs24 \cf0 sed -i.tmp "s/BUILD_TAG/$BUILD_TAG/g" src/test/resources/testng/testng.xml\
@@ -51,41 +51,35 @@ Performance Plugin use 1.9 - {\field{\*\fldinst{HYPERLINK "http://updates.jenkin
 \
  /* replace build tag in html report\
 \
-rm -r $JENKINS_HOME/jobs/send\\ report/workspace/\
-mkdir -p $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports\
-cp -R $JENKINS_HOME/jobs/demo\\ project/workspace/target/surefire-reports/ $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports\
+rm -r $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/\
 \
-cp $JENKINS_HOME/jobs/demo\\ project/workspace/test-output/log4j-application.log $JENKINS_HOME/jobs/send\\ report/workspace\
+mkdir -p $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/\
 \
-buildTag=`cat $JENKINS_HOME/jobs/demo\\ project/workspace/test-output/log4j-application.log|grep 'run name'|sed -e 's/run name: //g'`\
+cp -R $JENKINS_HOME/jobs/Automation-Tests/workspace/target/surefire-reports/ $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/\
 \
-sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports/html/overview.html\
-sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports/html/suites.html\
-sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports/html/suite1_groups.html\
+cp $JENKINS_HOME/jobs/Automation-Tests/workspace/test-output/log4j-application.log $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace\
+\
+buildTag=`cat $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/log4j-application.log|grep 'run name'|sed -e 's/run name: //g'`\
+\
+#sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/surefire-reports/html/overview.html\
+#sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/surefire-reports/html/suites.html\
+#sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/surefire-reports/html/suite1_groups.html\
+\
+sed -i.tmp "s/BUILD_TAG/$buildTag/g" $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/surefire-reports/emailable-report.html\
 \
 newHtml=`echo $buildTag | sed 's/ - /-/g' | sed 's/ /_/g'`.html\
 \
-#cp $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports/index.html $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports/$newHtml\
+#cp $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/surefire-reports/html/overview.html $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/surefire-reports/html/$newHtml\
 \
-cp $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports/html/index.html $JENKINS_HOME/jobs/send\\ report/workspace/target/surefire-reports/html/$newHtml\
+cp $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/surefire-reports/emailable-report.html $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/target/surefire-reports/$newHtml\
 \
-rm -r $HOME/Downloads/* || true\
+cp $JENKINS_HOME/jobs/Automation-Tests/workspace/test-output/log4j-application.log $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/\
 \
-open http://localhost:8080/job/send%20report/ws/*zip*/workspace.zip\
+cp $JENKINS_HOME/jobs/Automation-Tests/workspace/test-output/failedAndSkippedTests.txt $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/\
 \
-while [ ! -f $HOME/Downloads/workspace.zip ];\
-do\
-    sleep 1;\
-done;\
+cp $JENKINS_HOME/jobs/Automation-Tests/workspace/src/test/resources/testng/testng.xml $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/\
 \
-zip=`echo $HOME/Downloads/$newHtml.zip  | sed 's/.html//g'`\
+curl -X POST --data-urlencode 'payload=\{"channel": "#eng_automation_tests", "text": "emailed '$newHtml'"\}' https://hooks.slack.com/services/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\
 \
-mv $HOME/Downloads/workspace.zip $zip\
-\
-#https://api.slack.com/docs/oauth-test-tokens?team_id=T18H76S5P&action=reissue&sudo=1\
-curl -F file=@$zip -F channels=#automation -F token=xoxp-42585230193-42580314247-46656864784-c719c8fb90 https://demotest-group.slack.com/api/files.upload\
-\
-curl -X POST --data-urlencode 'payload=\{"channel": "#automation", "text": "open workspace/target/surefire-reports/html/'$newHtml'"\}' https://hooks.slack.com/services/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\
-					\
 */\
 }
