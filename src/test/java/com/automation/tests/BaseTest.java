@@ -9,6 +9,7 @@ import com.automation.selenium.SeleniumUtils;
 import com.automation.testng.Retry;
 import com.automation.utils.ExecuteShellCommand;
 import com.automation.utils.FileUtilities;
+import com.automation.utils.Jira;
 import com.automation.utils.Log4J;
 import com.automation.utils.SlackNotifications;
 import com.automation.utils.SparkNotifications;
@@ -306,15 +307,29 @@ public class BaseTest extends TestRailUtilities {
 				
 				String jiraSummary = method.getName() + " - " + error;
 				String jiraDesc; 
-				
-				if (sauceLabs) {
-					jiraDesc = msg + " - " + sauceLabsJobIdLink.replace("/", "\\/");	
-				} else {
-					jiraDesc = msg + " - " + testResultLink.replace("/", "\\/");
-				}
-				
+					
+					if (sauceLabs) {
+						jiraDesc = msg + " - " + sauceLabsJobIdLink.replace("/", "\\/");		
+					} else {
+						jiraDesc = msg + " - " + testResultLink.replace("/", "\\/");
+					}	 
 				TestRailUtilities tr = new TestRailUtilities();
 				jiraMap.put(BaseTest.runId + "TESTRAIL" + tr.getCaseId(method) + "JIRA" + jiraSummary, jiraDesc);
+				
+				/*
+				 * alternative method to post jira issue
+				 * 
+				Jira jira = new Jira();
+				if (jira.isNewIssueOrResolutionIsFixedOrStatusIsVerifiedOrClosed(msg)) { 
+					
+					if (sauceLabs) {
+						jiraDesc = sauceLabsJobIdLink.replace("/", "\\/");		
+					} else {
+						jiraDesc = testResultLink.replace("/", "\\/");
+					}								
+					jira.postIssue(msg, jiraDesc);
+				}
+				*/				
 				
 			} else if (sauceLabs) {
 				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
