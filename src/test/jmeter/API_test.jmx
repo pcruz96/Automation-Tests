@@ -67,9 +67,24 @@
             <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="updTestRail" elementType="Argument">
+            <stringProp name="Argument.name">updTestRail</stringProp>
+            <stringProp name="Argument.value">true</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="testRail" elementType="Argument">
             <stringProp name="Argument.name">testRail</stringProp>
             <stringProp name="Argument.value">https://autotests.testrail.net/index.php?/tests/view/</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testRailUsername" elementType="Argument">
+            <stringProp name="Argument.name">testRailUsername</stringProp>
+            <stringProp name="Argument.value">pcruz96@yahoo.com</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="testRailPassword" elementType="Argument">
+            <stringProp name="Argument.name">testRailPassword</stringProp>
+            <stringProp name="Argument.value">XykKZUA115OZkNdd8eD6</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="repoUrl" elementType="Argument">
@@ -245,110 +260,116 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - test cases" enabled="true">
-          <stringProp name="filename">api.tests.csv</stringProp>
-          <stringProp name="fileEncoding"></stringProp>
-          <stringProp name="variableNames"></stringProp>
-          <stringProp name="delimiter">,</stringProp>
-          <boolProp name="quotedData">true</boolProp>
-          <boolProp name="recycle">false</boolProp>
-          <boolProp name="stopThread">true</boolProp>
-          <stringProp name="shareMode">shareMode.all</stringProp>
-        </CSVDataSet>
-        <hashTree/>
-        <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
-          <stringProp name="CounterConfig.start">1</stringProp>
-          <stringProp name="CounterConfig.end">${testCaseCount}</stringProp>
-          <stringProp name="CounterConfig.incr">1</stringProp>
-          <stringProp name="CounterConfig.name">cnt</stringProp>
-          <stringProp name="CounterConfig.format"></stringProp>
-          <boolProp name="CounterConfig.per_user">false</boolProp>
-        </CounterConfig>
-        <hashTree/>
-        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="${case_id}" enabled="true">
-          <boolProp name="displayJMeterProperties">false</boolProp>
-          <boolProp name="displayJMeterVariables">true</boolProp>
-          <boolProp name="displaySystemProperties">false</boolProp>
-        </DebugSampler>
-        <hashTree/>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${enabled}&quot; == &quot;TRUE&quot; " enabled="true">
-          <stringProp name="IfController.condition">&quot;${enabled}&quot; == &quot;TRUE&quot; </stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${updTestRail}&quot; == &quot;true&quot;" enabled="true">
+          <stringProp name="IfController.condition">&quot;${updTestRail}&quot; == &quot;true&quot;</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${case_ids}&quot;.length == 0" enabled="true">
-            <stringProp name="IfController.condition">&quot;${case_ids}&quot;.length == 0</stringProp>
+          <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="CSV Data Set Config - test cases" enabled="true">
+            <stringProp name="filename">api.tests.csv</stringProp>
+            <stringProp name="fileEncoding"></stringProp>
+            <stringProp name="variableNames"></stringProp>
+            <stringProp name="delimiter">,</stringProp>
+            <boolProp name="quotedData">true</boolProp>
+            <boolProp name="recycle">false</boolProp>
+            <boolProp name="stopThread">true</boolProp>
+            <stringProp name="shareMode">shareMode.all</stringProp>
+          </CSVDataSet>
+          <hashTree/>
+          <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="Counter" enabled="true">
+            <stringProp name="CounterConfig.start">1</stringProp>
+            <stringProp name="CounterConfig.end">${testCaseCount}</stringProp>
+            <stringProp name="CounterConfig.incr">1</stringProp>
+            <stringProp name="CounterConfig.name">cnt</stringProp>
+            <stringProp name="CounterConfig.format"></stringProp>
+            <boolProp name="CounterConfig.per_user">false</boolProp>
+          </CounterConfig>
+          <hashTree/>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="${case_id}" enabled="true">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${enabled}&quot; == &quot;TRUE&quot;" enabled="true">
+            <stringProp name="IfController.condition">&quot;${enabled}&quot; == &quot;TRUE&quot;</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 1" enabled="true">
-              <stringProp name="BeanShellSampler.query">String case_id = vars.get(&quot;case_id&quot;);
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${case_ids}&quot;.length == 0" enabled="true">
+              <stringProp name="IfController.condition">&quot;${case_ids}&quot;.length == 0</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
+            <hashTree>
+              <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 1" enabled="true">
+                <stringProp name="BeanShellSampler.query">String case_id = vars.get(&quot;case_id&quot;);
 vars.put(&quot;case_ids&quot;, case_id);
 
 </stringProp>
-              <stringProp name="BeanShellSampler.filename"></stringProp>
-              <stringProp name="BeanShellSampler.parameters"></stringProp>
-              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-            </BeanShellSampler>
-            <hashTree/>
+                <stringProp name="BeanShellSampler.filename"></stringProp>
+                <stringProp name="BeanShellSampler.parameters"></stringProp>
+                <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+              </BeanShellSampler>
+              <hashTree/>
+            </hashTree>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cids}&quot;.length &gt; 0" enabled="true">
+              <stringProp name="IfController.condition">&quot;${cids}&quot;.length &gt; 0</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
+            <hashTree>
+              <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 2" enabled="true">
+                <stringProp name="BeanShellSampler.query">vars.put(&quot;cids&quot;, vars.get(&quot;cids&quot;) + &quot;, &quot; + vars.get(&quot;case_id&quot;));
+
+</stringProp>
+                <stringProp name="BeanShellSampler.filename"></stringProp>
+                <stringProp name="BeanShellSampler.parameters"></stringProp>
+                <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+              </BeanShellSampler>
+              <hashTree/>
+            </hashTree>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cids}&quot;.length == 0 &amp;&amp; &quot;${case_ids}&quot;.indexOf(&quot;${case_id}&quot;) == -1" enabled="true">
+              <stringProp name="IfController.condition">&quot;${cids}&quot;.length == 0 &amp;&amp; &quot;${case_ids}&quot;.indexOf(&quot;${case_id}&quot;) == -1</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
+            <hashTree>
+              <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 3" enabled="true">
+                <stringProp name="BeanShellSampler.query">vars.put(&quot;cids&quot;, vars.get(&quot;case_ids&quot;) + &quot;, &quot; + vars.get(&quot;case_id&quot;));
+
+</stringProp>
+                <stringProp name="BeanShellSampler.filename"></stringProp>
+                <stringProp name="BeanShellSampler.parameters"></stringProp>
+                <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+              </BeanShellSampler>
+              <hashTree/>
+            </hashTree>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cids}&quot;.length &gt; 0" enabled="true">
-            <stringProp name="IfController.condition">&quot;${cids}&quot;.length &gt; 0</stringProp>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If EOF" enabled="true">
+            <stringProp name="IfController.condition">&quot;${cnt}&quot; == &quot;${testCaseCount}&quot;</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 2" enabled="true">
-              <stringProp name="BeanShellSampler.query">vars.put(&quot;cids&quot;, vars.get(&quot;cids&quot;) + &quot;, &quot; + vars.get(&quot;case_id&quot;));
-
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - set global var for case ids" enabled="true">
+              <stringProp name="BeanShellSampler.query">${__setProperty(cids, [${cids}])};
 </stringProp>
               <stringProp name="BeanShellSampler.filename"></stringProp>
               <stringProp name="BeanShellSampler.parameters"></stringProp>
               <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
             </BeanShellSampler>
             <hashTree/>
-          </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${cids}&quot;.length == 0 &amp;&amp; &quot;${case_ids}&quot;.indexOf(&quot;${case_id}&quot;) == -1" enabled="true">
-            <stringProp name="IfController.condition">&quot;${cids}&quot;.length == 0 &amp;&amp; &quot;${case_ids}&quot;.indexOf(&quot;${case_id}&quot;) == -1</stringProp>
-            <boolProp name="IfController.evaluateAll">false</boolProp>
-          </IfController>
-          <hashTree>
-            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler 3" enabled="true">
-              <stringProp name="BeanShellSampler.query">vars.put(&quot;cids&quot;, vars.get(&quot;case_ids&quot;) + &quot;, &quot; + vars.get(&quot;case_id&quot;));
-
-</stringProp>
-              <stringProp name="BeanShellSampler.filename"></stringProp>
-              <stringProp name="BeanShellSampler.parameters"></stringProp>
-              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-            </BeanShellSampler>
+            <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="${__property(cids)}" enabled="true">
+              <boolProp name="displayJMeterProperties">false</boolProp>
+              <boolProp name="displayJMeterVariables">true</boolProp>
+              <boolProp name="displaySystemProperties">false</boolProp>
+            </DebugSampler>
             <hashTree/>
           </hashTree>
-        </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If EOF" enabled="true">
-          <stringProp name="IfController.condition">&quot;${cnt}&quot; == &quot;${testCaseCount}&quot;</stringProp>
-          <boolProp name="IfController.evaluateAll">false</boolProp>
-        </IfController>
-        <hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - set global var for case ids" enabled="true">
-            <stringProp name="BeanShellSampler.query">${__setProperty(cids, [${cids}])};
-</stringProp>
-            <stringProp name="BeanShellSampler.filename"></stringProp>
-            <stringProp name="BeanShellSampler.parameters"></stringProp>
-            <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-          </BeanShellSampler>
-          <hashTree/>
-          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="${__property(cids)}" enabled="true">
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler ${cnt}" enabled="true">
             <boolProp name="displayJMeterProperties">false</boolProp>
             <boolProp name="displayJMeterVariables">true</boolProp>
             <boolProp name="displaySystemProperties">false</boolProp>
           </DebugSampler>
           <hashTree/>
         </hashTree>
-        <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler ${cnt}" enabled="true">
-          <boolProp name="displayJMeterProperties">false</boolProp>
-          <boolProp name="displayJMeterVariables">true</boolProp>
-          <boolProp name="displaySystemProperties">false</boolProp>
-        </DebugSampler>
-        <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group - add run" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -365,8 +386,8 @@ vars.put(&quot;case_ids&quot;, case_id);
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${loadTest}&quot; == &quot;false&quot;" enabled="true">
-          <stringProp name="IfController.condition">&quot;${loadTest}&quot; == &quot;false&quot;</stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${loadTest}&quot; == &quot;false&quot; &amp;&amp; &quot;${updTestRail}&quot; == &quot;true&quot;" enabled="true">
+          <stringProp name="IfController.condition">&quot;${loadTest}&quot; == &quot;false&quot; &amp;&amp; &quot;${updTestRail}&quot; == &quot;true&quot;</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
@@ -384,14 +405,14 @@ vars.put(&quot;case_ids&quot;, case_id);
                 <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                   <collectionProp name="Arguments.arguments">
                     <elementProp name="username" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
                       <stringProp name="Argument.name">username</stringProp>
                       <stringProp name="Argument.value">${jiraUsername}</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                       <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     </elementProp>
                     <elementProp name="password" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <boolProp name="HTTPArgument.always_encode">true</boolProp>
                       <stringProp name="Argument.name">password</stringProp>
                       <stringProp name="Argument.value">${jiraPwd}</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
@@ -567,14 +588,14 @@ vars.put(&quot;sprint&quot;, sprint.toLowerCase());</stringProp>
                   <elementProp name="name" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">true</boolProp>
                     <stringProp name="Argument.name">name</stringProp>
-                    <stringProp name="Argument.value">pcruz96@yahoo.com</stringProp>
+                    <stringProp name="Argument.value">${testRailUsername}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
                   <elementProp name="password" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">true</boolProp>
                     <stringProp name="Argument.name">password</stringProp>
-                    <stringProp name="Argument.value">XykKZUA115OZkNdd8eD6</stringProp>
+                    <stringProp name="Argument.value">${testRailPassword}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   </elementProp>
@@ -873,14 +894,14 @@ vars.put(&quot;body_data&quot;, bd);
               <elementProp name="name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">name</stringProp>
-                <stringProp name="Argument.value">pcruz96@yahoo.com</stringProp>
+                <stringProp name="Argument.value">${testRailUsername}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
               <elementProp name="password" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">true</boolProp>
                 <stringProp name="Argument.name">password</stringProp>
-                <stringProp name="Argument.value">XykKZUA115OZkNdd8eD6</stringProp>
+                <stringProp name="Argument.value">${testRailPassword}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
@@ -1084,8 +1105,8 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
           </BeanShellListener>
           <hashTree/>
         </hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${loadTest}&quot; == &quot;false&quot;" enabled="true">
-          <stringProp name="IfController.condition">&quot;${loadTest}&quot; == &quot;false&quot;</stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${loadTest}&quot; == &quot;false&quot; &amp;&amp; &quot;${updTestRail}&quot; == &quot;true&quot;" enabled="true">
+          <stringProp name="IfController.condition">&quot;${loadTest}&quot; == &quot;false&quot; &amp;&amp; &quot;${updTestRail}&quot; == &quot;true&quot;</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
