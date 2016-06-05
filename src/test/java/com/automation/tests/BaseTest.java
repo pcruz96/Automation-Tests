@@ -296,32 +296,36 @@ public class BaseTest extends TestRailUtilities {
 			msg = msg.toLowerCase();
 
 			if (updTestRail) {
-				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId, getCaseId(method));
-						
-				String testResultLink = "https://autotests.testrail.net/index.php?/tests/view/" + testId;
-						
-				if (testId == null) {
-					testResultLink = "";
-				}
-				cn.postMsg(msg + " - " + testResultLink);
 				
 				Jira jira = new Jira();
 				String bugId = null;
+				String jiraLink = "";
 				
 				if (jira.isNewIssueOrResolutionIsFixedOrStatusIsVerifiedOrClosed(msg)) { 
 					
-					String jiraDesc; 
+					String jiraDesc = null; 
 					
 					if (sauceLabs) {
 						jiraDesc = sauceLabsJobIdLink.replace("/", "\\/");		
 					} else {
-						jiraDesc = testResultLink.replace("/", "\\/");
+						//jiraDesc = testResultLink.replace("/", "\\/");
+						jiraDesc = "See TestRail results below.";
 					}								
 					bugId = jira.postIssue(msg, jiraDesc);
+					jiraLink = " - " + TestConfiguration.getJiraConfig().getString("host") + "/browse/" + bugId;
 				}
 				
 				TestRailUtilities tr = new TestRailUtilities();
 				tr.uploadResults(method, result, "JIRA bug - " + bugId + " : " + error, sauceLabsJobIdLink);
+				
+				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId, getCaseId(method));
+				
+				String testResultLink = TestConfiguration.getTestRailConfig().getString("host") + "/index.php?/tests/view/" + testId;
+						
+				if (testId == null) {
+					testResultLink = "";
+				}
+				cn.postMsg(msg + " - " + testResultLink + jiraLink);
 				
 				/*
 				 * alternative method to post jira issue using jmeter
