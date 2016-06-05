@@ -161,7 +161,16 @@ public class TestRailUtilities extends Log4J {
 			comment += "\n\n ran locally";
 		}
 		
+		if (comment.indexOf("JIRA bug") != -1) {
+			
+			String[] s = comment.split(" : ");
+			String bug = s[0].replaceAll("JIRA bug - ", "");
+			data.put("defects", bug);
+			comment = comment.replaceAll("JIRA bug - " + bug + " : ", "");
+		}
+		
 		data.put("comment", comment);
+		
 		try {
 			String uri = "add_result_for_case/" + runId + "/" + caseId;
 			JSONObject response = (JSONObject) client.sendPost(uri, data);

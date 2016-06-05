@@ -48,6 +48,9 @@ public class Jira {
 		try {
 			Client client = Client.create();			
 			client.addFilter(new HTTPBasicAuthFilter(username, password));
+			
+			summary = summary.replaceAll("[^a-zA-Z0-9]+"," ").replace(" ", "_");
+			
 			WebResource webResource = client.resource(host + "/rest/api/2/search?jql=summary~"+summary+"&fields=summary,status," + resolutionField);					
 			ClientResponse response = webResource.type("application/json").get(ClientResponse.class);
 			String output = response.getEntity(String.class);

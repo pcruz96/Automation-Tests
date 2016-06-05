@@ -305,6 +305,27 @@ public class BaseTest extends TestRailUtilities {
 				}
 				cn.postMsg(msg + " - " + testResultLink);
 				
+				Jira jira = new Jira();
+				String bugId = null;
+				
+				if (jira.isNewIssueOrResolutionIsFixedOrStatusIsVerifiedOrClosed(msg)) { 
+					
+					String jiraDesc; 
+					
+					if (sauceLabs) {
+						jiraDesc = sauceLabsJobIdLink.replace("/", "\\/");		
+					} else {
+						jiraDesc = testResultLink.replace("/", "\\/");
+					}								
+					bugId = jira.postIssue(msg, jiraDesc);
+				}
+				
+				TestRailUtilities tr = new TestRailUtilities();
+				tr.uploadResults(method, result, "JIRA bug - " + bugId + " : " + error, sauceLabsJobIdLink);
+				
+				/*
+				 * alternative method to post jira issue using jmeter
+				 *
 				String jiraSummary = method.getName() + " - " + error;
 				String jiraDesc; 
 					
@@ -315,21 +336,7 @@ public class BaseTest extends TestRailUtilities {
 					}	 
 				TestRailUtilities tr = new TestRailUtilities();
 				jiraMap.put(BaseTest.runId + "TESTRAIL" + tr.getCaseId(method) + "JIRA" + jiraSummary, jiraDesc);
-				
-				/*
-				 * alternative method to post jira issue
-				 * 
-				Jira jira = new Jira();
-				if (jira.isNewIssueOrResolutionIsFixedOrStatusIsVerifiedOrClosed(msg)) { 
-					
-					if (sauceLabs) {
-						jiraDesc = sauceLabsJobIdLink.replace("/", "\\/");		
-					} else {
-						jiraDesc = testResultLink.replace("/", "\\/");
-					}								
-					jira.postIssue(msg, jiraDesc);
-				}
-				*/				
+				*/
 				
 			} else if (sauceLabs) {
 				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
@@ -344,7 +351,7 @@ public class BaseTest extends TestRailUtilities {
 		} catch (Exception e) {}			
 	}
 	
-	@AfterClass(alwaysRun = true)
+	//@AfterClass(alwaysRun = true)
 	public void afterClass() {
 		if (updTestRail) {			
 			Iterator<?> it = jiraMap.entrySet().iterator();
