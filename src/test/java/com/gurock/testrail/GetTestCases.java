@@ -11,9 +11,9 @@ public class GetTestCases extends Log4J {
 
 	public static void main(String[] args) {
 		
-		logger.info("Usage: projectId suiteId startTCID endTCID");
-		if ((args == null) || (args.length == 0) || (args.length < 2)) {
-			logger.info("Empty Args.\n"
+		logger.info("Args: projectId suiteId startTCID endTCID");
+		if ((args == null) || (args.length == 0) || (args.length < 4)) {
+			logger.info("Check args.\n"
 					+ "Usage: projectId suiteId startTCID endTCID");
 			System.exit(0);
 		}
