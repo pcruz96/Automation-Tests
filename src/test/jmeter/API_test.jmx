@@ -32,9 +32,9 @@
             <stringProp name="Argument.value"></stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="jiraAssignee" elementType="Argument">
-            <stringProp name="Argument.name">jiraAssignee</stringProp>
-            <stringProp name="Argument.value">admin</stringProp>
+          <elementProp name="updJira" elementType="Argument">
+            <stringProp name="Argument.name">updJira</stringProp>
+            <stringProp name="Argument.value">true</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="jiraHost" elementType="Argument">
@@ -44,17 +44,27 @@
           </elementProp>
           <elementProp name="jiraUsername" elementType="Argument">
             <stringProp name="Argument.name">jiraUsername</stringProp>
-            <stringProp name="Argument.value">admin</stringProp>
+            <stringProp name="Argument.value">demotest3214124</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="jiraPwd" elementType="Argument">
             <stringProp name="Argument.name">jiraPwd</stringProp>
-            <stringProp name="Argument.value">demotest3214124</stringProp>
+            <stringProp name="Argument.value">z?f5Lx%%</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="jiraUrl" elementType="Argument">
             <stringProp name="Argument.name">jiraUrl</stringProp>
-            <stringProp name="Argument.value">https://autotest123.atlassian.net/browse/</stringProp>
+            <stringProp name="Argument.value">autotest123.atlassian.net/browse/</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="jiraKey" elementType="Argument">
+            <stringProp name="Argument.name">jiraKey</stringProp>
+            <stringProp name="Argument.value">DEM</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="board" elementType="Argument">
+            <stringProp name="Argument.name">board</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="jiraBugId" elementType="Argument">
@@ -62,9 +72,14 @@
             <stringProp name="Argument.value"></stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="board" elementType="Argument">
-            <stringProp name="Argument.name">board</stringProp>
-            <stringProp name="Argument.value">1</stringProp>
+          <elementProp name="jiraAssignee" elementType="Argument">
+            <stringProp name="Argument.name">jiraAssignee</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="closedTicketStatus" elementType="Argument">
+            <stringProp name="Argument.name">closedTicketStatus</stringProp>
+            <stringProp name="Argument.value">Resolved</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="updTestRail" elementType="Argument">
@@ -89,22 +104,12 @@
           </elementProp>
           <elementProp name="testRailPassword" elementType="Argument">
             <stringProp name="Argument.name">testRailPassword</stringProp>
-            <stringProp name="Argument.value">XykKZUA115OZkNdd8eD6</stringProp>
+            <stringProp name="Argument.value">r8Po*^OfUr%rK^BWi</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="repoUrl" elementType="Argument">
             <stringProp name="Argument.name">repoUrl</stringProp>
             <stringProp name="Argument.value">https://github.com/...</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="closedTicketStatus" elementType="Argument">
-            <stringProp name="Argument.name">closedTicketStatus</stringProp>
-            <stringProp name="Argument.value">Done</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="updJira" elementType="Argument">
-            <stringProp name="Argument.name">updJira</stringProp>
-            <stringProp name="Argument.value">true</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="case_ids" elementType="Argument">
@@ -115,6 +120,16 @@
           <elementProp name="cids" elementType="Argument">
             <stringProp name="Argument.name">cids</stringProp>
             <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="slackWebhook" elementType="Argument">
+            <stringProp name="Argument.name">slackWebhook</stringProp>
+            <stringProp name="Argument.value">services/T18H76S5P/B18FNEW83/twV5xKApmoxQiBjv1f9BeLFP</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="slackChannel" elementType="Argument">
+            <stringProp name="Argument.name">slackChannel</stringProp>
+            <stringProp name="Argument.value">automation</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -1348,7 +1363,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
     &quot;fields&quot;: {&#xd;
        &quot;project&quot;:&#xd;
        { &#xd;
-          &quot;key&quot;: &quot;EIM&quot;&#xd;
+          &quot;key&quot;: &quot;${jiraKey}&quot;&#xd;
        },&#xd;
        &quot;summary&quot;: &quot;${summary}&quot;,&#xd;
        &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${build_url}&quot;,&#xd;
@@ -1401,17 +1416,23 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                     </hashTree>
                   </hashTree>
                   <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="set jiraUrl" enabled="true">
-                    <stringProp name="BeanShellSampler.query">String jiraUrl = vars.get(&quot;jiraUrl&quot;) + vars.get(&quot;key&quot;) ;
-vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
+                    <stringProp name="BeanShellSampler.query">String jiraBugUrl = vars.get(&quot;jiraUrl&quot;) + vars.get(&quot;key&quot;) ;
+vars.put(&quot;jiraBugUrl&quot;, jiraBugUrl);</stringProp>
                     <stringProp name="BeanShellSampler.filename"></stringProp>
                     <stringProp name="BeanShellSampler.parameters"></stringProp>
                     <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
                   </BeanShellSampler>
                   <hashTree/>
                 </hashTree>
+                <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
+                  <boolProp name="displayJMeterProperties">false</boolProp>
+                  <boolProp name="displayJMeterVariables">true</boolProp>
+                  <boolProp name="displaySystemProperties">false</boolProp>
+                </DebugSampler>
+                <hashTree/>
               </hashTree>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If jira key exists" enabled="true">
-                <stringProp name="IfController.condition">&quot;${jiraUrl}&quot;.indexOf(&quot;${key}&quot;) != -1</stringProp>
+                <stringProp name="IfController.condition">&quot;${jiraBugUrl}&quot;.indexOf(&quot;${key}&quot;) != -1</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
@@ -1472,7 +1493,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                     <collectionProp name="Arguments.arguments">
                       <elementProp name="" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                        <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#eng_automation_tests&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id} - ${jiraUrl}&quot;}</stringProp>
+                        <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id} - ${jiraBugUrl}&quot;}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                       </elementProp>
                     </collectionProp>
@@ -1483,7 +1504,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                   <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">https</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                  <stringProp name="HTTPSampler.path">services/T04R0Q45R/B1D45KZQC/SZByfcpdFPQ91c6jekde40Ri</stringProp>
+                  <stringProp name="HTTPSampler.path">${slackWebhook}</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
                   <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                   <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1495,7 +1516,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                 <hashTree/>
               </hashTree>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If jira key exists false" enabled="true">
-                <stringProp name="IfController.condition">&quot;${jiraUrl}&quot;.indexOf(&quot;null&quot;) != -1 || &quot;${updJira}&quot; == &quot;false&quot;</stringProp>
+                <stringProp name="IfController.condition">&quot;${jiraBugUrl}&quot;.indexOf(&quot;null&quot;) != -1 || &quot;${updJira}&quot; == &quot;false&quot;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
               </IfController>
               <hashTree>
@@ -1555,7 +1576,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                     <collectionProp name="Arguments.arguments">
                       <elementProp name="" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                        <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#eng_automation_tests&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
+                        <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                       </elementProp>
                     </collectionProp>
@@ -1566,7 +1587,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                   <stringProp name="HTTPSampler.response_timeout"></stringProp>
                   <stringProp name="HTTPSampler.protocol">https</stringProp>
                   <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                  <stringProp name="HTTPSampler.path">services/T04R0Q45R/B1D45KZQC/SZByfcpdFPQ91c6jekde40Ri</stringProp>
+                  <stringProp name="HTTPSampler.path">${slackWebhook}</stringProp>
                   <stringProp name="HTTPSampler.method">POST</stringProp>
                   <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
                   <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -1592,7 +1613,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
     &quot;fields&quot;: {&#xd;
        &quot;project&quot;:&#xd;
        { &#xd;
-          &quot;key&quot;: &quot;EIM&quot;&#xd;
+          &quot;key&quot;: &quot;${jiraKey}&quot;&#xd;
        },&#xd;
        &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${testRail}${test_id}\n\n${repoUrl}&quot;&#xd;
    }&#xd;
