@@ -50,7 +50,7 @@ public class GetTestCases extends Log4J {
 			}
 			bw.write("}");
 			bw.close();
-			logger.info("created convertedTestRailTests_TestNGmethods.txt");
+			logger.info("refresh Automation-Tests dir to see convertedTestRailTests_TestNGmethods.txt");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

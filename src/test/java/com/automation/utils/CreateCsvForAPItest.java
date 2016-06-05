@@ -38,6 +38,6 @@ public class CreateCsvForAPItest {
 		}		
 		writer.writeAll(row);
 		writer.close();
-		System.out.println("created api.tests.csv");
+		System.out.println("refresh Automation-Tests dir to see api.tests.csv");
 	}
 }
