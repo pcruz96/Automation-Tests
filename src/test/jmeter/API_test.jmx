@@ -347,6 +347,15 @@
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
+            <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="enabled count" enabled="true">
+              <stringProp name="CounterConfig.start">1</stringProp>
+              <stringProp name="CounterConfig.end"></stringProp>
+              <stringProp name="CounterConfig.incr">1</stringProp>
+              <stringProp name="CounterConfig.name">enabledCnt</stringProp>
+              <stringProp name="CounterConfig.format"></stringProp>
+              <boolProp name="CounterConfig.per_user">false</boolProp>
+            </CounterConfig>
+            <hashTree/>
             <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${case_ids}&quot;.length == 0" enabled="true">
               <stringProp name="IfController.condition">&quot;${case_ids}&quot;.length == 0</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
@@ -399,15 +408,34 @@ vars.put(&quot;case_ids&quot;, case_id);
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - set global var for case ids" enabled="true">
-              <stringProp name="BeanShellSampler.query">${__setProperty(cids, [${cids}])};
-
-</stringProp>
-              <stringProp name="BeanShellSampler.filename"></stringProp>
-              <stringProp name="BeanShellSampler.parameters"></stringProp>
-              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-            </BeanShellSampler>
-            <hashTree/>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${enabledCnt}&quot; == 1" enabled="true">
+              <stringProp name="TestPlan.comments">				</stringProp>
+              <stringProp name="IfController.condition">&quot;${enabledCnt}&quot; == 1</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
+            <hashTree>
+              <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - set global var for case ids" enabled="true">
+                <stringProp name="BeanShellSampler.query">${__setProperty(cids, [${case_ids}])};</stringProp>
+                <stringProp name="BeanShellSampler.filename"></stringProp>
+                <stringProp name="BeanShellSampler.parameters"></stringProp>
+                <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+              </BeanShellSampler>
+              <hashTree/>
+            </hashTree>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${enabledCnt}&quot; &gt; 1" enabled="true">
+              <stringProp name="TestPlan.comments">				</stringProp>
+              <stringProp name="IfController.condition">&quot;${enabledCnt}&quot; &gt; 1</stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
+            <hashTree>
+              <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - set global var for case ids" enabled="true">
+                <stringProp name="BeanShellSampler.query">${__setProperty(cids, [${cids}])};	</stringProp>
+                <stringProp name="BeanShellSampler.filename"></stringProp>
+                <stringProp name="BeanShellSampler.parameters"></stringProp>
+                <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+              </BeanShellSampler>
+              <hashTree/>
+            </hashTree>
             <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="${__property(cids)}" enabled="true">
               <boolProp name="displayJMeterProperties">false</boolProp>
               <boolProp name="displayJMeterVariables">true</boolProp>
