@@ -21,6 +21,7 @@ public class Driver {
     public static WebDriver createDriver(String name, String env, Platform platform, String browser, String version, String deviceName, String deviceOrientation, Boolean sauceLabs, Method method) throws MalformedURLException {
 
         DesiredCapabilities cap = null;
+        String buildTag = System.getenv("BUILD_TAG"); 
         name = name != null ? name : "";
         platform = platform != null ? platform : Platform.ANY;
         browser = browser != null ? browser : "firefox";
@@ -29,6 +30,7 @@ public class Driver {
         deviceName = deviceName != null ? deviceName : "";
         deviceOrientation = deviceOrientation != null ? deviceOrientation : "portrait";
         sauceLabs = sauceLabs != null ? sauceLabs : false;
+        buildTag = buildTag != null ? buildTag : "";
 
         if (browser.equalsIgnoreCase("firefox")) {
 
@@ -81,7 +83,7 @@ public class Driver {
         
         cap.setCapability("name", method.getName());
         cap.setCapability("tags", env);
-        cap.setCapability("build", System.getenv("BUILD_TAG").toLowerCase());
+        cap.setCapability("build", buildTag.toLowerCase());
 		//cap.setCapability("commandTimeout", 120);
         
         if (sauceLabs) {        	
