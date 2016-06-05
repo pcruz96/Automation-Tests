@@ -72,6 +72,11 @@
             <stringProp name="Argument.value">true</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="testRailHost" elementType="Argument">
+            <stringProp name="Argument.name">testRailHost</stringProp>
+            <stringProp name="Argument.value">autotests.testrail.net</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="testRail" elementType="Argument">
             <stringProp name="Argument.name">testRail</stringProp>
             <stringProp name="Argument.value">https://autotests.testrail.net/index.php?/tests/view/</stringProp>
@@ -126,8 +131,8 @@
         <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
           <collectionProp name="Arguments.arguments"/>
         </elementProp>
-        <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
-        <stringProp name="HTTPSampler.port">autotest123.atlassian.net</stringProp>
+        <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
+        <stringProp name="HTTPSampler.port"></stringProp>
         <stringProp name="HTTPSampler.connect_timeout"></stringProp>
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
         <stringProp name="HTTPSampler.protocol">https</stringProp>
@@ -608,7 +613,7 @@ vars.put(&quot;sprint&quot;, sprint.toLowerCase());</stringProp>
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+              <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -629,7 +634,7 @@ vars.put(&quot;sprint&quot;, sprint.toLowerCase());</stringProp>
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">https://autotests.testrail.net/index.php?/auth/login</stringProp>
+                    <stringProp name="Header.value">https://${testRailHost}/index.php?/auth/login</stringProp>
                   </elementProp>
                   <elementProp name="Accept-Language" elementType="Header">
                     <stringProp name="Header.name">Accept-Language</stringProp>
@@ -666,7 +671,7 @@ vars.put(&quot;sprint&quot;, sprint.toLowerCase());</stringProp>
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+              <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -712,7 +717,7 @@ vars.put(&quot;sprint&quot;, sprint.toLowerCase());</stringProp>
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+              <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -774,7 +779,7 @@ vars.put(&quot;suite&quot;, suite);</stringProp>
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+              <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -914,7 +919,7 @@ vars.put(&quot;body_data&quot;, bd);
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+          <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
           <stringProp name="HTTPSampler.port"></stringProp>
           <stringProp name="HTTPSampler.connect_timeout"></stringProp>
           <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -935,7 +940,7 @@ vars.put(&quot;body_data&quot;, bd);
             <collectionProp name="HeaderManager.headers">
               <elementProp name="Referer" elementType="Header">
                 <stringProp name="Header.name">Referer</stringProp>
-                <stringProp name="Header.value">https://autotests.testrail.net/index.php?/auth/login</stringProp>
+                <stringProp name="Header.value">https://${testRailHost}/index.php?/auth/login</stringProp>
               </elementProp>
               <elementProp name="Accept-Language" elementType="Header">
                 <stringProp name="Header.name">Accept-Language</stringProp>
@@ -984,7 +989,7 @@ vars.put(&quot;body_data&quot;, bd);
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+              <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -1028,7 +1033,7 @@ vars.put(&quot;body_data&quot;, bd);
                   </elementProp>
                 </collectionProp>
               </elementProp>
-              <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+              <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
               <stringProp name="HTTPSampler.port"></stringProp>
               <stringProp name="HTTPSampler.connect_timeout"></stringProp>
               <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -1187,7 +1192,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                     </elementProp>
                   </collectionProp>
                 </elementProp>
-                <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+                <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
                 <stringProp name="HTTPSampler.port"></stringProp>
                 <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                 <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -1303,7 +1308,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                     <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
                       <collectionProp name="Arguments.arguments"/>
                     </elementProp>
-                    <stringProp name="HTTPSampler.domain">mercatus.atlassian.net</stringProp>
+                    <stringProp name="HTTPSampler.domain">${jiraHost}</stringProp>
                     <stringProp name="HTTPSampler.port"></stringProp>
                     <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                     <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -1394,7 +1399,7 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
                           </elementProp>
                         </collectionProp>
                       </elementProp>
-                      <stringProp name="HTTPSampler.domain">mercatus.atlassian.net</stringProp>
+                      <stringProp name="HTTPSampler.domain">${jiraHost}</stringProp>
                       <stringProp name="HTTPSampler.port"></stringProp>
                       <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                       <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -1460,7 +1465,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+                  <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
                   <stringProp name="HTTPSampler.port"></stringProp>
                   <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                   <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -1497,6 +1502,33 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                   <hashTree/>
                 </hashTree>
               </hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="slack notification with jira url" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#eng_automation_tests&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id} - ${jiraUrl}&quot;}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">hooks.slack.com</stringProp>
+                <stringProp name="HTTPSampler.port"></stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol">https</stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">services/T04R0Q45R/B1D45KZQC/SZByfcpdFPQ91c6jekde40Ri</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If jira key exists false" enabled="true">
                 <stringProp name="IfController.condition">&quot;${jiraUrl}&quot;.indexOf(&quot;null&quot;) != -1 || &quot;${updJira}&quot; == &quot;false&quot;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
@@ -1516,7 +1548,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">autotests.testrail.net</stringProp>
+                  <stringProp name="HTTPSampler.domain">${testRailHost}</stringProp>
                   <stringProp name="HTTPSampler.port"></stringProp>
                   <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                   <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -1552,34 +1584,34 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                   </RegexExtractor>
                   <hashTree/>
                 </hashTree>
+                <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="slack notification" enabled="true">
+                  <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                  <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                    <collectionProp name="Arguments.arguments">
+                      <elementProp name="" elementType="HTTPArgument">
+                        <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                        <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#eng_automation_tests&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
+                        <stringProp name="Argument.metadata">=</stringProp>
+                      </elementProp>
+                    </collectionProp>
+                  </elementProp>
+                  <stringProp name="HTTPSampler.domain">hooks.slack.com</stringProp>
+                  <stringProp name="HTTPSampler.port"></stringProp>
+                  <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                  <stringProp name="HTTPSampler.protocol">https</stringProp>
+                  <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                  <stringProp name="HTTPSampler.path">services/T04R0Q45R/B1D45KZQC/SZByfcpdFPQ91c6jekde40Ri</stringProp>
+                  <stringProp name="HTTPSampler.method">POST</stringProp>
+                  <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                  <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                  <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                  <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                  <boolProp name="HTTPSampler.monitor">false</boolProp>
+                  <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+                </HTTPSamplerProxy>
+                <hashTree/>
               </hashTree>
-              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="slack notification" enabled="true">
-                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-                  <collectionProp name="Arguments.arguments">
-                    <elementProp name="" elementType="HTTPArgument">
-                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                      <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#automation&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
-                      <stringProp name="Argument.metadata">=</stringProp>
-                    </elementProp>
-                  </collectionProp>
-                </elementProp>
-                <stringProp name="HTTPSampler.domain">hooks.slack.com</stringProp>
-                <stringProp name="HTTPSampler.port"></stringProp>
-                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-                <stringProp name="HTTPSampler.response_timeout"></stringProp>
-                <stringProp name="HTTPSampler.protocol">https</stringProp>
-                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-                <stringProp name="HTTPSampler.path">services/T18H76S5P/B18FNEW83/twV5xKApmoxQiBjv1f9BeLFP</stringProp>
-                <stringProp name="HTTPSampler.method">POST</stringProp>
-                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-                <boolProp name="HTTPSampler.monitor">false</boolProp>
-                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-              </HTTPSamplerProxy>
-              <hashTree/>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${updJira}&quot; == &quot;true&quot;" enabled="true">
                 <stringProp name="IfController.condition">&quot;${updJira}&quot; == &quot;true&quot;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
@@ -1604,7 +1636,7 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                       </elementProp>
                     </collectionProp>
                   </elementProp>
-                  <stringProp name="HTTPSampler.domain">mercatus.atlassian.net</stringProp>
+                  <stringProp name="HTTPSampler.domain">${jiraHost}</stringProp>
                   <stringProp name="HTTPSampler.port"></stringProp>
                   <stringProp name="HTTPSampler.connect_timeout"></stringProp>
                   <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -1628,15 +1660,6 @@ vars.put(&quot;jiraUrl&quot;, jiraUrl);</stringProp>
                       </elementProp>
                     </collectionProp>
                   </HeaderManager>
-                  <hashTree/>
-                  <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor" enabled="true">
-                    <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-                    <stringProp name="RegexExtractor.refname">key</stringProp>
-                    <stringProp name="RegexExtractor.regex">key&quot;:&quot;(.*?)&quot;,</stringProp>
-                    <stringProp name="RegexExtractor.template">$1$</stringProp>
-                    <stringProp name="RegexExtractor.default"></stringProp>
-                    <stringProp name="RegexExtractor.match_number">1</stringProp>
-                  </RegexExtractor>
                   <hashTree/>
                 </hashTree>
               </hashTree>
