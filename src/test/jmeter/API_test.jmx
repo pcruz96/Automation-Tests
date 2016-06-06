@@ -913,7 +913,6 @@ bd = bd.replace(&quot;&lt;&lt;planComponent&gt;&gt;&quot;, &quot;${planComponent
 bd = bd.replace(&quot;&lt;&lt;__UUID&gt;&gt;&quot;, &quot;${__UUID}&quot;.replace(&quot;-&quot;,&quot;&quot;));
 bd = bd.replace(&quot;&lt;&lt;adminOrgId&gt;&gt;&quot;, &quot;${adminOrgId}&quot;);
 vars.put(&quot;body_data&quot;, bd);
-
 </stringProp>
           <stringProp name="BeanShellSampler.filename"></stringProp>
           <stringProp name="BeanShellSampler.parameters"></stringProp>
@@ -1096,6 +1095,15 @@ vars.put(&quot;body_data&quot;, bd);
             <stringProp name="RegexExtractor.match_number">1</stringProp>
           </RegexExtractor>
           <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - actualResponseBody" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">actualResponseBody</stringProp>
+            <stringProp name="RegexExtractor.regex">{(.*?)}</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - expected_response_code" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="-498406302">${expected_response_code}</stringProp>
@@ -1135,6 +1143,15 @@ s = s.replace(&quot;\n&quot;,&quot;&quot;);
 String assertionResult_1 = s.replace(&quot;/&quot;,&quot;&quot;);     
 vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
           </BeanShellListener>
+          <hashTree/>
+          <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
+            <boolProp name="resetInterpreter">false</boolProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="script">String body = vars.get(&quot;actualResponseBody&quot;);
+body = body.replace(&quot;\&quot;&quot;, &quot;&apos;&quot;);
+vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
+          </BeanShellPostProcessor>
           <hashTree/>
         </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${loadTest}&quot; == &quot;false&quot; &amp;&amp; &quot;${updTestRail}&quot; == &quot;true&quot;" enabled="true">
@@ -1444,7 +1461,7 @@ vars.put(&quot;jiraBugUrl&quot;, jiraBugUrl);</stringProp>
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
                         <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 5,&#xd;
-	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}&quot;,&#xd;
+	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\n${repoUrl}\n\n${build_url}&quot;,&#xd;
 	&quot;defects&quot;: &quot;${key}&quot;&#xd;
 }</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
@@ -1528,7 +1545,7 @@ vars.put(&quot;jiraBugUrl&quot;, jiraBugUrl);</stringProp>
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
                         <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 5,&#xd;
-	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${repoUrl}\n\n${build_url}&quot;&#xd;
+	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\n${repoUrl}\n\n${build_url}&quot;&#xd;
 }</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                       </elementProp>
@@ -1615,7 +1632,7 @@ vars.put(&quot;jiraBugUrl&quot;, jiraBugUrl);</stringProp>
        { &#xd;
           &quot;key&quot;: &quot;${jiraKey}&quot;&#xd;
        },&#xd;
-       &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\n${testRail}${test_id}\n\n${repoUrl}&quot;&#xd;
+       &quot;description&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\n${testRail}${test_id}\n\n${repoUrl}&quot;&#xd;
    }&#xd;
 }</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
