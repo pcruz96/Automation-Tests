@@ -998,7 +998,7 @@ vars.put(&quot;body_data&quot;, bd);
           <stringProp name="TestPlan.comments">			</stringProp>
         </IfController>
         <hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - reset assertionResult" enabled="true">
             <stringProp name="BeanShellSampler.query">vars.put(&quot;assertionResult_1&quot;, &quot;&quot;);</stringProp>
             <stringProp name="BeanShellSampler.filename"></stringProp>
             <stringProp name="BeanShellSampler.parameters"></stringProp>
