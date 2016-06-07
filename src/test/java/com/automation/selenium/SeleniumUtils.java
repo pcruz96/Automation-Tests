@@ -154,7 +154,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void fillTxt(By locator, String txt) {
-		this.waitForElementPresent(locator);
+		this.waitForElementVisibility(locator);
 		try {
 			driver.findElement(locator).clear();
 		} catch (Exception e) {}					
@@ -162,7 +162,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void clickElement(By locator) {
-		this.waitForElementPresent(locator);
+		this.waitForElementVisibility(locator);
 		this.waitForElementClickable(locator);
 		try {
 			driver.findElement(locator).click();
@@ -174,14 +174,14 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void selectOption(By locator, String option) {
-		waitForElementPresent(locator);
+		waitForElementVisibility(locator);
 		Select list = new Select(driver.findElement(locator));
 		list.selectByVisibleText(option);
 		this.waitForPageLoaded();
 	}
 	
 	public void selectOptionIndex(By locator, int index) {
-		waitForElementPresent(locator);
+		waitForElementVisibility(locator);
 		Select list = new Select(driver.findElement(locator));
 		list.selectByIndex(index);
 		this.waitForPageLoaded();
@@ -226,7 +226,7 @@ public class SeleniumUtils extends Log4J {
 	public String getBodyTxt() {
 		String bodyText = null;
 		By locator = By.tagName("body");
-		waitForElementPresent(locator);
+		waitForElementVisibility(locator);
 		bodyText = driver.findElement(locator).getText();
 		return bodyText;
 	}
@@ -252,7 +252,7 @@ public class SeleniumUtils extends Log4J {
 			WebElement we = driver.findElement(src);
 			WebElement target = driver.findElement(tgt);
 			(new Actions(driver)).dragAndDrop(we, target).perform();
-			waitForElementPresent(expectElement);
+			waitForElementVisibility(expectElement);
 			success = true;
 		} catch (Exception e) {}
 		if (!success) {
@@ -264,7 +264,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public String getElementAttribute(By locator, String attribute) {
-		waitForElementPresent(locator);
+		waitForElementVisibility(locator);
 		String elementAttribute = driver.findElement(locator).getAttribute(
 				attribute);
 		return elementAttribute;
@@ -397,13 +397,12 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public boolean objDisplayed(By locator) {
-		this.waitForElementPresent(locator);
+		this.waitForElementVisibility(locator);
 		return driver.findElement(locator).isDisplayed();	
-
 	}
 	
 	public boolean isEnabled(By locator) {
-		this.waitForElementPresent(locator);
+		this.waitForElementVisibility(locator);
 		return driver.findElement(locator).isEnabled();	
 	}
 	
