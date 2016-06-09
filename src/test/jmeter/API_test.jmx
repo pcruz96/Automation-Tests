@@ -1297,7 +1297,8 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 1,&#xd;
-	&quot;comment&quot;: &quot;${build_url}&quot;&#xd;
+	&quot;comment&quot;: &quot;Actual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\n${repoUrl}\n\n${build_url}&quot;&#xd;
+&#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
                     </elementProp>
