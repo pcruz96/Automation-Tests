@@ -172,6 +172,12 @@ public class SeleniumUtils extends Log4J {
 		}
 		this.waitForPageLoaded();
 	}
+	
+	public void clickHiddenElement(By locator) {		
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].style.visibility='visible';", driver.findElement(locator));
+		executor.executeScript("arguments[0].click();", driver.findElement(locator));		
+	}
 
 	public void selectOption(By locator, String option) {
 		waitForElementVisibility(locator);
@@ -229,12 +235,6 @@ public class SeleniumUtils extends Log4J {
 		waitForElementVisibility(locator);
 		bodyText = driver.findElement(locator).getText();
 		return bodyText;
-	}
-
-	public void clickHiddenElement(By element) {
-		JavascriptExecutor js = (JavascriptExecutor) Driver.getDriver();
-		js.executeScript("arguments[0].click();", driver.findElement(element));
-		this.waitForPageLoaded();
 	}
 
 	public void threadSleep(Integer milliseconds) {
@@ -407,7 +407,7 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public void acceptAlert() {
-		this.threadSleep(3000);
+		this.threadSleep(2000);
 		driver.switchTo().alert().accept();
 	}	
 	
@@ -432,4 +432,9 @@ public class SeleniumUtils extends Log4J {
 	public void pressKeys(By locator, Keys key){
 		driver.findElement(locator).sendKeys(key);
 	}
+	
+	public String getAlertTxt() {
+		this.threadSleep(2000);
+		return driver.switchTo().alert().getText();	
+	}	
 }
