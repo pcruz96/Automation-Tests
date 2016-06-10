@@ -7,11 +7,6 @@
       <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
       <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
-          <elementProp name="project_id" elementType="Argument">
-            <stringProp name="Argument.name">project_id</stringProp>
-            <stringProp name="Argument.value">1</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
           <elementProp name="updJira" elementType="Argument">
             <stringProp name="Argument.name">updJira</stringProp>
             <stringProp name="Argument.value">false</stringProp>
@@ -20,6 +15,16 @@
           <elementProp name="updTestRail" elementType="Argument">
             <stringProp name="Argument.name">updTestRail</stringProp>
             <stringProp name="Argument.value">false</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="requestDefaults" elementType="Argument">
+            <stringProp name="Argument.name">requestDefaults</stringProp>
+            <stringProp name="Argument.value">https://qa.gomercatus.com</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="project_id" elementType="Argument">
+            <stringProp name="Argument.name">project_id</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="suite_id" elementType="Argument">
@@ -1000,7 +1005,7 @@ vars.put(&quot;response_contains_txt&quot;, rt);
           <stringProp name="TestPlan.comments">			</stringProp>
         </IfController>
         <hashTree>
-          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - reset assertionResult" enabled="true">
+          <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ignore error resetting assertionResult" enabled="true">
             <stringProp name="BeanShellSampler.query">vars.put(&quot;assertionResult_1&quot;, &quot;&quot;);</stringProp>
             <stringProp name="BeanShellSampler.filename"></stringProp>
             <stringProp name="BeanShellSampler.parameters"></stringProp>
