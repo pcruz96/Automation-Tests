@@ -913,11 +913,14 @@ f.close();</stringProp>
         </TransactionController>
         <hashTree>
           <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="convert variables" enabled="true">
-            <stringProp name="BeanShellSampler.query">String bd = vars.get(&quot;body_data&quot;);
-bd = bd.replace(&quot;&lt;&lt;planComponent&gt;&gt;&quot;, &quot;${planComponent}&quot;);
-bd = bd.replace(&quot;&lt;&lt;__UUID&gt;&gt;&quot;, &quot;${__UUID}&quot;.replace(&quot;-&quot;,&quot;&quot;));
-bd = bd.replace(&quot;&lt;&lt;adminOrgId&gt;&gt;&quot;, &quot;${adminOrgId}&quot;);
+            <stringProp name="BeanShellSampler.query">String uuid = &quot;${__UUID}&quot;.replace(&quot;-&quot;,&quot;&quot;);
+String bd = vars.get(&quot;body_data&quot;);
+bd = bd.replace(&quot;&lt;&lt;__UUID&gt;&gt;&quot;, uuid);
 vars.put(&quot;body_data&quot;, bd);
+
+String rt = vars.get(&quot;response_contains_txt&quot;);
+rt = rt.replace(&quot;&lt;&lt;__UUID&gt;&gt;&quot;, uuid);
+vars.put(&quot;response_contains_txt&quot;, rt);
 </stringProp>
             <stringProp name="BeanShellSampler.filename"></stringProp>
             <stringProp name="BeanShellSampler.parameters"></stringProp>
@@ -1073,6 +1076,50 @@ vars.put(&quot;body_data&quot;, bd);
               <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
               <stringProp name="HTTPSampler.path">${http_request}</stringProp>
               <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${method}&quot; == &quot;put&quot; " enabled="true">
+            <stringProp name="IfController.condition">&quot;${method}&quot; == &quot;put&quot; </stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <stringProp name="TestPlan.comments">			</stringProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${case_id} - ${scenario} - PUT" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">${body_data}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">qa.gomercatus.com</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+              <stringProp name="HTTPSampler.path">${http_request}</stringProp>
+              <stringProp name="HTTPSampler.method">PUT</stringProp>
               <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
               <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
               <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
