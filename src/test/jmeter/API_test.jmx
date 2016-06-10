@@ -1110,19 +1110,16 @@ vars.put(&quot;body_data&quot;, bd);
             <stringProp name="RegexExtractor.match_number">1</stringProp>
           </RegexExtractor>
           <hashTree/>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${expected_response_code}&quot; != (&quot;${actual_response_code}&quot;)" enabled="true">
-            <stringProp name="IfController.condition">&quot;${expected_response_code}&quot; != (&quot;${actual_response_code}&quot;)</stringProp>
-            <boolProp name="IfController.evaluateAll">false</boolProp>
-          </IfController>
-          <hashTree>
-            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - assertion_result1" enabled="true">
-              <stringProp name="BeanShellSampler.query">vars.put(&quot;assertion_result1&quot;, &quot;Test failed: code expected to equal 400&quot;)</stringProp>
-              <stringProp name="BeanShellSampler.filename"></stringProp>
-              <stringProp name="BeanShellSampler.parameters"></stringProp>
-              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
-            </BeanShellSampler>
-            <hashTree/>
-          </hashTree>
+          <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion" enabled="true">
+            <stringProp name="BeanShellAssertion.query">if (ResponseCode != null &amp;&amp; ResponseCode.equals (&quot;${expected_response_code}&quot;) == false ) {
+	Failure=true ;
+	FailureMessage =&quot;Response code was not a ${expected_response_code} response code it was &quot; + ResponseCode + &quot;.&quot; ;
+}</stringProp>
+            <stringProp name="BeanShellAssertion.filename"></stringProp>
+            <stringProp name="BeanShellAssertion.parameters"></stringProp>
+            <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+          </BeanShellAssertion>
+          <hashTree/>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="133719110">${response_contains_txt}</stringProp>
