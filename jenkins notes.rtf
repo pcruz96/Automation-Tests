@@ -34,9 +34,14 @@ then	\
 	unzip apache-jmeter-3.0.zip	\
 fi\
 \
+if [ $ENV != "qa" ]\
+then	\
+	sed -i.tmp "s/\\>qa</$ENV/g" src/test/jmeter/*.jmx	\
+fi\
+\
 BUILD_TAG=`echo $BUILD_TAG | tr '[:upper:]' '[:lower:]'`\
 \
-sed -i.tmp "s/\\$\{suite\} - \\$\{__time(yyyy-MM-dd)\}/\\$\{suite\} - $BUILD_TAG/g" src/test/jmeter/*.jmx\
+sed -i.tmp "s/\\$\{suite\}tests - \\$\{__time(yyyy-MM-dd)\}/\\$\{suite\}tests - $BUILD_TAG/g" src/test/jmeter/*.jmx\
 \
 sed -i.tmp "s/\\$\{build_url\}/http\\:\\/\\/10.10.1.217\\:8080\\/job\\/Automation-API-Tests\\/$BUILD_NUMBER/g" src/test/jmeter/*.jmx\
 \
