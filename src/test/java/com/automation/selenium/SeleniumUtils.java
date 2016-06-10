@@ -433,8 +433,17 @@ public class SeleniumUtils extends Log4J {
 		driver.findElement(locator).sendKeys(key);
 	}
 	
-	public String getAlertTxt() {
-		this.threadSleep(2000);
-		return driver.switchTo().alert().getText();	
+	public String getAlertTxt() {		
+		String txt = null;
+		int i = 0;		
+		do {
+			this.threadSleep(5000);
+			try {
+				txt = driver.switchTo().alert().getText();
+				break;
+			} catch (Exception e) {}				
+			i++;	
+		} while (i < 3);
+		return txt;
 	}	
 }
