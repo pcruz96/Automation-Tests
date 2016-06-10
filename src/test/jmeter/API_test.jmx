@@ -1534,12 +1534,19 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                       <stringProp name="RegexExtractor.regex">name&quot;:&quot;(.*?)&quot;</stringProp>
                       <stringProp name="RegexExtractor.template">$1$</stringProp>
                       <stringProp name="RegexExtractor.default"></stringProp>
-                      <stringProp name="RegexExtractor.match_number">1</stringProp>
+                      <stringProp name="RegexExtractor.match_number">-1</stringProp>
                     </RegexExtractor>
+                    <hashTree/>
+                    <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="get last status index" enabled="true">
+                      <boolProp name="resetInterpreter">false</boolProp>
+                      <stringProp name="parameters"></stringProp>
+                      <stringProp name="filename"></stringProp>
+                      <stringProp name="script">vars.put(&quot;status&quot;, &quot;${__V(status_${status_matchNr}_g1)}&quot;);</stringProp>
+                    </BeanShellPostProcessor>
                     <hashTree/>
                   </hashTree>
                   <IfController guiclass="IfControllerPanel" testclass="IfController" testname="post bug if summary doesn&apos;t exist or status is ${closedTicketStatus}" enabled="true">
-                    <stringProp name="IfController.condition">&quot;${total}&quot; == 0 || &quot;${status}&quot; == &quot;${closedTicketStatus}&quot;</stringProp>
+                    <stringProp name="IfController.condition">&quot;${total}&quot; == 0 || &quot;${status}&quot; == &quot;${closedTicketStatus}&quot; || &quot;${status}&quot; == &quot;Done&quot;</stringProp>
                     <boolProp name="IfController.evaluateAll">false</boolProp>
                   </IfController>
                   <hashTree>
@@ -1613,13 +1620,13 @@ vars.put(&quot;jiraBugUrl&quot;, jiraBugUrl);</stringProp>
                     <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
                   </BeanShellSampler>
                   <hashTree/>
+                  <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler - post issue" enabled="false">
+                    <boolProp name="displayJMeterProperties">false</boolProp>
+                    <boolProp name="displayJMeterVariables">true</boolProp>
+                    <boolProp name="displaySystemProperties">false</boolProp>
+                  </DebugSampler>
+                  <hashTree/>
                 </hashTree>
-                <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
-                  <boolProp name="displayJMeterProperties">false</boolProp>
-                  <boolProp name="displayJMeterVariables">true</boolProp>
-                  <boolProp name="displaySystemProperties">false</boolProp>
-                </DebugSampler>
-                <hashTree/>
               </hashTree>
               <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If jira key exists" enabled="true">
                 <stringProp name="IfController.condition">&quot;${jiraBugUrl}&quot;.indexOf(&quot;${key}&quot;) != -1</stringProp>
@@ -1766,7 +1773,7 @@ vars.put(&quot;jiraBugUrl&quot;, jiraBugUrl);</stringProp>
                     <collectionProp name="Arguments.arguments">
                       <elementProp name="" elementType="HTTPArgument">
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                        <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(project)} - ${__property(suite)} - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
+                        <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;failed - automation - api - ${__property(suite)}tests - ${case_id} - ${scenario} - ${testRail}${test_id}&quot;}</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                       </elementProp>
                     </collectionProp>
