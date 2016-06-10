@@ -12,6 +12,16 @@
             <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="updJira" elementType="Argument">
+            <stringProp name="Argument.name">updJira</stringProp>
+            <stringProp name="Argument.value">false</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="updTestRail" elementType="Argument">
+            <stringProp name="Argument.name">updTestRail</stringProp>
+            <stringProp name="Argument.value">false</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
           <elementProp name="suite_id" elementType="Argument">
             <stringProp name="Argument.name">suite_id</stringProp>
             <stringProp name="Argument.value">1</stringProp>
@@ -30,11 +40,6 @@
           <elementProp name="build_url" elementType="Argument">
             <stringProp name="Argument.name">build_url</stringProp>
             <stringProp name="Argument.value"></stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="updJira" elementType="Argument">
-            <stringProp name="Argument.name">updJira</stringProp>
-            <stringProp name="Argument.value">true</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="jiraHost" elementType="Argument">
@@ -80,11 +85,6 @@
           <elementProp name="closedTicketStatus" elementType="Argument">
             <stringProp name="Argument.name">closedTicketStatus</stringProp>
             <stringProp name="Argument.value">Resolved</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="updTestRail" elementType="Argument">
-            <stringProp name="Argument.name">updTestRail</stringProp>
-            <stringProp name="Argument.value">true</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="testRailHost" elementType="Argument">
