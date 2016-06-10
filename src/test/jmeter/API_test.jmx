@@ -1110,15 +1110,19 @@ vars.put(&quot;body_data&quot;, bd);
             <stringProp name="RegexExtractor.match_number">1</stringProp>
           </RegexExtractor>
           <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - expected_response_code" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="-498406302">${expected_response_code}</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">2</intProp>
-          </ResponseAssertion>
-          <hashTree/>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${expected_response_code}&quot; != (&quot;${actual_response_code}&quot;)" enabled="true">
+            <stringProp name="IfController.condition">&quot;${expected_response_code}&quot; != (&quot;${actual_response_code}&quot;)</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - assertion_result1" enabled="true">
+              <stringProp name="BeanShellSampler.query">vars.put(&quot;assertion_result1&quot;, &quot;Test failed: code expected to equal 400&quot;)</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="133719110">${response_contains_txt}</stringProp>
@@ -1158,6 +1162,12 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
 body = body.replace(&quot;\&quot;&quot;, &quot;&apos;&quot;);
 vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
           </BeanShellPostProcessor>
+          <hashTree/>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler - ${case_id}" enabled="false">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
           <hashTree/>
         </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${loadTest}&quot; == &quot;false&quot; &amp;&amp; &quot;${updTestRail}&quot; == &quot;true&quot;" enabled="true">
