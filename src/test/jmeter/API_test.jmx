@@ -798,7 +798,7 @@ vars.put(&quot;suite&quot;, suite);</stringProp>
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
 	&quot;suite_id&quot;: ${suite_id},&#xd;
-	&quot;name&quot;: &quot;automation - api - ${project} - ${suite} - ${__time(yyyy-MM-dd)} - ${sprint}&quot;,&#xd;
+	&quot;name&quot;: &quot;automation - api - ${suite}tests - ${__time(yyyy-MM-dd)} - ${sprint}&quot;,&#xd;
 	&quot;include_all&quot;: false,&#xd;
 	&quot;case_ids&quot;: ${__property(cids)}&#xd;
 }</stringProp>
