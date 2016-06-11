@@ -17,14 +17,19 @@
             <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="cmd1" elementType="Argument">
-            <stringProp name="Argument.name">cmd1</stringProp>
+          <elementProp name="cmd" elementType="Argument">
+            <stringProp name="Argument.name">cmd</stringProp>
             <stringProp name="Argument.value">delete_run</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
-          <elementProp name="cmd" elementType="Argument">
-            <stringProp name="Argument.name">cmd</stringProp>
+          <elementProp name="cmd1" elementType="Argument">
+            <stringProp name="Argument.name">cmd1</stringProp>
             <stringProp name="Argument.value">close_run</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="runNameContainsTxt" elementType="Argument">
+            <stringProp name="Argument.name">runNameContainsTxt</stringProp>
+            <stringProp name="Argument.value">automation</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -301,8 +306,8 @@
             </RegexExtractor>
             <hashTree/>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${name}&quot;.indexOf(&quot;automation&quot;) != -1" enabled="true">
-            <stringProp name="IfController.condition">&quot;${name}&quot;.indexOf(&quot;automation&quot;) != -1 &amp;&amp; &quot;${is_completed}&quot; == &quot;false&quot;</stringProp>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="if &quot;${name}&quot;.indexOf(&quot;${runNameContainsTxt}&quot;) != -1 &amp;&amp; &quot;${is_completed}&quot; == &quot;false&quot;" enabled="true">
+            <stringProp name="IfController.condition">&quot;${name}&quot;.indexOf(&quot;${runNameContainsTxt}&quot;) != -1 &amp;&amp; &quot;${is_completed}&quot; == &quot;false&quot;</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
