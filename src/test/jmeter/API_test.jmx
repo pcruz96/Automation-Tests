@@ -1468,7 +1468,7 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                     <hashTree/>
                   </hashTree>
                   <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - put summary var" enabled="true">
-                    <stringProp name="BeanShellSampler.query">vars.put(&quot;summary&quot;, &quot;automation_api_failed_${__property(project)}_${__property(suite)}_${case_id}_${scenario}&quot;.replaceAll(&quot; &quot;,&quot;_&quot;))</stringProp>
+                    <stringProp name="BeanShellSampler.query">vars.put(&quot;summary&quot;, &quot;failed_automation_api_${__property(project)}_${__property(suite)}tests_${case_id}_${scenario}&quot;.replaceAll(&quot; &quot;,&quot;_&quot;))</stringProp>
                     <stringProp name="BeanShellSampler.filename"></stringProp>
                     <stringProp name="BeanShellSampler.parameters"></stringProp>
                     <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
