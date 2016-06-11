@@ -106,7 +106,7 @@ public class BaseTest extends TestRailUtilities {
 		}		
     }
 
-	public String getRandomUUIDString() {
+	public static String getRandomUUIDString() {
 		String randomUUIDString = UUID.randomUUID().toString();
 		return randomUUIDString;
 	}
@@ -269,6 +269,11 @@ public class BaseTest extends TestRailUtilities {
 			}
 		} 
 		
+		String msg = "failed - automation - ui - " + getTestEnv(env, false)
+		+ BaseTest.suiteName + " - " + BaseTest.getMethodName();
+
+		msg = msg.toLowerCase();
+		
 		if (updTestRail) {
 			if (runId == null) {				
 				runId = this.getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);
@@ -276,6 +281,9 @@ public class BaseTest extends TestRailUtilities {
 			if (methodNameCorrect) {					
 				if (result.getStatus() == ITestResult.SUCCESS) {				
 					uploadResults(method, result, "", sauceLabsJobIdLink);
+					
+					Jira j = new Jira();
+					j.closeIssue(msg);
 				}
 				updateCase(method, "3", result, sauceLabsJobIdLink); // 1 = Automated
 			}
@@ -290,11 +298,6 @@ public class BaseTest extends TestRailUtilities {
 			//SparkNotifications cn = new SparkNotifications();
 			SlackNotifications cn = new SlackNotifications();		
 			
-			String msg = "failed - automation - ui - " + getTestEnv(env, false)
-					+ BaseTest.suiteName + " - " + BaseTest.getMethodName();
-			
-			msg = msg.toLowerCase();
-
 			if (updTestRail) {
 				
 				Jira jira = new Jira();
