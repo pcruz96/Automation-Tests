@@ -453,5 +453,9 @@ public class SeleniumUtils extends Log4J {
 			i++;	
 		} while (i < 3);
 		return txt;
-	}	
+	}
+	
+	public String removeSpecialChars(String str) {
+		return str.replaceAll("[^a-zA-Z0-9]+","");
+	}
 }
