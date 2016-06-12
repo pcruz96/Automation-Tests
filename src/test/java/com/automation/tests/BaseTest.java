@@ -53,6 +53,7 @@ public class BaseTest extends TestRailUtilities {
 	Hashtable<String, ITestResult> testResults = new Hashtable<String, ITestResult>();
 	StringWriter errors = new StringWriter();
 	StringBuilder sb = new StringBuilder();
+	public static String host = null;
 	public static String repo = null;
 	public static String project = null;
 	public static String projectId = null;
@@ -182,8 +183,9 @@ public class BaseTest extends TestRailUtilities {
 			es.executeArrayCommand(cmd1);
 			es.executeArrayCommand(cmd2);
 		}			
-		if(!env.equals("default"))
-			TestConfiguration.setConfig(env);		
+		
+		TestConfiguration.setConfig(env);
+		BaseTest.host = TestConfiguration.getConfig().getString("login.url");		
 		
 		createTestNGfailed(fu);
 		removeTmpFiles();		
