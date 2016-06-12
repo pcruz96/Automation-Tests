@@ -1754,10 +1754,10 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                       <stringProp name="RegexExtractor.regex">name&quot;:&quot;(.*?)&quot;</stringProp>
                       <stringProp name="RegexExtractor.template">$1$</stringProp>
                       <stringProp name="RegexExtractor.default"></stringProp>
-                      <stringProp name="RegexExtractor.match_number">-1</stringProp>
+                      <stringProp name="RegexExtractor.match_number">1</stringProp>
                     </RegexExtractor>
                     <hashTree/>
-                    <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="get last status index" enabled="true">
+                    <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="get last status index" enabled="false">
                       <boolProp name="resetInterpreter">false</boolProp>
                       <stringProp name="parameters"></stringProp>
                       <stringProp name="filename"></stringProp>
@@ -1765,8 +1765,8 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                     </BeanShellPostProcessor>
                     <hashTree/>
                   </hashTree>
-                  <IfController guiclass="IfControllerPanel" testclass="IfController" testname="post bug if summary doesn&apos;t exist or status is ${closedTicketStatus}" enabled="true">
-                    <stringProp name="IfController.condition">&quot;${total}&quot; == 0 || &quot;${status}&quot; == &quot;${closedTicketStatus}&quot; || &quot;${status}&quot; == &quot;Done&quot;</stringProp>
+                  <IfController guiclass="IfControllerPanel" testclass="IfController" testname="post bug if &quot;${total}&quot; == 0 || &quot;${status}&quot; == &quot;${closedTicketStatus}&quot; || &quot;${status}&quot; == &quot;Done&quot; || &quot;${status}&quot; == &quot;Resolved&quot; || &quot;${status}&quot; == &quot;Verified&quot;" enabled="true">
+                    <stringProp name="IfController.condition">&quot;${total}&quot; == 0 || &quot;${status}&quot; == &quot;${closedTicketStatus}&quot; || &quot;${status}&quot; == &quot;Done&quot; || &quot;${status}&quot; == &quot;Resolved&quot; || &quot;${status}&quot; == &quot;Verified&quot;</stringProp>
                     <boolProp name="IfController.evaluateAll">false</boolProp>
                   </IfController>
                   <hashTree>

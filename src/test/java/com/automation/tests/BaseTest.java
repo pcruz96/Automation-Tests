@@ -225,7 +225,7 @@ public class BaseTest extends TestRailUtilities {
 		try {			
 			LoginPage login = new LoginPage();
 			who = who != null ? who : "login";
-			login.login();	
+			login.login(TestConfiguration.getConfig().getString("login.username"), TestConfiguration.getConfig().getString("login.password"));	
 		} catch (Exception e) {
 			e.printStackTrace(new PrintWriter(errors));
 			logger.error(errors);
