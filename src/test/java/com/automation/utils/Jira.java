@@ -17,6 +17,7 @@ public class Jira {
 	String password = TestConfiguration.getJiraConfig().getString("password");
 	String key = TestConfiguration.getJiraConfig().getString("key");
 	String resolutionField = TestConfiguration.getJiraConfig().getString("resolutionField");
+	String assignee = TestConfiguration.getJiraConfig().getString("assignee");
 		
 	public String postIssue(String summary, String desc) {
 		try {
@@ -24,9 +25,9 @@ public class Jira {
 			client.addFilter(new HTTPBasicAuthFilter(username, password));
 			WebResource webResource = client.resource(host + "/rest/api/2/issue");
 			
-			summary = summary.replaceAll("[^a-zA-Z0-9]+"," ").replace(" ", "_");
+			summary = summary.replaceAll("[^a-zA-Z0-9]+"," ").replace(" ", "_");			
 			
-			String input="{\"fields\":{\"project\":{\"key\":\""+key+"\"},\"summary\":\""+summary+"\",\"description\":\""+desc+"\", \"issuetype\":{\"name\":\"Bug\"}}}";		
+			String input="{\"fields\":{\"project\":{\"key\":\""+key+"\"},\"summary\":\""+summary+"\",\"description\":\""+desc+"\", \"assignee\":{\"name\":\""+assignee+"\"}, \"issuetype\":{\"name\":\"Bug\"}}}";		
 			ClientResponse response = webResource.type("application/json").post(ClientResponse.class, input);
 	
 			String output = response.getEntity(String.class);
