@@ -1,6 +1,7 @@
 package com.automation.selenium;
 
 import com.automation.exceptionHandling.CustomException;
+import com.automation.tests.BaseTest;
 import com.automation.utils.Log4J;
 
 import org.apache.commons.io.FileUtils;
@@ -45,7 +46,9 @@ public class SeleniumUtils extends Log4J {
 			wait.until(ExpectedConditions.presenceOfElementLocated(locator));					
 			success = true;
 		} catch (Exception e) {}		
-		Assert.assertTrue(success, locator.toString() + " is not present.");
+		if (!success) {
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present.");
+		} 
 		return success;
 	}
 	
@@ -58,7 +61,9 @@ public class SeleniumUtils extends Log4J {
 			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			success = true;
 		} catch (Exception e) {}
-		Assert.assertTrue(success, locator.toString() + " is not present in frame.");
+		if (!success) {
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present in frame.");
+		}
 		return success;
 	}
 
@@ -70,7 +75,9 @@ public class SeleniumUtils extends Log4J {
 					.textToBePresentInElement(
 							driver.findElement(By.tagName("body")), text));
 		} catch (Exception e) {}
-		Assert.assertTrue(success, text + " is not present.");
+		if (!success) {
+			logger.error(BaseTest.getMethodName() + " - " + text + " is not present.");
+		}
 		return success;
 	}
 
@@ -81,7 +88,9 @@ public class SeleniumUtils extends Log4J {
 			wait.until(ExpectedConditions.elementToBeClickable(locator));
 			success = true;
 		} catch (TimeoutException e) {}
-		Assert.assertTrue(success, locator.toString() + " is not clickable.");
+		if (!success) {
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not clickable.");
+		}
 		return success;
 	}
 
@@ -93,10 +102,12 @@ public class SeleniumUtils extends Log4J {
 					.visibilityOfElementLocated(locator));
 			success = true;
 		} catch (Exception e) {}
-		Assert.assertTrue(success, locator.toString() + " is not visible.");
+		if (!success) {
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not visible.");
+		}
 		return success;
 	}
-
+	
 	public WebDriver switchToWindow(String regex) throws NoSuchWindowException {
 		boolean windowfound = false;
 		Set<String> windows = driver.getWindowHandles();
