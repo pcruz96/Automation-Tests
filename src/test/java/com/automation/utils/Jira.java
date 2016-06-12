@@ -89,7 +89,7 @@ public class Jira {
 		return null;
 	}
 	
-	public void closeIssue(String summary) {
+	public void closeIssue(String summary, String sauceLabsJobIdLink) {
 		try {
 			String key = this.getKey(summary);
 			
@@ -97,10 +97,16 @@ public class Jira {
 				Client client = Client.create();			
 				client.addFilter(new HTTPBasicAuthFilter(username, password));
 				WebResource webResource = client.resource(host + "/rest/api/2/issue/"+key+"/transitions?expand=transitions.fields");
-				
+				/*
+				transitions:
+					11 = Start Development
+					21 = Resolved
+					31 = Verified
+					41 = Close
+				*/
 				for (int i=1; i < 5; i++) {				
 					try {
-						String input="{\"update\":{\"comment\":[{\"add\":{\"body\":\"automation passed\"}}]},\"transition\":{\"id\":\""+i+"1\"}}";		
+						String input="{\"update\":{\"comment\":[{\"add\":{\"body\":\"automation passed "+sauceLabsJobIdLink+"\"}}]},\"transition\":{\"id\":\""+i+"1\"}}";		
 						ClientResponse response = webResource.type("application/json").post(ClientResponse.class, input);
 						String output = response.getEntity(String.class);
 						//System.out.println(output);
