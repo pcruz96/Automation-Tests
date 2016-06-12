@@ -38,7 +38,7 @@ public class SeleniumUtils extends Log4J {
 		printLogs = printLog;
 	}
 
-	public void waitForElementPresent(By locator) {
+	public boolean waitForElementPresent(By locator) {
 		boolean success = false;
 		try {
 			Wait<WebDriver> wait = this.fluentWait();
@@ -46,9 +46,10 @@ public class SeleniumUtils extends Log4J {
 			success = true;
 		} catch (Exception e) {}		
 		Assert.assertTrue(success, locator.toString() + " is not present.");
+		return success;
 	}
 	
-	public void waitForElementPresentInFrame(By frame, By locator) {
+	public boolean waitForElementPresentInFrame(By frame, By locator) {
 		this.threadSleep(5000);
 		boolean success = false;
 		try {
@@ -58,9 +59,10 @@ public class SeleniumUtils extends Log4J {
 			success = true;
 		} catch (Exception e) {}
 		Assert.assertTrue(success, locator.toString() + " is not present in frame.");
+		return success;
 	}
 
-	public void waitForTextPresent(String text) {
+	public boolean waitForTextPresent(String text) {
 		boolean success = false;
 		try {
 			Wait<WebDriver> wait = this.fluentWait();
@@ -69,9 +71,10 @@ public class SeleniumUtils extends Log4J {
 							driver.findElement(By.tagName("body")), text));
 		} catch (Exception e) {}
 		Assert.assertTrue(success, text + " is not present.");
+		return success;
 	}
 
-	public void waitForElementClickable(By locator) {
+	public boolean waitForElementClickable(By locator) {
 		boolean success = false;
 		try {
 			Wait<WebDriver> wait = this.fluentWait();
@@ -79,9 +82,10 @@ public class SeleniumUtils extends Log4J {
 			success = true;
 		} catch (TimeoutException e) {}
 		Assert.assertTrue(success, locator.toString() + " is not clickable.");
+		return success;
 	}
 
-	public void waitForElementVisibility(By locator) {
+	public boolean waitForElementVisibility(By locator) {
 		boolean success = false;
 		try {
 			Wait<WebDriver> wait = this.fluentWait();
@@ -90,6 +94,7 @@ public class SeleniumUtils extends Log4J {
 			success = true;
 		} catch (Exception e) {}
 		Assert.assertTrue(success, locator.toString() + " is not visible.");
+		return success;
 	}
 
 	public WebDriver switchToWindow(String regex) throws NoSuchWindowException {
@@ -353,11 +358,7 @@ public class SeleniumUtils extends Log4J {
 	public boolean isSelected(By locator) {
 		return driver.findElement(locator).isSelected();
 	}
-	
-	public void clickObjTxt2AfterTxt1(String txt1, String txt2) {
-		driver.findElement(By.xpath("//*[contains(text(), '"+txt1+"')]/following::*[contains(text(), '"+txt2+"')]")).click();	
-	}
-	
+		
 	public boolean stringContainsNumbers(String str) {
 		return str.matches(".*\\d.*");
 	}
@@ -428,16 +429,12 @@ public class SeleniumUtils extends Log4J {
 	public void deleteCookies(){
 		driver.manage().deleteAllCookies();
 	}
-	
-	public void pressKeys(By locator, Keys key){
-		driver.findElement(locator).sendKeys(key);
-	}
-	
+		
 	public String getAlertTxt() {		
 		String txt = null;
 		int i = 0;		
 		do {
-			this.threadSleep(5000);
+			this.threadSleep(10000);
 			try {
 				txt = driver.switchTo().alert().getText();
 				break;
