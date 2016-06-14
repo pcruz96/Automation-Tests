@@ -22,6 +22,7 @@ import org.openqa.selenium.Platform;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
+import org.testng.SkipException;
 import org.testng.annotations.*;
 
 import java.util.List;
@@ -521,5 +522,11 @@ public class BaseTest extends TestRailUtilities {
 			if (f.getName().contains(".tmp"))
 				f.delete();
 
+	}
+	
+	public void skipSauceTestRunLocally() {
+		if (BaseTest.sauceLabs) {
+			throw new SkipException("Need to run locally.");
+		}
 	}
 }
