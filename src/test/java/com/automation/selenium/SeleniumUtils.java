@@ -152,6 +152,10 @@ public class SeleniumUtils extends Log4J {
 				.ignoring(NoSuchElementException.class);
 		return wait;
 	}
+	
+	public String getSelectedOptionText(String index) {		
+		return driver.findElement(By.cssSelector("option[value='"+index+"']")).getText();
+	}
 
 	public String getOptionsText(By locator) {
 		Select list = new Select(driver.findElement(locator));
@@ -354,6 +358,72 @@ public class SeleniumUtils extends Log4J {
 			length--;
 		}
 		return result.toString();
+	}
+	
+	public String getRandomAlphaString(int length) {
+		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ";
+		StringBuilder result = new StringBuilder();
+		while (length > 0) {
+			Random rand = new Random();
+			result.append(characters.charAt(rand.nextInt(characters.length())));
+			length--;
+		}
+		return result.toString();
+	}
+	
+	public String getRandomAlphaNumString(int length) {
+		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ0123456789";
+		StringBuilder result = new StringBuilder();
+		while (length > 0) {
+			Random rand = new Random();
+			result.append(characters.charAt(rand.nextInt(characters.length())));
+			length--;
+		}
+		return result.toString();
+	}
+	
+	public String getRandomNumSpecialCharString(int length) {
+		final String characters = "0123456789!@#$%^&*()_+<,>.?/:;{[}]|";
+		StringBuilder result = new StringBuilder();
+		while (length > 0) {
+			Random rand = new Random();
+			result.append(characters.charAt(rand.nextInt(characters.length())));
+			length--;
+		}
+		return result.toString();
+	}
+	
+	public String getRandomAlphaSpecialCharString(int length) {
+		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()_+<,>.?/:;{[}]|";
+		StringBuilder result = new StringBuilder();
+		while (length > 0) {
+			Random rand = new Random();
+			result.append(characters.charAt(rand.nextInt(characters.length())));
+			length--;
+		}
+		return result.toString();
+	}
+	
+	public String getRandomSpecialCharString(int length) {
+		final String characters = "!@#$%^&*()_+<,>.?/:;{[}]|";
+		StringBuilder result = new StringBuilder();
+		while (length > 0) {
+			Random rand = new Random();
+			result.append(characters.charAt(rand.nextInt(characters.length())));
+			length--;
+		}
+		return result.toString();
+	}
+	
+	public String getRandomNumber(int length) {
+		final String characters = "0123456789";
+		StringBuilder result = new StringBuilder();
+		while (length > 0) {
+			Random rand = new Random();
+			result.append(characters.charAt(rand.nextInt(characters.length())));
+			length--;
+		}
+		return result.toString();		
 	}
 	
 	public String getStringBeforeSingleQuote(String txt) {
