@@ -326,6 +326,8 @@ public class BaseTest extends TestRailUtilities {
 				
 				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId, getCaseId(method));
 				
+				tr.getTestResults(testId);
+				
 				String testResultLink = TestConfiguration.getTestRailConfig().getString("host") + "/index.php?/tests/view/" + testId;
 						
 				if (testId == null) {
