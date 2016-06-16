@@ -32,7 +32,7 @@ In Eclipse, configure Java Build Path:
 
 ![Alt text](readmeScreenshots/libraries.png?raw=true)
 
-Convert TestRail test cases to TestNG methods
+Convert TestRail test cases to TestNG methods. Args: projectId suiteId startTCID endTCID
 
 ![Alt text](readmeScreenshots/get test cases.png?raw=true)
 
