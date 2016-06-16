@@ -55,3 +55,40 @@ Run testng_mercatus.xml
 ![Alt text](readmeScreenshots/run testng.png?raw=true)
 
 After the test run, refresh Automation-Tests dir to see the results under Automation-Tests/test-output
+
+To run API tests:
+
+Install JMeter:
+
+	http://jmeter.apache.org/download_jmeter.cgi
+	Binaries > apache-jmeter-3.0.zip
+	unzip the file
+	mv ~/Downloads/apache-jmeter-3.0 /Applications
+	
+Launch JMeter from the cmd line:
+
+	cd to Automation-Tests dir
+	check the JMeter version in shell scripts/jmeter.sh
+	bash shell\ scripts/jmeter.sh	
+		 
+The 2 main files in Automation-Tests/src/test/jmeter are:		 
+
+	api.tests.csv
+	API_test.jmx
+	
+api.tests.csv are the test cases that API_test.jmx will read and run:
+	
+![Alt text](readmeScreenshots/jmeter csv.png?raw=true)
+	
+In API_test.jmx, the Test Plan node contains the User Defined Variables:
+	
+![Alt text](readmeScreenshots/jmeter test plan.png?raw=true)
+
+To run the test from the GUI:
+	
+![Alt text](readmeScreenshots/jmeter run.png?raw=true)		
+
+View Results Tree
+	
+![Alt text](readmeScreenshots/view results tree.png?raw=true)		
+
