@@ -36,8 +36,9 @@ Convert TestRail test cases to TestNG methods. Args: projectId suiteId startTCID
 
 ![Alt text](readmeScreenshots/get test cases.png?raw=true)
 
-See examples of Page Objects, Tests, and Workflows as a guideline:
+As a guideline, see examples of:
 
+	Automation-Tests/src/test/java/com/automation/selenium/SeleniumUtils.java
 	Automation-Tests/src/test/java/com/automation/pageObjs
 	Automation-Tests/src/test/java/com/automation/tests
 	Automation-Tests/src/test/java/com/automation/workflows
