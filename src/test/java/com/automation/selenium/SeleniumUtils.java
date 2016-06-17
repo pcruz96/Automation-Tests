@@ -190,9 +190,6 @@ public class SeleniumUtils extends Log4J {
 			JavascriptExecutor executor = (JavascriptExecutor)driver;
 			executor.executeScript("arguments[0].click();", driver.findElement(locator));
 		}
-		try {
-			this.waitForPageLoaded();
-		} catch (Exception e) {};
 	}
 	
 	public void clickHiddenElement(By locator) {		
@@ -519,7 +516,7 @@ public class SeleniumUtils extends Log4J {
 		String txt = null;
 		int i = 0;		
 		do {
-			this.threadSleep(10000);
+			this.threadSleep(20000);
 			try {
 				txt = driver.switchTo().alert().getText();
 				break;
