@@ -519,7 +519,9 @@ public class SeleniumUtils extends Log4J {
 			try {
 				txt = driver.switchTo().alert().getText();
 				break;
-			} catch (Exception e) {}				
+			} catch (Exception e) {
+				txt = driver.switchTo().activeElement().getText();
+			}				
 			i++;	
 		} while (i < 3);
 		return txt;
