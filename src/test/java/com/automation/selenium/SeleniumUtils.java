@@ -190,7 +190,9 @@ public class SeleniumUtils extends Log4J {
 			JavascriptExecutor executor = (JavascriptExecutor)driver;
 			executor.executeScript("arguments[0].click();", driver.findElement(locator));
 		}
-		this.waitForPageLoaded();
+		try {
+			this.waitForPageLoaded();
+		} catch (Exception e) {};
 	}
 	
 	public void clickHiddenElement(By locator) {		
@@ -489,8 +491,10 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public void acceptAlert() {
-		this.threadSleep(2000);
-		driver.switchTo().alert().accept();
+		try {			
+			this.threadSleep(2000);
+			driver.switchTo().alert().accept();
+		} catch (Exception e) {}
 	}	
 	
 	public String getCssValueByXpath(By locator, String style){
