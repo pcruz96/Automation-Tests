@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
@@ -18,12 +17,11 @@ public class Driver {
 
     private static ThreadLocal<WebDriver> threadDvr = new ThreadLocal<WebDriver>();
 
-    public static WebDriver createDriver(String name, String env, Platform platform, String browser, String version, String deviceName, String deviceOrientation, Boolean sauceLabs, Method method) throws MalformedURLException {
+    public static WebDriver createDriver(String name, String env, String platform, String browser, String version, String deviceName, String deviceOrientation, Boolean sauceLabs, Method method) throws MalformedURLException {
 
         DesiredCapabilities cap = null;
         String buildTag = System.getenv("BUILD_TAG"); 
         name = name != null ? name : "";
-        platform = platform != null ? platform : Platform.ANY;
         browser = browser != null ? browser : "firefox";
         version = version != null ? version : "";
         //mobile parameters
@@ -35,14 +33,12 @@ public class Driver {
         if (browser.equalsIgnoreCase("firefox")) {
 
             cap = DesiredCapabilities.firefox();            
-            cap.setPlatform(platform);
             cap.setBrowserName(DesiredCapabilities.firefox().getBrowserName());
             cap.setVersion(version);
 
         } else if (browser.equalsIgnoreCase("ie")) {
 
             cap = DesiredCapabilities.internetExplorer();
-            cap.setPlatform(platform);
             cap.setBrowserName(DesiredCapabilities.internetExplorer().getBrowserName());
             cap.setVersion(version);            
             cap.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
@@ -56,7 +52,6 @@ public class Driver {
         } else if (name.equalsIgnoreCase("android")) {
 
             cap = DesiredCapabilities.android();
-            cap.setPlatform(platform);
             //cap.setVersion(version);
             cap.setCapability("deviceName", deviceName);
             cap.setCapability("device-orientation", deviceOrientation);
@@ -64,14 +59,12 @@ public class Driver {
         } else if (browser.equalsIgnoreCase("chrome")) {
             
             cap = DesiredCapabilities.chrome();
-            cap.setPlatform(platform);
             cap.setBrowserName(DesiredCapabilities.chrome().getBrowserName());
             cap.setVersion(version);
 
         } else if (browser.equalsIgnoreCase("iPad")) {
         	
             cap = DesiredCapabilities.ipad();
-            cap.setPlatform(platform);
             cap.setBrowserName(DesiredCapabilities.ipad().getBrowserName());
             cap.setVersion(version);
             cap.setCapability("device-orientation", deviceOrientation);
@@ -81,6 +74,7 @@ public class Driver {
             cap = DesiredCapabilities.phantomjs();
         }
         
+        cap.setCapability("platform", platform);
         cap.setCapability("name", method.getName());
         cap.setCapability("tags", env);
         cap.setCapability("build", buildTag.toLowerCase());

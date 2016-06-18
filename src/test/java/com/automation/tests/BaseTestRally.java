@@ -156,7 +156,7 @@ public class BaseTestRally extends Rally {
 
 	@BeforeMethod(alwaysRun = true)
 	@Parameters({ "name", "platform", "browser", "version", "deviceName", "deviceOrientation", "who" })			
-	public void setup(@Optional String name, @Optional Platform platform,
+	public void setup(@Optional String name, @Optional String platform,
 			@Optional String browser, @Optional String version,
 			@Optional String deviceName, @Optional String deviceOrientation, @Optional String who, Method method)			
 			throws MalformedURLException {
