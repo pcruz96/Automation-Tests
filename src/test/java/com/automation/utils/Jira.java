@@ -56,13 +56,12 @@ public class Jira {
 			ClientResponse response = webResource.type("application/json").get(ClientResponse.class);
 			String output = response.getEntity(String.class);
 			String[] s = output.split("customfield_11401");
+			String latestKey = s[s.length - 2];
 
-			if (output.indexOf("total\":0") > 0 || s[1].indexOf("\"Fixed\"") > 0 || s[1].indexOf("\"Verified\"") > 0 || s[1].indexOf("\"Closed\"") > 0 || s[1].indexOf("\"Done\"") > 0) {
+			if (output.indexOf("total\":0") > 0 || latestKey.indexOf("\"Fixed\"") > 0 || latestKey.indexOf("\"Verified\"") > 0 || latestKey.indexOf("\"Closed\"") > 0 || latestKey.indexOf("\"Done\"") > 0) {
 				return true;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {}					
 		return false;
 	}
 	
