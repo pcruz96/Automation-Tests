@@ -63,6 +63,7 @@ public class BaseTest extends TestRailUtilities {
 	public static String env = null;
 	public static String runId = null;
 	public static String database = null;
+	public static String browser = null;
 	String runName;
 	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
@@ -156,6 +157,7 @@ public class BaseTest extends TestRailUtilities {
 		BaseTest.runId = runId;
 		BaseTest.sauceLabs = sauceLabs;
 		BaseTest.database = database;
+		BaseTest.browser = browser;
 		
 		FileUtilities fu = new FileUtilities();		
 		File dir = new File("test-output");
@@ -273,7 +275,7 @@ public class BaseTest extends TestRailUtilities {
 		} 
 		
 		String msg = "failed - automation - ui - " + getTestEnv(env, false)
-		+ BaseTest.suiteName + " - " + BaseTest.getMethodName();
+		+ BaseTest.suiteName + " - " + BaseTest.getMethodName() + " - " + BaseTest.browser;;
 
 		msg = msg.toLowerCase();
 		
