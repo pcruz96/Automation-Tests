@@ -134,4 +134,26 @@ public class DatabaseUtilities extends Log4J {
 			e.printStackTrace();
 		}		
 	}
+	
+	public String runQuery(String query, int sleep) {
+		String result = null;
+		
+		for (int i = 1; i < 11; i++) {
+			result = this.executeQuery(query);
+			
+			if (result == null) {
+				try {
+					//logger.info("retry db query count: " + i);
+					Thread.sleep(sleep);					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+			} else {
+				logger.info(result);
+				return result;
+			}
+		} 
+		return null;
+	}
 }
