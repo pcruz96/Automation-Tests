@@ -12,13 +12,11 @@ import com.automation.utils.FileUtilities;
 import com.automation.utils.Jira;
 import com.automation.utils.Log4J;
 import com.automation.utils.SlackNotifications;
-import com.automation.utils.SparkNotifications;
 import com.gurock.testrail.GetTestCases;
 import com.gurock.testrail.TestRailUtilities;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.Platform;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -275,7 +273,7 @@ public class BaseTest extends TestRailUtilities {
 		} 
 		
 		String msg = "failed - automation - ui - " + getTestEnv(env, false)
-		+ BaseTest.suiteName + " - " + BaseTest.getMethodName() + " - " + BaseTest.browser;;
+		+ BaseTest.suiteName + " - " + BaseTest.browser + " - " + BaseTest.getMethodName();
 
 		msg = msg.toLowerCase();
 		
@@ -300,7 +298,6 @@ public class BaseTest extends TestRailUtilities {
 				error = ss.takeScreenShotOnFailure(result, Driver.getDriver(), method, sauceLabsJobIdLink);
 			} catch (Exception e) {}
 			
-			//SparkNotifications cn = new SparkNotifications();
 			SlackNotifications cn = new SlackNotifications();		
 			
 			if (updTestRail) {
