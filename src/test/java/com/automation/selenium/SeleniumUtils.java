@@ -3,12 +3,12 @@ package com.automation.selenium;
 import com.automation.exceptionHandling.CustomException;
 import com.automation.tests.BaseTest;
 import com.automation.utils.Log4J;
+import com.automation.utils.StackTraceToString;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.*;
-import org.testng.Assert;
 import org.testng.Reporter;
 
 import java.io.File;
@@ -530,5 +530,17 @@ public class SeleniumUtils extends Log4J {
 	
 	public String removeSpecialChars(String str) {
 		return str.replaceAll("[^a-zA-Z0-9]+","");
+	}
+	
+	public String getExceptionAlertTxt(By element) {
+		String alertTxt;
+		try {
+			this.clickHiddenElement(element);
+			alertTxt = this.getAlertTxt();
+		} catch (Exception e) {
+			StackTraceToString st = new StackTraceToString();
+			alertTxt = st.getStackTrace(e);
+		}
+		return alertTxt;
 	}
 }
