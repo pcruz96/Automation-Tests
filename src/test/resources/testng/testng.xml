@@ -6,24 +6,24 @@
 		<listener class-name="com.automation.testng.TestListener" />
 	</listeners>
 	<parameter name="repo" value="REPO" />
-	<!-- get PROJECTID & SUITEID from Test Rail -->
+	<!-- get PROJECTID & SUITEID from TestRail -->
 	<parameter name="projectId" value="PROJECTID" />
 	<parameter name="suiteId" value="SUITEID" />
-	<!-- get ENV from AutomationTests/src/test/resources/*.conf -->
+	<!-- get ENV from Automation-Tests/src/test/resources/config/*.conf -->
 	<parameter name="env" value="ENV" />
 	<parameter name="sauceLabs" value="true" />
 	<!-- boolean UPDTESTRAIL -->
 	<parameter name="updateTestRail" value="UPDTESTRAIL" />
-	<!-- boolean add new run in Test Rail -->
+	<!-- boolean add new run in TestRail -->
 	<parameter name="addRun" value="ADDRUN" />
-	<!-- update specific run in Test Rail -->
+	<!-- update specific run in TestRail -->
 	<parameter name="runId" value="" />
 	<!-- https://docs.saucelabs.com/reference/platforms-configurator/#/ -->
 	<parameter name="platform" value="PLATFORM" />	
 	<parameter name="browser" value="BROWSER" />
-	<!-- optional get DATABASE from AutomationTests/src/test/resources/db.conf. Ex. db.qang1 or db.stg -->
+	<!-- optional get DATABASE from Automation-Tests/src/test/resources/config/db.conf. Ex. db.qang1 or db.stg -->
 	<parameter name="database" value="DATABASE" />
-	<!-- who = login* from AutomationTests/src/test/resources/*.conf -->
+	<!-- who = login* from Automation-Tests/src/test/resources/config/*.conf -->
 	<parameter name="who" value="WHO" />
 	
 	<test name="test ENV env" parallel="methods" thread-count="10">			
