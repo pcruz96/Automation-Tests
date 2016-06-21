@@ -530,4 +530,10 @@ public class BaseTest extends TestRailUtilities {
 			throw new SkipException("Need to run locally.");
 		}
 	}
+	
+	public void skipBrowser(String browser) {
+		if (BaseTest.browser.equals(browser)) {
+			throw new SkipException("Skipping browser " + browser);
+		}
+	}
 }
