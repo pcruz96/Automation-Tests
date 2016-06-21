@@ -541,6 +541,18 @@ public class SeleniumUtils extends Log4J {
 				this.clickHiddenElement(element);
 			}
 			alertTxt = this.getAlertTxt();
+			this.acceptAlert();
+		} catch (Exception e) {
+			StackTraceToString st = new StackTraceToString();
+			alertTxt = st.getStackTrace(e);
+		}
+		return alertTxt;
+	}
+	
+	public String getModalTxt(By element) {
+		String alertTxt = null;
+		try {
+			this.clickHiddenElement(element);
 		} catch (Exception e) {
 			StackTraceToString st = new StackTraceToString();
 			alertTxt = st.getStackTrace(e);
