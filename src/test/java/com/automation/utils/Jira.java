@@ -102,6 +102,7 @@ public class Jira {
 				Client client = Client.create();			
 				client.addFilter(new HTTPBasicAuthFilter(username, password));
 				WebResource webResource = client.resource(host + "/rest/api/2/issue/"+key+"/transitions?expand=transitions.fields");
+				WebResource webResource2 = client.resource(host + "/rest/api/2/issue/"+key+"");
 				/*
 				transitions:
 					11 = Start Development
@@ -109,14 +110,18 @@ public class Jira {
 					31 = Verified
 					41 = Close
 				*/
-				for (int i=1; i < 5; i++) {				
+				for (int i = 1; i < 5; i++) {				
 					try {
-						String input="{\"update\":{\"comment\":[{\"add\":{\"body\":\"automation passed "+sauceLabsJobIdLink+"\"}}]},\"transition\":{\"id\":\""+i+"1\"}}";		
+						String input="{\"transition\":{\"id\":\""+i+"1\"}}";
 						ClientResponse response = webResource.type("application/json").post(ClientResponse.class, input);
-						String output = response.getEntity(String.class);
-						//System.out.println(output);
+						String output = response.getEntity(String.class);						
 					} catch (Exception e) {}
 				}
+				try {
+					String input2="{\"update\":{\"comment\":[{\"add\":{\"body\":\"automation passed "+sauceLabsJobIdLink+"\"}}]}}";
+					ClientResponse response2 = webResource2.type("application/json").put(ClientResponse.class, input2);
+					String output2 = response2.getEntity(String.class);
+				} catch (Exception e) {}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
