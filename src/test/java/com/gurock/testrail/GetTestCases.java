@@ -99,7 +99,7 @@ public class GetTestCases extends Log4J {
 				} catch (Exception e) {
 
 				}
-				if (append && line.contains("}")) {					
+				if (append && line.contains("}") && !line.contains("{")) {					
 					break;
 				}
 				lineNumber++;
