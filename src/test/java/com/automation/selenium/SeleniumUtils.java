@@ -1,6 +1,5 @@
 package com.automation.selenium;
 
-import com.automation.exceptionHandling.CustomException;
 import com.automation.tests.BaseTest;
 import com.automation.utils.Log4J;
 import com.automation.utils.StackTraceToString;
@@ -174,23 +173,20 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void fillTxt(By locator, String txt) {
-		if (this.waitForElementVisibility(locator)) {
-			try {
-				driver.findElement(locator).clear();
-			} catch (Exception e) {}					
-			driver.findElement(locator).sendKeys(txt);
-		}
+		this.waitForElementVisibility(locator);
+		try {
+			driver.findElement(locator).clear();
+		} catch (Exception e) {}					
+		driver.findElement(locator).sendKeys(txt);		
 	}
 
 	public void clickElement(By locator) {
-		if (this.waitForElementVisibility(locator)) {
+		try {
+			clickHiddenElement(locator);
+		} catch (Exception e) {
+			this.waitForElementVisibility(locator);
 			this.waitForElementClickable(locator);
-			try {
-				driver.findElement(locator).click();
-			} catch (Exception e) {
-				JavascriptExecutor executor = (JavascriptExecutor)driver;
-				executor.executeScript("arguments[0].click();", driver.findElement(locator));
-			}
+			driver.findElement(locator).click();
 		}
 	}
 	
@@ -201,19 +197,16 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void selectOption(By locator, String option) {
-		if (waitForElementVisibility(locator)) {
-			Select list = new Select(driver.findElement(locator));
-			list.selectByVisibleText(option);
-			this.waitForPageLoaded();
-		}
+		waitForElementVisibility(locator);
+		Select list = new Select(driver.findElement(locator));
+		list.selectByVisibleText(option);
+		this.waitForPageLoaded();
 	}
 	
 	public void selectOptionIndex(By locator, int index) {
-		if (waitForElementVisibility(locator)) {
-			Select list = new Select(driver.findElement(locator));
-			list.selectByIndex(index);
-			this.waitForPageLoaded();
-		}
+		Select list = new Select(driver.findElement(locator));
+		list.selectByIndex(index);
+		this.waitForPageLoaded();
 	}
 
 	// Get the row count from the htmltable.
