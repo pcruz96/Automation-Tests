@@ -174,21 +174,23 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void fillTxt(By locator, String txt) {
-		this.waitForElementVisibility(locator);
-		try {
-			driver.findElement(locator).clear();
-		} catch (Exception e) {}					
-		driver.findElement(locator).sendKeys(txt);
+		if (this.waitForElementVisibility(locator)) {
+			try {
+				driver.findElement(locator).clear();
+			} catch (Exception e) {}					
+			driver.findElement(locator).sendKeys(txt);
+		}
 	}
 
 	public void clickElement(By locator) {
-		this.waitForElementVisibility(locator);
-		this.waitForElementClickable(locator);
-		try {
-			driver.findElement(locator).click();
-		} catch (Exception e) {
-			JavascriptExecutor executor = (JavascriptExecutor)driver;
-			executor.executeScript("arguments[0].click();", driver.findElement(locator));
+		if (this.waitForElementVisibility(locator)) {
+			this.waitForElementClickable(locator);
+			try {
+				driver.findElement(locator).click();
+			} catch (Exception e) {
+				JavascriptExecutor executor = (JavascriptExecutor)driver;
+				executor.executeScript("arguments[0].click();", driver.findElement(locator));
+			}
 		}
 	}
 	
@@ -199,17 +201,19 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void selectOption(By locator, String option) {
-		waitForElementVisibility(locator);
-		Select list = new Select(driver.findElement(locator));
-		list.selectByVisibleText(option);
-		this.waitForPageLoaded();
+		if (waitForElementVisibility(locator)) {
+			Select list = new Select(driver.findElement(locator));
+			list.selectByVisibleText(option);
+			this.waitForPageLoaded();
+		}
 	}
 	
 	public void selectOptionIndex(By locator, int index) {
-		waitForElementVisibility(locator);
-		Select list = new Select(driver.findElement(locator));
-		list.selectByIndex(index);
-		this.waitForPageLoaded();
+		if (waitForElementVisibility(locator)) {
+			Select list = new Select(driver.findElement(locator));
+			list.selectByIndex(index);
+			this.waitForPageLoaded();
+		}
 	}
 
 	// Get the row count from the htmltable.
@@ -266,20 +270,13 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void dragAndDrop(By src, By tgt, By expectElement) {
-		boolean success = false;
 		try {
 			WebElement we = driver.findElement(src);
 			WebElement target = driver.findElement(tgt);
 			(new Actions(driver)).dragAndDrop(we, target).perform();
 			waitForElementVisibility(expectElement);
-			success = true;
+			//this.threadSleep(5000);
 		} catch (Exception e) {}
-		if (!success) {
-			CustomException ce = new CustomException();
-			ce.throwException("failed to drag and drop the source element, "
-					+ src.toString() + ", to the target element, "
-					+ tgt.toString());
-		}
 	}
 
 	public String getElementAttribute(By locator, String attribute) {
@@ -488,10 +485,12 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public void acceptAlert() {
-		try {			
-			this.threadSleep(2000);
-			driver.switchTo().alert().accept();
-		} catch (Exception e) {}
+		if (!BaseTest.browser.equals("safari")) {
+			try {			
+				this.threadSleep(2000);
+				driver.switchTo().alert().accept();
+			} catch (Exception e) {}	
+		}		
 	}	
 	
 	public String getCssValueByXpath(By locator, String style){
@@ -513,19 +512,8 @@ public class SeleniumUtils extends Log4J {
 	}
 		
 	public String getAlertTxt() {		
-		String txt = null;
-		int i = 0;		
-		do {
-			this.threadSleep(20000);
-			try {
-				txt = driver.switchTo().alert().getText();
-				break;
-			} catch (Exception e) {
-				txt = driver.switchTo().activeElement().getText();
-			}				
-			i++;	
-		} while (i < 3);
-		return txt;
+		this.threadSleep(10000);
+		return driver.switchTo().alert().getText();
 	}
 	
 	public String removeSpecialChars(String str) {
@@ -559,4 +547,15 @@ public class SeleniumUtils extends Log4J {
 		}
 		return alertTxt;
 	}
+	
+	public void switchToActiveElement() {
+		driver.switchTo().activeElement();	
+	}
+	
+	public int getDayOfWeek(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+		return dayOfWeek;
+	}	
 }
