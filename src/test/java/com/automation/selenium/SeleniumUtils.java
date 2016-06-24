@@ -182,10 +182,10 @@ public class SeleniumUtils extends Log4J {
 
 	public void clickElement(By locator) {
 		try {
-			clickHiddenElement(locator);						
-		} catch (Exception e) {
 			this.waitForElementVisibility(locator);
-			driver.findElement(locator).click();
+			driver.findElement(locator).click();						
+		} catch (Exception e) {
+			clickHiddenElement(locator);
 		}
 	}
 	
