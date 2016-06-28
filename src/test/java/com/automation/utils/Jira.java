@@ -70,6 +70,31 @@ public class Jira {
 		return false;
 	}
 	
+	public boolean isStatusClosedOrDone(String summary) {
+		try {
+			Client client = Client.create();			
+			client.addFilter(new HTTPBasicAuthFilter(username, password));
+			
+			summary = summary.replaceAll("[^a-zA-Z0-9]+"," ").replace(" ", "_");
+			
+			WebResource webResource = client.resource(host + "/rest/api/2/search?jql=summary~"+summary+"&fields=summary,status," + resolutionField);					
+			ClientResponse response = webResource.type("application/json").get(ClientResponse.class);
+			String output = response.getEntity(String.class);
+			String[] s = output.split("customfield_11401");
+			
+			if (output.indexOf("total\":0") > 0) {
+				return true;
+			} else {
+				String latestKey = s[s.length - 2];
+
+				if (latestKey.indexOf("\"Closed\"") > 0 || latestKey.indexOf("\"Done\"") > 0) {
+					return true;
+				}				
+			}
+		} catch (Exception e) {}					
+		return false;
+	}
+	
 	public String getKey(String summary) {
 		try {
 			Client client = Client.create();			

@@ -285,7 +285,10 @@ public class BaseTest extends TestRailUtilities {
 					uploadResults(method, result, "", sauceLabsJobIdLink);
 					
 					Jira j = new Jira();
-					j.closeIssue(msg, sauceLabsJobIdLink);
+					
+					if (!j.isStatusClosedOrDone(msg)) {
+						j.closeIssue(msg, sauceLabsJobIdLink);
+					}
 				}
 				updateCase(method, "3", result, sauceLabsJobIdLink); // 1 = Automated
 			}
