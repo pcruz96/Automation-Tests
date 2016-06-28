@@ -1904,6 +1904,15 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                       <stringProp name="RegexExtractor.match_number">1</stringProp>
                     </RegexExtractor>
                     <hashTree/>
+                    <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - key" enabled="true">
+                      <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                      <stringProp name="RegexExtractor.refname">key</stringProp>
+                      <stringProp name="RegexExtractor.regex">key&quot;:&quot;(.*?)&quot;,</stringProp>
+                      <stringProp name="RegexExtractor.template">$1$</stringProp>
+                      <stringProp name="RegexExtractor.default"></stringProp>
+                      <stringProp name="RegexExtractor.match_number">1</stringProp>
+                    </RegexExtractor>
+                    <hashTree/>
                     <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="get last status index" enabled="false">
                       <boolProp name="resetInterpreter">false</boolProp>
                       <stringProp name="parameters"></stringProp>
