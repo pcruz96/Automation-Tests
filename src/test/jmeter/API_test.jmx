@@ -1251,16 +1251,20 @@ vars.put(&quot;response_contains_txt&quot;, rt);
             <stringProp name="RegexExtractor.match_number">1</stringProp>
           </RegexExtractor>
           <hashTree/>
-          <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion - response code" enabled="true">
-            <stringProp name="BeanShellAssertion.query">if (ResponseCode != null &amp;&amp; ResponseCode.equals (&quot;${expected_response_code}&quot;) == false ) {
-	Failure=true ;
-	FailureMessage =&quot;Test failed: Expected response code ${expected_response_code}, but it was &quot; + ResponseCode + &quot;.&quot; ;
-}</stringProp>
-            <stringProp name="BeanShellAssertion.filename"></stringProp>
-            <stringProp name="BeanShellAssertion.parameters"></stringProp>
-            <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
-          </BeanShellAssertion>
-          <hashTree/>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${actual_response_code}&quot; != &quot;${expected_response_code}&quot; " enabled="true">
+            <stringProp name="IfController.condition">&quot;${actual_response_code}&quot; != &quot;${expected_response_code}&quot; </stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion - response code" enabled="true">
+              <stringProp name="BeanShellAssertion.query">Failure=true ;
+FailureMessage =&quot;Test failed: Expected response code ${expected_response_code}, but it was ${actual_response_code}&quot; ;</stringProp>
+              <stringProp name="BeanShellAssertion.filename"></stringProp>
+              <stringProp name="BeanShellAssertion.parameters"></stringProp>
+              <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+            </BeanShellAssertion>
+            <hashTree/>
+          </hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
             <collectionProp name="Asserion.test_strings">
               <stringProp name="133719110">${response_contains_txt}</stringProp>
