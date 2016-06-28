@@ -1306,8 +1306,9 @@ s = s.replace(&quot;\&quot;&quot;,&quot;&apos;&quot;);
 s = s.replace(&quot;\n&quot;,&quot;&quot;);     
 String assertionResult_1 = s.replace(&quot;/&quot;,&quot;&quot;);     
 vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
-          </BeanShellListener>
-          <hashTree/>
+            </BeanShellListener>
+            <hashTree/>
+          </hashTree>
           <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
             <boolProp name="resetInterpreter">false</boolProp>
             <stringProp name="parameters"></stringProp>
