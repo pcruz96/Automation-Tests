@@ -1258,27 +1258,39 @@ vars.put(&quot;response_contains_txt&quot;, rt);
           <hashTree>
             <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion - response code" enabled="true">
               <stringProp name="BeanShellAssertion.query">Failure=true ;
-FailureMessage =&quot;Test failed: Expected response code ${expected_response_code}, but it was ${actual_response_code}&quot; ;</stringProp>
+FailureMessage =&quot;Test failed: Expected response code ${expected_response_code}, but it was ${actual_response_code}&quot; ;
+vars.put(&quot;assertionResult_1&quot;, FailureMessage);</stringProp>
               <stringProp name="BeanShellAssertion.filename"></stringProp>
               <stringProp name="BeanShellAssertion.parameters"></stringProp>
               <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
             </BeanShellAssertion>
             <hashTree/>
+            <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="FAILED - ${case_id}" enabled="true">
+              <boolProp name="displayJMeterProperties">false</boolProp>
+              <boolProp name="displayJMeterVariables">true</boolProp>
+              <boolProp name="displaySystemProperties">false</boolProp>
+            </DebugSampler>
+            <hashTree/>
           </hashTree>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="133719110">${response_contains_txt}</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">2</intProp>
-          </ResponseAssertion>
-          <hashTree/>
-          <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
-            <stringProp name="filename"></stringProp>
-            <stringProp name="parameters"></stringProp>
-            <boolProp name="resetInterpreter">false</boolProp>
-            <stringProp name="script">import org.apache.jmeter.assertions.AssertionResult; 
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${actual_response_code}&quot; == &quot;${expected_response_code}&quot; " enabled="true">
+            <stringProp name="IfController.condition">&quot;${actual_response_code}&quot; == &quot;${expected_response_code}&quot; </stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="133719110">${response_contains_txt}</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">2</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <boolProp name="resetInterpreter">false</boolProp>
+              <stringProp name="script">import org.apache.jmeter.assertions.AssertionResult; 
 
 AssertionResult[] results = sampleResult.getAssertionResults(); 
 
