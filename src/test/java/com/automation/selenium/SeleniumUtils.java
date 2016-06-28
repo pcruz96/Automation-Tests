@@ -485,6 +485,15 @@ public class SeleniumUtils extends Log4J {
 		}		
 	}	
 	
+	public void dismissAlert() {
+		if (!BaseTest.browser.equals("safari")) {
+			try {			
+				this.threadSleep(2000);
+				driver.switchTo().alert().dismiss();
+			} catch (Exception e) {}	
+		}		
+	}
+	
 	public String getCssValueByXpath(By locator, String style){
 		return driver.findElement(locator).getCssValue(style);
 	}
