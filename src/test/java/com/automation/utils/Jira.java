@@ -85,8 +85,13 @@ public class Jira {
 			if (output.indexOf("total\":0") > 0) {
 				return true;
 			} else {
-				String latestKey = s[s.length - 2];
-
+				String latestKey;
+				if (s.length == 2) {
+					latestKey = output;
+				} else {
+					latestKey = s[s.length - 2];					
+				}
+				
 				if (latestKey.indexOf("\"Closed\"") > 0 || latestKey.indexOf("\"Done\"") > 0) {
 					return true;
 				}				
