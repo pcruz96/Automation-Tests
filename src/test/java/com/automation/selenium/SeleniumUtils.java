@@ -558,5 +558,9 @@ public class SeleniumUtils extends Log4J {
 		c.setTime(date);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 		return dayOfWeek;
-	}	
+	}
+	
+	public void clickText(String txt) {
+		this.clickElement(By.xpath("//*[contains(text(),'"+txt+"')]"));		
+	}
 }
