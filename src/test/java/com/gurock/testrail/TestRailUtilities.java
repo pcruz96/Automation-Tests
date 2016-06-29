@@ -540,7 +540,7 @@ public class TestRailUtilities extends Log4J {
 						
 			do {
 				jsonTestItem2 = (JSONObject) getClient().sendGet("get_section/" + sectionId);
-				sections += jsonTestItem2.get("name").toString() + ", ";
+				sections += "" + jsonTestItem2.get("name").toString() + "\", \"";
 				try {
 					sectionId = jsonTestItem2.get("parent_id").toString();
 				} catch (Exception e) {

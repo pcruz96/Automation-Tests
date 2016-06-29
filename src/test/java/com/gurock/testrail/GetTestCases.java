@@ -42,7 +42,9 @@ public class GetTestCases extends Log4J {
 					sections = tr.getSections(t.getTestID());
 				} while (sections == null);
 				
-				String testCaseMethodStr = "\t@Test(groups={\""+sections+", "+t.getType()+"\"}, enabled=false)\n"
+				sections = sections.substring(0, sections.length() - 2);
+				
+				String testCaseMethodStr = "\t@Test(groups={\""+sections+"\"}, enabled=false)\n"
 						+ "\tpublic void c" + t.getTestID() + "_"
 						+ getTestCaseName(t.getDescription())
 						+ "() {\n" + "\t\n" + "\t}\n";
