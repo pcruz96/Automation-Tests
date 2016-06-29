@@ -1640,8 +1640,8 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                 </RegexExtractor>
                 <hashTree/>
               </hashTree>
-              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${total}&quot; != 0 &amp;&amp; &quot;${status}&quot; != &quot;Done&quot; &amp;&amp; &quot;${status}&quot; != &quot;Closed&quot;" enabled="true">
-                <stringProp name="IfController.condition">&quot;${total}&quot; != 0 &amp;&amp; &quot;${status}&quot; != &quot;Done&quot; &amp;&amp; &quot;${status}&quot; != &quot;Closed&quot;</stringProp>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${total}&quot; != 0 &amp;&amp; &quot;${status}&quot; != &quot;Done&quot; || &quot;${status}&quot; != &quot;Closed&quot;" enabled="true">
+                <stringProp name="IfController.condition">&quot;${total}&quot; != 0 &amp;&amp; &quot;${status}&quot; != &quot;Done&quot; || &quot;${status}&quot; != &quot;Closed&quot;</stringProp>
                 <boolProp name="IfController.evaluateAll">false</boolProp>
                 <stringProp name="TestPlan.comments">issue found</stringProp>
               </IfController>
