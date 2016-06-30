@@ -147,7 +147,7 @@ public class SeleniumUtils extends Log4J {
 	public Wait<WebDriver> fluentWait() {
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
 				.withTimeout(MAX_WAIT, TimeUnit.SECONDS)
-				.pollingEvery(1, TimeUnit.SECONDS)
+				.pollingEvery(3, TimeUnit.SECONDS)
 				.ignoring(NoSuchElementException.class);
 		return wait;
 	}
@@ -479,7 +479,7 @@ public class SeleniumUtils extends Log4J {
 	public void acceptAlert() {
 		if (!BaseTest.browser.equals("safari")) {
 			try {			
-				this.threadSleep(2000);
+				this.threadSleep(5000);
 				driver.switchTo().alert().accept();
 			} catch (Exception e) {}	
 		}		
@@ -513,7 +513,7 @@ public class SeleniumUtils extends Log4J {
 	}
 		
 	public String getAlertTxt() {		
-		this.threadSleep(5000);
+		this.threadSleep(10000);
 		return driver.switchTo().alert().getText();
 	}
 	
@@ -561,6 +561,11 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public void clickText(String txt) {
+		this.waitForTextPresent(txt);
 		this.clickElement(By.xpath("//*[contains(text(),'"+txt+"')]"));		
+	}
+	
+	public int getElementsCount(By element) {
+		return driver.findElements(element).size();
 	}
 }
