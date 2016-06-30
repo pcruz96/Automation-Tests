@@ -313,7 +313,9 @@ public class BaseTest extends TestRailUtilities {
 					String jiraDesc = null; 
 					
 					if (sauceLabs) {
-						jiraDesc = sauceLabsJobIdLink.replace("/", "\\/");		
+						//jiraDesc = sauceLabsJobIdLink.replace("/", "\\/");						
+						String caseResults = "https://mercatus.testrail.net/index.php?/cases/results/".replace("/", "\\/") + this.getCaseId(method);
+						jiraDesc = "TestRail login:  | \\n\\nHistoric Test Results Trend\\n\\n" + caseResults;
 					} else {
 						//jiraDesc = testResultLink.replace("/", "\\/");
 						jiraDesc = "See TestRail results below.";
