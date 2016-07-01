@@ -29,8 +29,8 @@ then\
 else    \
 	echo $INCLUDEGROUP\
 	java -jar src/test/java/com/automation/testng/testng_groups.jar $INCLUDEGROUP\
+    	sed -i.tmp "s/testng.xml/testng_groups.xml/g" pom.xml\
 fi    \
-\
 \
 $ENV $BUILD_TAG results\
 \
