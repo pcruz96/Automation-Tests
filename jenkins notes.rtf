@@ -4,8 +4,7 @@
 \margl1440\margr1440\vieww28600\viewh16500\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
 
-\f0\fs24 \cf0 sed -i.tmp "s/BUILD_TAG/$BUILD_TAG/g" src/test/resources/testng/testng.xml\
-sed -i.tmp "s/REPO/$REPO/g" src/test/resources/testng/testng.xml\
+\f0\fs24 \cf0 sed -i.tmp "s/REPO/$REPO/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/PROJECTID/$PROJECTID/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/SUITEID/$SUITEID/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/ENV/$ENV/g" src/test/resources/testng/testng.xml\
@@ -16,8 +15,22 @@ sed -i.tmp "s/BROWSER/$BROWSER/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/RUNID/$RUNID/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/DATABASE/$DATABASE/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/WHO/$WHO/g" src/test/resources/testng/testng.xml\
-sed -i.tmp "s/INCLUDEGROUP/$INCLUDEGROUP/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/CLASS/$CLASS/g" src/test/resources/testng/testng.xml\
+\
+if [ $JIRA = false ]\
+then\
+	sed -i.tmp "s/bugId = jira.postIssue/\\/\\/bugId = jira.postIssue/g" src/test/java/com/automation/tests/BaseTest.java\
+fi\
+\
+if [ "$INCLUDEGROUP" = ".*" ]\
+then\
+	sed -i.tmp "s/INCLUDEGROUP/$INCLUDEGROUP/g" src/test/resources/testng/testng.xml\
+    \
+else    \
+	echo $INCLUDEGROUP\
+	java -jar src/test/java/com/automation/testng/testng_groups.jar $INCLUDEGROUP\
+fi    \
+\
 \
 $ENV $BUILD_TAG results\
 \
