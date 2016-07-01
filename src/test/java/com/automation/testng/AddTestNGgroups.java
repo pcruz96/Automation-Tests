@@ -1,11 +1,10 @@
 package com.automation.testng;
 
-import com.automation.utils.FileUtilities;
-import com.automation.utils.Log4J;
 import java.io.*;
 
-public class AddTestNGgroups extends Log4J {
+public class AddTestNGgroups {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] groups) {
 
 		String inputFile = "src/test/resources/testng/testng.xml";
@@ -20,8 +19,6 @@ public class AddTestNGgroups extends Log4J {
 			BufferedWriter bw = new BufferedWriter(fw);
 
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
-
-			boolean foundGroup = false;
 			String line = br.readLine();
 
 			while (line != null) {
@@ -43,8 +40,6 @@ public class AddTestNGgroups extends Log4J {
 			}
 			bw.close();
 			System.out.println("completed " + outputFile);
-			
-			FileUtilities.copyFile(new File(outputFile), new File(inputFile));
 		} catch (IOException e) {
 		}
 	}
