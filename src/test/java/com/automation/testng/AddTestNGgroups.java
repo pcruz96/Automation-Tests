@@ -20,6 +20,7 @@ public class AddTestNGgroups {
 
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 			String line = br.readLine();
+			bw.write(line + "\n");						
 
 			while (line != null) {
 				line = br.readLine();
