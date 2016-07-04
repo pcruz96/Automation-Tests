@@ -127,7 +127,7 @@ public class GetTestCases extends Log4J {
 		
 		List<Integer> caseIds = new ArrayList<Integer>();
 		
-		String groups = System.getenv("INCLUDEGROUP");
+		String groups = System.getenv("INCLUDEGROUPS");
 		
 		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+".java"))) {
 			
@@ -139,7 +139,7 @@ public class GetTestCases extends Log4J {
 				try {
 					if (line.contains("@Test") && line.replaceAll(" ", "").contains("enabled=true")) {
 						
-						if (groups == null) {
+						if (groups == null || groups.equals(".*")) {
 							foundTest = true;
 						} else {
 							String[] g = groups.split(",");
