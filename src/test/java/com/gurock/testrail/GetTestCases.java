@@ -127,7 +127,8 @@ public class GetTestCases extends Log4J {
 		
 		List<Integer> caseIds = new ArrayList<Integer>();
 		
-		String groups = System.getenv("INCLUDEGROUPS");
+		String includeGroups = System.getenv("INCLUDEGROUPS");
+		String excludeGroups = System.getenv("EXCLUDEGROUPS");
 		
 		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+".java"))) {
 			
@@ -139,16 +140,48 @@ public class GetTestCases extends Log4J {
 				try {
 					if (line.contains("@Test") && line.replaceAll(" ", "").contains("enabled=true")) {
 						
-						if (groups == null || groups.equals(".*")) {
-							foundTest = true;
-						} else {
-							String[] g = groups.split(",");
+						String[] g = null;
+						
+						if (includeGroups == null || includeGroups.equals(".*") && excludeGroups.isEmpty()) {
+							
+							foundTest = true;							
+							
+						} else if (includeGroups.equals(".*") && !excludeGroups.isEmpty()) {
+							
+							g = excludeGroups.split(",");																
+							int i = 0;
 							
 							for (String group : g) {
-								if (line.contains(group.trim())) {
-									foundTest = true;
+								if (line.contains(group.trim())) {									
 									break;
+								} else if (i == g.length - 1) {
+									foundTest = true;
 								}
+								i++;
+							}
+						
+						} else {
+							if (!includeGroups.equals(".*")) {
+							
+								g = includeGroups.split(",");
+								
+								for (String group : g) {
+									if (line.contains(group.trim())) {
+										foundTest = true;
+										break;
+									}
+								}
+							
+							} else if (!excludeGroups.isEmpty()) {
+								
+								g = excludeGroups.split(",");
+								
+								for (String group : g) {
+									if (!line.contains(group.trim())) {
+										foundTest = true;
+										break;
+									}
+								}							
 							}
 						}
 					}
