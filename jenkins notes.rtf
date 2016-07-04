@@ -22,14 +22,16 @@ then\
 	sed -i.tmp "s/bugId = jira.postIssue/\\/\\/bugId = jira.postIssue/g" src/test/java/com/automation/tests/BaseTest.java\
 fi\
 \
-if [ "$INCLUDEGROUP" = ".*" ]\
+if [ "$INCLUDEGROUPS" = ".*" ]\
 then\
-	sed -i.tmp "s/INCLUDEGROUP/$INCLUDEGROUP/g" src/test/resources/testng/testng.xml\
-    \
+	sed -i.tmp "s/INCLUDEGROUPS/$INCLUDEGROUPS/g" src/test/resources/testng/testng.xml    \
 else    \
-	echo $INCLUDEGROUP\
-	java -jar src/test/java/com/automation/testng/testng_groups.jar $INCLUDEGROUP\
-    	sed -i.tmp "s/testng.xml/testng_groups.xml/g" pom.xml\
+	java -jar src/test/java/com/automation/testng/include_testng_groups.jar $INCLUDEGROUPS\
+fi    \
+	\
+if [ "$EXCLUDEGROUPS" != "" ]\
+then\
+	java -jar src/test/java/com/automation/testng/exclude_testng_groups.jar $EXCLUDEGROUPS\
 fi    \
 \
 $ENV $BUILD_TAG results\
