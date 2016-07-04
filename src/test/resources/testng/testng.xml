@@ -32,7 +32,8 @@
 		</packages>
 		<groups>
 			<run>
-				<include name="INCLUDEGROUP" />
+				<include name="INCLUDEGROUPS" />
+				<exclude name="EXCLUDEGROUPS" />
 			</run>
 		</groups>				
 		<classes>

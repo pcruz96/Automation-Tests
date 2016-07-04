@@ -2,7 +2,7 @@ package com.automation.testng;
 
 import java.io.*;
 
-public class AddTestNGgroups {
+public class ExcludeTestNGgroups {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] groups) {
@@ -26,12 +26,12 @@ public class AddTestNGgroups {
 			while (line != null) {
 				line = br.readLine();
 				try {
-					if (!line.contains("INCLUDEGROUP") ) {
+					if (!line.contains("EXCLUDEGROUP") ) {
 						bw.write(line + "\n");											
 					}					
 					if (line.contains("<run>")) {												
 						for (String group : groups) {
-							bw.write("<include name=\""+group.replace(",", "").trim()+"\" />" + "\n");							
+							bw.write("<exclude name=\""+group.replace(",", "").trim()+"\" />" + "\n");							
 						}
 					}					
 					if (line.contains("</suite>")) {
