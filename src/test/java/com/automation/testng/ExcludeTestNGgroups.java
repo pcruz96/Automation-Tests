@@ -22,7 +22,6 @@ public class ExcludeTestNGgroups {
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 			String line = br.readLine();
 			bw.write(line + "\n");	
-			int i = 0;
 
 			while (line != null) {
 				line = br.readLine();
@@ -30,8 +29,7 @@ public class ExcludeTestNGgroups {
 					if (!line.contains("EXCLUDEGROUP") ) {
 						bw.write(line + "\n");											
 					}					
-					if (line.contains("<run>") && i == 0) {
-						i++;
+					if (line.contains("<run>")) {
 						for (String group : groups) {
 							bw.write("<exclude name=\""+group.replace(",", "").trim()+"\" />" + "\n");							
 						}
