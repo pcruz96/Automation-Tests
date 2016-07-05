@@ -26,7 +26,7 @@
 	<!-- who = login* from Automation-Tests/src/test/resources/config/*.conf -->
 	<parameter name="who" value="WHO" />
 	
-	<test name="test ENV env" parallel="methods" thread-count="10">			
+	<test name="parallel test ENV env" parallel="methods" thread-count="10">			
 		<packages>
 			<!-- <package name="PACKAGE" />  -->
 		</packages>
@@ -34,6 +34,23 @@
 			<run>
 				<include name="INCLUDEGROUPS" />
 				<exclude name="EXCLUDEGROUPS" />
+				<exclude name="Sequential" />
+			</run>
+		</groups>				
+		<classes>
+			<class name="CLASS" />
+			<methods>
+				<include name=".*" />
+			</methods>
+		</classes>
+	</test>
+	<test name="sequential test ENV env" parallel="false" thread-count="10">			
+		<packages>
+			<!-- <package name="PACKAGE" />  -->
+		</packages>
+		<groups>
+			<run>
+				<include name="Sequential" />
 			</run>
 		</groups>				
 		<classes>

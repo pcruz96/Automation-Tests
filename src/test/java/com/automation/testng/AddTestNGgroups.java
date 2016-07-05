@@ -21,7 +21,8 @@ public class AddTestNGgroups {
 
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 			String line = br.readLine();
-			bw.write(line + "\n");						
+			bw.write(line + "\n");		
+			int i = 0;
 
 			while (line != null) {
 				line = br.readLine();
@@ -29,7 +30,8 @@ public class AddTestNGgroups {
 					if (!line.contains("INCLUDEGROUP") ) {
 						bw.write(line + "\n");											
 					}					
-					if (line.contains("<run>")) {												
+					if (line.contains("<run>") && i == 0) {
+						i++;
 						for (String group : groups) {
 							bw.write("<include name=\""+group.replace(",", "").trim()+"\" />" + "\n");							
 						}
