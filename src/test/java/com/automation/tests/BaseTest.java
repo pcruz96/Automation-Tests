@@ -44,7 +44,7 @@ public class BaseTest extends TestRailUtilities {
 	protected final static Logger logger = Logger.getLogger(Log4J.class);
 	private static ThreadLocal<String> methodName = new ThreadLocal<String>();
 	private static ThreadLocal<String> testCaseId = new ThreadLocal<String>();
-	private static ThreadLocal<String> testDataName = new ThreadLocal<String>();
+	public static ThreadLocal<String> testDataName = new ThreadLocal<String>();
 	private static ThreadLocal<String> maxTestDataName = new ThreadLocal<String>();
 	private static ThreadLocal<String> caseResults = new ThreadLocal<String>();
 	private static ThreadLocal<Boolean> mxTitles = new ThreadLocal<Boolean>();
