@@ -417,7 +417,7 @@ public class TestRailUtilities extends Log4J {
 			try {
 				JSONArray resultArray = (JSONArray) getClient().sendGet("get_results_for_case/" + runId + "/" + caseId.replace("c", ""));
 				if (!resultArray.isEmpty()) {
-					logger.info(resultArray);	
+					//logger.info(resultArray);	
 				}			
 				String testId = null;
 				String statusId = null;
@@ -459,7 +459,7 @@ public class TestRailUtilities extends Log4J {
 			try {
 				JSONArray resultArray = (JSONArray) getClient().sendGet("get_results_for_case/" + runId + "/" + caseId);
 				if (!resultArray.isEmpty()) {
-					logger.info(resultArray);	
+					//logger.info(resultArray);	
 				}			
 				String testId = null;
 				try {
