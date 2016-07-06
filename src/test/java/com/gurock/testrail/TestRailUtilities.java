@@ -153,11 +153,11 @@ public class TestRailUtilities extends Log4J {
 		
 		String results = TestConfiguration.getTestRailConfig().getString("url") + "cases/results/" + BaseTest.getTestCaseId().replace("c", "");
 		
-		steps += "\n" + BaseTest.repo + "\n\n" + sauceLabUrl;
-		comment += "\n\n" + steps + "\n\n" + results;
+		steps += "\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + sauceLabUrl;
+		comment += "\n\n" + steps + "\n\nRESULTS TREND: " + results;
 
 		if (!sauceLabUrl.contains(BaseTest.getBuildUrl())) {
-			comment += "\n\n" + BaseTest.getBuildUrl();
+			comment += "\n\nBUILD: " + BaseTest.getBuildUrl();
 		}
 		
 		if (!BaseTest.sauceLabs) {
