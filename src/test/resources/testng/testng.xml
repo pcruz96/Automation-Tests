@@ -50,8 +50,6 @@
 		</packages>
 		<groups>
 			<run>
-				<include name="INCLUDEGROUPS" />
-				<exclude name="EXCLUDEGROUPS" />
 				<include name="Sequential" />
 			</run>
 		</groups>				
