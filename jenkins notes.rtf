@@ -38,7 +38,7 @@ $ENV $BUILD_TAG results\
 \
 If the emailable-report.html is not attached, the build was aborted. Results are also updated in Test Rail > Test Runs & Results if Jenkins UPDTESTRAIL build parameter = true. Copy the contents of failedAndSkippedTests.txt and replace the methods tag in testng.xml. Set the addRun parameter in testng.xml to false. Rerun and debug the failed tests. Resend the emailable-report.html with the following text in the body, "Reran failedAndSkippedTests.txt. Attached report."\
 \
-target/surefire-reports/emailable-report.html, test-output/log4j-application.log, test-output/failedAndSkippedTests.txt, src/test/resources/testng/testng.xml\
+target/surefire-reports/emailable-report.html, test-output/log4j-application.log, src/test/resources/testng/testng_retryFailed.xml\
 \
 /* api tests\
 \

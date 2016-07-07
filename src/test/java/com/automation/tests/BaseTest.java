@@ -399,10 +399,13 @@ public class BaseTest extends TestRailUtilities {
 			//this.closeRun(runId);
 		}
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//2g", "testng_retryFailed.xml"};
-		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/"+runName+"/BUILD_TAG/g", "src/test/resources/testng/testng.xml"};
+		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng_retryFailed.xml"};
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//2g", "testng_retryFailed.xml"};		
+		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/runId\" value=\"\"/runId\" value=\""+BaseTest.runId+"\"/g", "src/test/resources/testng/testng_retryFailed.xml"};
+		
 		es.executeArrayCommand(cmd1);		
 		es.executeArrayCommand(cmd2);
+		es.executeArrayCommand(cmd3);
 		removeTmpFiles();
 	}	
 	
