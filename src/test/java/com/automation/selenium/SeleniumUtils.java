@@ -46,7 +46,7 @@ public class SeleniumUtils extends Log4J {
 			success = true;
 		} catch (Exception e) {}		
 		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present.");
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present.\n");
 		} 
 		return success;
 	}
@@ -61,7 +61,7 @@ public class SeleniumUtils extends Log4J {
 			success = true;
 		} catch (Exception e) {}
 		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present in frame.");
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present in frame.\n");
 		}
 		return success;
 	}
@@ -75,7 +75,7 @@ public class SeleniumUtils extends Log4J {
 							driver.findElement(By.tagName("body")), text));
 		} catch (Exception e) {}
 		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + text + " is not present.");
+			logger.error(BaseTest.getMethodName() + " - " + text + " is not present.\n");
 		}
 		return success;
 	}
@@ -88,7 +88,7 @@ public class SeleniumUtils extends Log4J {
 			success = true;
 		} catch (TimeoutException e) {}
 		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not clickable.");
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not clickable.\n");
 		}
 		return success;
 	}
@@ -102,7 +102,7 @@ public class SeleniumUtils extends Log4J {
 			success = true;
 		} catch (Exception e) {}
 		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not visible.");
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not visible.\n");
 		}
 		return success;
 	}
@@ -267,7 +267,7 @@ public class SeleniumUtils extends Log4J {
 			WebElement target = driver.findElement(tgt);
 			(new Actions(driver)).dragAndDrop(we, target).perform();
 			waitForElementVisibility(expectElement);
-			//this.threadSleep(5000);
+			this.threadSleep(10000);
 		} catch (Exception e) {}
 	}
 
@@ -560,9 +560,14 @@ public class SeleniumUtils extends Log4J {
 		return dayOfWeek;
 	}
 	
-	public void clickText(String txt) {
+	public void clickText(String txt, boolean isHidden) {
 		this.waitForTextPresent(txt);
-		this.clickElement(By.xpath("//*[contains(text(),'"+txt+"')]"));		
+		
+		if (isHidden) {
+			this.clickHiddenElement(By.xpath("//*[contains(text(),'"+txt+"')]"));	
+		} else {
+			this.clickElement(By.xpath("//*[contains(text(),'"+txt+"')]"));	
+		}						
 	}
 	
 	public int getElementsCount(By element) {
