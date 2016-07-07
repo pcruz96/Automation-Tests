@@ -44,20 +44,4 @@
 			</methods>
 		</classes>
 	</test>
-	<test name="sequential test ENV env" parallel="false" thread-count="10">			
-		<packages>
-			<!-- <package name="PACKAGE" />  -->
-		</packages>
-		<groups>
-			<run>
-				<include name="Sequential" />
-			</run>
-		</groups>				
-		<classes>
-			<class name="CLASS" />
-			<methods>
-				<include name=".*" />
-			</methods>
-		</classes>
-	</test>
 </suite>

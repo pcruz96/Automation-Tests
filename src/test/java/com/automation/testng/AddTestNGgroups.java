@@ -44,7 +44,7 @@ public class AddTestNGgroups {
 			}
 			bw.close();			
 			ofile.renameTo(ifile);
-			System.out.println("completed " + inputFile);
+			System.out.println("updated " + inputFile);
 		} catch (IOException e) {
 		}
 	}

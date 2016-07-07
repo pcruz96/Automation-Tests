@@ -21,16 +21,22 @@ public class AddFailedTestsToTestNG {
 
 			BufferedReader br = new BufferedReader(new FileReader(inputFile));
 			String line = br.readLine();
-			bw.write(line + "\n");	
+			bw.write(line + "\n");
+			boolean passedRunTag = false;
 			boolean wroteFailedTests = false;
 
 			while (line != null) {
 				line = br.readLine();
 				try {
 					if (!line.contains("methods>") && !line.contains("<include name=\".*\" />")) {
-						bw.write(line + "\n");											
+						
+						bw.write(line + "\n");
+						
+						if (line.contains("</run>")) {
+							passedRunTag = true;
+						}
 					} else {
-						if (!wroteFailedTests) {
+						if (passedRunTag && !wroteFailedTests) {
 							BufferedReader br2 = new BufferedReader(new FileReader("test-output/failedAndSkippedTests.txt"));
 							
 							String line2 = br2.readLine();
@@ -50,7 +56,7 @@ public class AddFailedTestsToTestNG {
 			}
 			bw.close();			
 			ofile.renameTo(ifile);
-			System.out.println("completed " + inputFile);
+			System.out.println("updated " + inputFile);
 		} catch (IOException e) {
 		}
 	}

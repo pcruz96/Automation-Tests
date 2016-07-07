@@ -398,10 +398,11 @@ public class BaseTest extends TestRailUtilities {
 		if (updTestRail) {
 			//this.closeRun(runId);
 		}
+		String testng = "src/test/resources/testng/testng_retryFailed.xml";
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng_retryFailed.xml"};
-		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//2g", "testng_retryFailed.xml"};		
-		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/runId\" value=\"\"/runId\" value=\""+BaseTest.runId+"\"/g", "src/test/resources/testng/testng_retryFailed.xml"};
+		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", testng};
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//g", testng};		
+		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/runId\" value=\"\"/runId\" value=\""+BaseTest.runId+"\"/g", testng};
 		
 		es.executeArrayCommand(cmd1);		
 		es.executeArrayCommand(cmd2);
@@ -433,7 +434,7 @@ public class BaseTest extends TestRailUtilities {
 	public void addFailedTestsToTestNG(Method method) {
 		String[] command = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>"
 				+ "/\\<include name\\=\\\""+method.getName()+"\\\" \\/\\>"
-				+ "\\\n\\<include name\\=\\\"\\.\\*\\\" \\/\\>/2g", "src/test/resources/testng/testng_retryFailed.xml"};
+				+ "\\\n\\<include name\\=\\\"\\.\\*\\\" \\/\\>/g", "src/test/resources/testng/testng_retryFailed.xml"};
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		es.executeArrayCommand(command);
 	}
