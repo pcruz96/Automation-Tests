@@ -6,10 +6,9 @@ public class AddFailedTestsToTestNG {
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-
-		String inputFile = "src/test/resources/testng/testng.xml";
-		String outputFile = "src/test/resources/testng/testng_retry.xml";
-		File ifile = new File(inputFile);
+		
+		String inputFile = "src/test/resources/testng/testng_retryFailed.xml";
+		String outputFile = "src/test/resources/testng/testng.xml";
 		File ofile = new File(outputFile);
 
 		try {
@@ -55,8 +54,7 @@ public class AddFailedTestsToTestNG {
 				}
 			}
 			bw.close();			
-			ofile.renameTo(ifile);
-			System.out.println("updated " + inputFile);
+			System.out.println("updated " + outputFile);
 		} catch (IOException e) {
 		}
 	}
