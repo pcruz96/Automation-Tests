@@ -169,12 +169,12 @@ public class TestRailUtilities extends Log4J {
 				
 			steps += "\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + sauceLabUrl;
 			comment += "\n\n" + steps + "\n\nRESULTS TREND: " + results;
+			
+			if (!sauceLabUrl.contains(BaseTest.getBuildUrl())) {
+				comment += "\n\nBUILD: " + BaseTest.getBuildUrl();
+			}
 		}
 
-		if (!sauceLabUrl.contains(BaseTest.getBuildUrl())) {
-			comment += "\n\nBUILD: " + BaseTest.getBuildUrl();
-		}
-		
 		if (!BaseTest.sauceLabs) {
 			comment += "\n\n ran locally";
 		}
