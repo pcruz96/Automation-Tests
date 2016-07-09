@@ -153,7 +153,8 @@ public class TestRailUtilities extends Log4J {
 			
 			String[] s1 = steps.split("// ");
 			String[] s2 = s1[1].split("\n");
-			String[] s3 = s2[0].split("_");
+			String dupMethod = s2[0].replace("();", "");
+			String[] s3 = dupMethod.split("_");
 			String dupCaseId = s3[0];
 			
 			dupCaseResults = this.getCaseResults(BaseTest.projectId, BaseTest.suiteId, dupCaseId);
@@ -173,12 +174,12 @@ public class TestRailUtilities extends Log4J {
 			if (!sauceLabUrl.contains(BaseTest.getBuildUrl())) {
 				comment += "\n\nBUILD: " + BaseTest.getBuildUrl();
 			}
+			
+			if (!BaseTest.sauceLabs) {
+				comment += "\n\n ran locally";
+			}
 		}
 
-		if (!BaseTest.sauceLabs) {
-			comment += "\n\n ran locally";
-		}
-		
 		if (comment.indexOf("JIRA bug") != -1) {
 			
 			String[] s = comment.split(" : ");
@@ -447,12 +448,18 @@ public class TestRailUtilities extends Log4J {
 				} catch (Exception e) {
 					return "Untested";
 				}
+				
+				String details = " - caseId : " + caseId + " | testId : " + testId + "\n\n" + comments;
+				
 				if (statusId.equals("1")) {			
+					/*
 					return "Passed - projectId : " + projectId + " = " + this.getProjectName(projectId) + " | suiteId : " 
 							+ suiteId + " = " + this.getSuiteName(false, suiteId) + " | caseId : " + caseId + " | testId : " 
 							+ testId + "\n\n" + comments;
+							*/
+					return "Passed" + details;					
 				} else {
-					return "Failed";
+					return "Failed" + details;
 				}
 			} catch (APIException e) {
 				logger.error(e.getMessage());
