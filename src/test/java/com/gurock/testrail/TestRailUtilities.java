@@ -1,12 +1,9 @@
 package com.gurock.testrail;
 
-import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 
@@ -150,11 +147,29 @@ public class TestRailUtilities extends Log4J {
 		data.put("status_id", statusId);
 		
 		String steps = GetTestCases.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
-		
-		String results = TestConfiguration.getTestRailConfig().getString("url") + "cases/results/" + BaseTest.getTestCaseId().replace("c", "");
-		
-		steps += "\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + sauceLabUrl;
-		comment += "\n\n" + steps + "\n\nRESULTS TREND: " + results;
+		String dupCaseResults = null;
+				
+		if (steps.contains("getCaseResults")) {
+			
+			String[] s1 = steps.split("// ");
+			String[] s2 = s1[1].split("\n");
+			String[] s3 = s2[0].split("_");
+			String dupCaseId = s3[0];
+			
+			dupCaseResults = this.getCaseResults(BaseTest.projectId, BaseTest.suiteId, dupCaseId);
+			
+			if (!dupCaseResults.contains("Untested")) {
+				steps += "\n" + dupCaseResults; 
+				comment = steps;
+			}
+		} 			
+			
+		if (dupCaseResults == null || dupCaseResults.contains("Untested")) {
+			String results = TestConfiguration.getTestRailConfig().getString("url") + "cases/results/" + BaseTest.getTestCaseId().replace("c", "");
+				
+			steps += "\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + sauceLabUrl;
+			comment += "\n\n" + steps + "\n\nRESULTS TREND: " + results;
+		}
 
 		if (!sauceLabUrl.contains(BaseTest.getBuildUrl())) {
 			comment += "\n\nBUILD: " + BaseTest.getBuildUrl();
