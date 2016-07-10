@@ -159,7 +159,9 @@ public class TestRailUtilities extends Log4J {
 			
 			dupCaseResults = this.getCaseResults(BaseTest.projectId, BaseTest.suiteId, dupCaseId);
 			
-			if (!dupCaseResults.contains("Untested")) {
+			if (dupCaseResults.equals("Untested")) {
+				steps += GetTestCases.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), dupMethod);
+			} else {
 				steps += "\n" + dupCaseResults; 
 				comment = steps;
 			}
