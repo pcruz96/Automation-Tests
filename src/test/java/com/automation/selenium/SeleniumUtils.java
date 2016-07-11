@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 public class SeleniumUtils extends Log4J {
 
 	WebDriver driver = Driver.getDriver();
-	public int MAX_WAIT = 30;
+	public int MAX_WAIT = 90;
 	boolean printLogs;
 	
 	public SeleniumUtils() {		
@@ -182,10 +182,10 @@ public class SeleniumUtils extends Log4J {
 
 	public void clickElement(By locator) {
 		try {
-			this.waitForElementVisibility(locator);
-			driver.findElement(locator).click();						
+			clickHiddenElement(locator);								
 		} catch (Exception e) {
-			clickHiddenElement(locator);
+			this.waitForElementVisibility(locator);
+			driver.findElement(locator).click();
 		}
 	}
 	
@@ -573,4 +573,11 @@ public class SeleniumUtils extends Log4J {
 	public int getElementsCount(By element) {
 		return driver.findElements(element).size();
 	}
+	
+	public int getCurrentMonthInt() {
+		java.util.Date date= new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal.get(Calendar.MONTH);	
+	}	
 }
