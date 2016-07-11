@@ -61,6 +61,12 @@ public class Driver {
             cap = DesiredCapabilities.chrome();
             cap.setBrowserName(DesiredCapabilities.chrome().getBrowserName());
             cap.setVersion(version);
+            
+        } else if (browser.equalsIgnoreCase("safari")) {
+            
+            cap = DesiredCapabilities.safari();
+            cap.setBrowserName(DesiredCapabilities.safari().getBrowserName());
+            cap.setVersion(version);
 
         } else if (browser.equalsIgnoreCase("iPad")) {
         	
@@ -78,14 +84,16 @@ public class Driver {
         cap.setCapability("name", method.getName());
         cap.setCapability("tags", env);
         cap.setCapability("build", buildTag.toLowerCase());
-		//cap.setCapability("commandTimeout", 120);
+        cap.setCapability("screenResolution", "1600x1200");
+		//cap.setCapability("idleTimeout", 240);
         
         if (sauceLabs) {        	
         	String apiKey = TestConfiguration.getSauceLabsConfig().getString("APIKEY");
         	threadDvr.set(new RemoteWebDriver(new URL("http://"+apiKey+"@ondemand.saucelabs.com:80/wd/hub"), cap));
         } else {            
         	try {        		
-        		threadDvr.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap));
+        		//threadDvr.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap));
+        		threadDvr.set(new FirefoxDriver());
         	} catch (Exception e) {
         		threadDvr.set(new FirefoxDriver());
         	}
