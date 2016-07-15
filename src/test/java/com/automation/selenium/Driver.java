@@ -81,25 +81,26 @@ public class Driver {
             cap = DesiredCapabilities.phantomjs();
         }
         
-        cap.setCapability("os", os);
-        cap.setCapability("os_version", os_version);
         cap.setCapability("name", method.getName());
         cap.setCapability("tags", env);
         cap.setCapability("build", buildTag.toLowerCase());
         cap.setCapability("screenResolution", "1600x1200");
-        cap.setCapability("acceptSslCerts", "true");
-        cap.setCapability("browserstack.debug", "true");        
+        cap.setCapability("acceptSslCerts", true);        
 		//cap.setCapability("idleTimeout", 240);
         
         if (cloudTest) {        	
         	
         	if (BaseTest.cloudTestProvider.equals("sauceLabs")) {
 	        
+        		cap.setCapability("platform", os);
         		String apiKey = TestConfiguration.getSauceLabsConfig().getString("APIKEY");
 	        	threadDvr.set(new RemoteWebDriver(new URL("http://"+apiKey+"@ondemand.saucelabs.com:80/wd/hub"), cap));
         	
         	} else if (BaseTest.cloudTestProvider.equals("browserStack")) {
 
+        		cap.setCapability("os", os);
+                cap.setCapability("os_version", os_version);
+                cap.setCapability("browserstack.debug", "true");
         		String apiKey = TestConfiguration.getBrowserStackConfig().getString("APIKEY");
             	threadDvr.set(new RemoteWebDriver(new URL("http://"+apiKey+"@hub-cloud.browserstack.com/wd/hub"), cap));
         	}
