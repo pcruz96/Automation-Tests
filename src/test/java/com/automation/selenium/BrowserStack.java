@@ -18,7 +18,11 @@ public class BrowserStack {
 		if (System.getenv("BUILD_TAG") != null) {
 			json1 = (JSONObject) resultArray.get(0);
 		} else {
-			json1 = (JSONObject) resultArray.get(1);
+			try {
+				json1 = (JSONObject) resultArray.get(1);
+			} catch (Exception e) {
+				json1 = (JSONObject) resultArray.get(0);
+			}
 		}
 		JSONObject json2 = (JSONObject) json1.get(key1);
 		String value = json2.get(key2).toString();
