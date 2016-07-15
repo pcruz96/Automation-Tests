@@ -11,12 +11,8 @@ import com.automation.utils.ExecuteShellCommand;
 public class BrowserStack {
 	
 	static String login = TestConfiguration.getBrowserStackConfig().getString("LOGIN");
-
-	public static void main(String[] args) throws ParseException {		
-		System.out.println(getPublicUrl("c240476_check_same_name_for_project_name"));		
-	}
 	
-	public static String getJsonValue(String curlResult, String key1, String key2) throws ParseException {
+	public String getJsonValue(String curlResult, String key1, String key2) throws ParseException {
 		JSONArray resultArray = (JSONArray) new JSONParser().parse(curlResult);
 		JSONObject json1;
 		if (System.getenv("BUILD_TAG") != null) {
@@ -29,7 +25,7 @@ public class BrowserStack {
 		return value;
 	}
 	
-	public static String getPublicUrl(String testCase) throws ParseException {
+	public String getPublicUrl(String testCase) throws ParseException {
 		
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		String builds = es.executeCommand("curl --user "+login+" https://www.browserstack.com/automate/builds.json");

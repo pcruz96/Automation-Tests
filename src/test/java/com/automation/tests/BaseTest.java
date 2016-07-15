@@ -275,7 +275,8 @@ public class BaseTest extends TestRailUtilities {
 				logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
 			} else {
 				try {
-					cloudTestJobIdLink = BrowserStack.getPublicUrl(method.getName());
+					BrowserStack bs = new BrowserStack();
+					cloudTestJobIdLink = bs.getPublicUrl(method.getName());
 					logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
 				} catch (Exception e) {
 					cloudTestJobIdLink = "";
