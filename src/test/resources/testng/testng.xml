@@ -13,7 +13,7 @@
 	<parameter name="env" value="ENV" />
 	<parameter name="cloudTest" value="true" />
 	<!-- sauceLabs or browserStack -->
-	<parameter name="cloudTestProvider" value="browserStack" />
+	<parameter name="cloudTestProvider" value="CLOUD_TEST_PROVIDER" />
 	<!-- boolean UPDTESTRAIL -->
 	<parameter name="updateTestRail" value="UPDTESTRAIL" />
 	<!-- boolean add new run in TestRail -->
