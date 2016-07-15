@@ -174,15 +174,16 @@ public class BaseTestRally extends Rally {
 		SeleniumUtils su = new SeleniumUtils();
 		maxTestDataName.set(BaseTestRally.getTestDataName() + su.getRandomString(255 - BaseTestRally.getTestDataName().length()));
 		
+		/*
 		Driver.createDriver(name, getTestEnv(env, true), platform, browser, version, deviceName,
 				deviceOrientation, sauceLabs, method);
-		
+		*/
 		Driver.getDriver().manage().window().maximize();
 		
 		try {			
 			LoginPage login = new LoginPage();
 			who = who != null ? who : "login";
-			login.login();	
+			//login.login();	
 		} catch (Exception e) {
 			logger.error(errors);
 		}

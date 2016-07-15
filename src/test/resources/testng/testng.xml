@@ -10,18 +10,20 @@
 	<parameter name="projectId" value="PROJECTID" />
 	<parameter name="suiteId" value="SUITEID" />
 	<!-- get ENV from Automation-Tests/src/test/resources/config/*.conf -->
-	<parameter name="env" value="ENV" />
-	<parameter name="cloudTest" value="true" />
-	<!-- sauceLabs or browserStack -->
-	<parameter name="cloudTestProvider" value="CLOUD_TEST_PROVIDER" />
+	<parameter name="env" value="ENV" />	
 	<!-- boolean UPDTESTRAIL -->
 	<parameter name="updateTestRail" value="UPDTESTRAIL" />
 	<!-- boolean add new run in TestRail -->
 	<parameter name="addRun" value="ADDRUN" />
 	<!-- update specific run in TestRail -->
 	<parameter name="runId" value="" />
+	<parameter name="cloudTest" value="true" />
+	<!-- sauceLabs or browserStack -->
+	<parameter name="cloudTestProvider" value="CLOUD_TEST_PROVIDER" />
 	<!-- https://docs.saucelabs.com/reference/platforms-configurator/#/ -->
-	<parameter name="platform" value="PLATFORM" />	
+	<!-- https://www.browserstack.com/automate/java -->
+	<parameter name="os" value="OS" />
+	<parameter name="os_version" value="OS_VERSION" />	
 	<parameter name="browser" value="BROWSER" />
 	<!-- optional get DATABASE from Automation-Tests/src/test/resources/config/db.conf. Ex. db.qang1 or db.stg -->
 	<parameter name="database" value="DATABASE" />

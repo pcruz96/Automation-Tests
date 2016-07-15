@@ -18,7 +18,7 @@ public class Driver {
 
     private static ThreadLocal<WebDriver> threadDvr = new ThreadLocal<WebDriver>();
 
-    public static WebDriver createDriver(String name, String env, String platform, String browser, String version, String deviceName, String deviceOrientation, Boolean cloudTest, Method method) throws MalformedURLException {
+    public static WebDriver createDriver(String name, String env, String os, String os_version, String browser, String version, String deviceName, String deviceOrientation, Boolean cloudTest, Method method) throws MalformedURLException {
 
         DesiredCapabilities cap = null;
         String buildTag = System.getenv("BUILD_TAG"); 
@@ -81,13 +81,14 @@ public class Driver {
             cap = DesiredCapabilities.phantomjs();
         }
         
-        cap.setCapability("platform", platform);
+        cap.setCapability("os", os);
+        cap.setCapability("os_version", os_version);
         cap.setCapability("name", method.getName());
         cap.setCapability("tags", env);
         cap.setCapability("build", buildTag.toLowerCase());
         cap.setCapability("screenResolution", "1600x1200");
         cap.setCapability("acceptSslCerts", "true");
-        cap.setCapability("browserstack.debug", "true");
+        cap.setCapability("browserstack.debug", "true");        
 		//cap.setCapability("idleTimeout", 240);
         
         if (cloudTest) {        	

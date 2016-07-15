@@ -197,8 +197,8 @@ public class BaseTest extends TestRailUtilities {
 	}
 
 	@BeforeMethod(alwaysRun = true)
-	@Parameters({ "name", "platform", "browser", "version", "deviceName", "deviceOrientation", "who" })			
-	public void setup(@Optional String name, @Optional String platform,
+	@Parameters({ "name", "os", "os_version", "browser", "version", "deviceName", "deviceOrientation", "who" })			
+	public void setup(@Optional String name, @Optional String os, @Optional String os_version,
 			@Optional String browser, @Optional String version,
 			@Optional String deviceName, @Optional String deviceOrientation, @Optional String who, Method method)			
 			throws MalformedURLException {
@@ -225,7 +225,7 @@ public class BaseTest extends TestRailUtilities {
 		SeleniumUtils su = new SeleniumUtils();
 		maxTestDataName.set(BaseTest.getTestDataName() + su.getRandomString(255 - BaseTest.getTestDataName().length()));
 		
-		Driver.createDriver(name, getTestEnv(env, true), platform, browser, version, deviceName,
+		Driver.createDriver(name, getTestEnv(env, true), os, os_version, browser, version, deviceName,
 				deviceOrientation, cloudTest, method);
 		
 		Driver.getDriver().manage().window().maximize();		
