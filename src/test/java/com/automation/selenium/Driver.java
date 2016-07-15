@@ -86,9 +86,9 @@ public class Driver {
         cap.setCapability("tags", env);
         cap.setCapability("build", buildTag.toLowerCase());
         cap.setCapability("screenResolution", "1600x1200");
-		//cap.setCapability("idleTimeout", 240);
-        
         cap.setCapability("acceptSslCerts", "true");
+        cap.setCapability("browserstack.debug", "true");
+		//cap.setCapability("idleTimeout", 240);
         
         if (cloudTest) {        	
         	
