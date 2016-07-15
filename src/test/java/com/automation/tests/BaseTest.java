@@ -2,6 +2,7 @@ package com.automation.tests;
 
 import com.automation.config.TestConfiguration;
 import com.automation.pageObjs.LoginPage;
+import com.automation.selenium.BrowserStack;
 import com.automation.selenium.Driver;
 import com.automation.selenium.SauceLabs;
 import com.automation.selenium.ScreenshotOnFailure;
@@ -17,6 +18,7 @@ import com.gurock.testrail.TestRailUtilities;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.json.simple.parser.ParseException;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -65,8 +67,9 @@ public class BaseTest extends TestRailUtilities {
 	String runName;
 	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
-	public static boolean sauceLabs = false;
-	HashMap<String, String> jiraMap = new HashMap<String, String>(); 
+	public static boolean cloudTest = false;
+	public static String cloudTestProvider = null;
+	HashMap<String, String> jiraMap = new HashMap<String, String>();
 	
 	public String getTestEnv(String testEnv, boolean tag) {
 		
@@ -140,8 +143,8 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	@BeforeSuite(alwaysRun = true)
-	@Parameters({ "repo", "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "sauceLabs", "browser", "database" }) 
-	public void beforeSuite(String repo, String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean sauceLabs, String browser, @Optional String database) {
+	@Parameters({ "repo", "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "cloudTest", "cloudTestProvider", "browser", "database" }) 
+	public void beforeSuite(String repo, String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean cloudTest, String cloudTestProvider, String browser, @Optional String database) {
 		
 		BaseTest.repo = repo;
 		String[] suite = this.getClass().getName().split("\\.");		
@@ -153,7 +156,8 @@ public class BaseTest extends TestRailUtilities {
 		BaseTest.updTestRail = updateTestRail;	
 		BaseTest.addRun = addRun;
 		BaseTest.runId = runId;
-		BaseTest.sauceLabs = sauceLabs;
+		BaseTest.cloudTest = cloudTest;
+		BaseTest.cloudTestProvider = cloudTestProvider;
 		BaseTest.database = database;
 		BaseTest.browser = browser;
 		
@@ -222,7 +226,7 @@ public class BaseTest extends TestRailUtilities {
 		maxTestDataName.set(BaseTest.getTestDataName() + su.getRandomString(255 - BaseTest.getTestDataName().length()));
 		
 		Driver.createDriver(name, getTestEnv(env, true), platform, browser, version, deviceName,
-				deviceOrientation, sauceLabs, method);
+				deviceOrientation, cloudTest, method);
 		
 		Driver.getDriver().manage().window().maximize();		
 		try {			
@@ -235,20 +239,23 @@ public class BaseTest extends TestRailUtilities {
 	}
 
 	@AfterMethod(alwaysRun = true)
-	public void tearDown(ITestContext context, ITestResult result, Method method) throws IOException {
+	public void tearDown(ITestContext context, ITestResult result, Method method) throws IOException, ParseException {
 		
-		String sauceLabsJobIdLink = "";
+		String cloudTestJobIdLink = "";
 		
 		//will display testId for faster tracking
-		this.getCaseResults(projectId, suiteId, getCaseId(method));		
+		this.getCaseResults(projectId, suiteId, getCaseId(method));
 		
-		if (sauceLabs) {
+		if (cloudTest) {			
+			String jobId = null;
 			SauceLabs sl = new SauceLabs();
-			String jobId = null; 
-			try {
-				jobId = sl.getJobId(method);
-			} catch (Exception e) {
-				jobId = null;
+			
+			if (BaseTest.cloudTestProvider.equals("sauceLabs")) {				
+				try {
+					jobId = sl.getJobId(method);
+				} catch (Exception e) {
+					jobId = null;
+				}
 			}
 			
 			String steps;
@@ -261,13 +268,18 @@ public class BaseTest extends TestRailUtilities {
 			logger.info(steps);
 			String dupResults = BaseTest.getCaseResults();
 			if (steps.contains("BaseTest.getCaseResults") && dupResults.contains("Passed")) {
-				sauceLabsJobIdLink = "The Sauce Labs session is of a similar test case referenced in the steps. " + dupResults;
+				cloudTestJobIdLink = "The Sauce Labs session is of a similar test case referenced in the steps. " + dupResults;
 			} else if (jobId != null) {
 				testResults.put(jobId, result);
-				sauceLabsJobIdLink = sl.getLinkToSauceLabJobId(jobId);
-				logger.info("\n" + method.getName() + " - " + sauceLabsJobIdLink + "\n");
+				cloudTestJobIdLink = sl.getLinkToSauceLabJobId(jobId);
+				logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
 			} else {
-				sauceLabsJobIdLink = "";
+				try {
+					cloudTestJobIdLink = BrowserStack.getPublicUrl(method.getName());
+					logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
+				} catch (Exception e) {
+					cloudTestJobIdLink = "";
+				}
 			}
 		} 
 		
@@ -282,22 +294,22 @@ public class BaseTest extends TestRailUtilities {
 			}					
 			if (methodNameCorrect) {					
 				if (result.getStatus() == ITestResult.SUCCESS) {				
-					uploadResults(method, result, "", sauceLabsJobIdLink);
+					uploadResults(method, result, "", cloudTestJobIdLink);
 					
 					Jira j = new Jira();
 					
 					if (!j.isStatusClosedOrDone(msg)) {
-						j.closeIssue(msg, sauceLabsJobIdLink);
+						j.closeIssue(msg, cloudTestJobIdLink);
 					}
 				}
-				updateCase(method, "3", result, sauceLabsJobIdLink); // 1 = Automated
+				updateCase(method, "1", result, cloudTestJobIdLink); // 1 = Automated
 			}
 		}
 		if (Retry.retryCount == Retry.MAXRETRYCOUNT && result.getStatus() == ITestResult.FAILURE) {
 			ScreenshotOnFailure ss = new ScreenshotOnFailure();
 			String error = null;
 			try {
-				error = ss.takeScreenShotOnFailure(result, Driver.getDriver(), method, sauceLabsJobIdLink);
+				error = ss.takeScreenShotOnFailure(result, Driver.getDriver(), method, cloudTestJobIdLink);
 			} catch (Exception e) {}
 			
 			SlackNotifications cn = new SlackNotifications();		
@@ -312,8 +324,8 @@ public class BaseTest extends TestRailUtilities {
 					
 					String jiraDesc = null; 
 					
-					if (sauceLabs) {
-						//jiraDesc = sauceLabsJobIdLink.replace("/", "\\/");
+					if (cloudTest) {
+						//jiraDesc = cloudTestJobIdLink.replace("/", "\\/");
 						
 						String testRailUrl = TestConfiguration.getTestRailConfig().getString("url");
 						String testRailUsername = TestConfiguration.getTestRailConfig().getString("username");
@@ -330,7 +342,7 @@ public class BaseTest extends TestRailUtilities {
 				}
 				
 				TestRailUtilities tr = new TestRailUtilities();
-				tr.uploadResults(method, result, "JIRA bug - " + bugId + " : " + error, sauceLabsJobIdLink);
+				tr.uploadResults(method, result, "JIRA bug - " + bugId + " : " + error, cloudTestJobIdLink);
 				
 				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId, getCaseId(method));
 				
@@ -349,8 +361,8 @@ public class BaseTest extends TestRailUtilities {
 				String jiraSummary = method.getName() + " - " + error;
 				String jiraDesc; 
 					
-					if (sauceLabs) {
-						jiraDesc = msg + " - " + sauceLabsJobIdLink.replace("/", "\\/");		
+					if (cloudTest) {
+						jiraDesc = msg + " - " + cloudTestJobIdLink.replace("/", "\\/");		
 					} else {
 						jiraDesc = msg + " - " + testResultLink.replace("/", "\\/");
 					}	 
@@ -358,8 +370,8 @@ public class BaseTest extends TestRailUtilities {
 				jiraMap.put(BaseTest.runId + "TESTRAIL" + tr.getCaseId(method) + "JIRA" + jiraSummary, jiraDesc);
 				*/
 				
-			} else if (sauceLabs) {
-				cn.postMsg(msg + " - " + sauceLabsJobIdLink);			
+			} else if (cloudTest) {
+				cn.postMsg(msg + " - " + cloudTestJobIdLink);			
 			}
 		}
 		this.appendSkippedAndFailedTests(result, method);
@@ -388,7 +400,7 @@ public class BaseTest extends TestRailUtilities {
 	
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
-		if (sauceLabs) {
+		if (cloudTest) {
 			SauceLabs sl = new SauceLabs();
 			sl.createShellScriptUpdateResults(testResults);
 		} else {
@@ -482,7 +494,7 @@ public class BaseTest extends TestRailUtilities {
 		
 		String[] s3 = desc.split(" - ");
 		String descWithoutLink = desc.replace(" - " + s3[s3.length - 1], "").replace(" - ", "_").replace(" ", "_");
-		String testRailOrSauceLabsLink = s3[s3.length - 1];
+		String testRailOrCloudTestLink = s3[s3.length - 1];
 				
 		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+descWithoutLink+"/g", jmx};
 		es.executeArrayCommand(cmd);
@@ -491,7 +503,7 @@ public class BaseTest extends TestRailUtilities {
 		es.executeArrayCommand(cmd1);
 		
 		//String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+desc+"/g", jmx};
-		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+testRailOrSauceLabsLink+"/g", jmx};
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+testRailOrCloudTestLink+"/g", jmx};
 		es.executeArrayCommand(cmd2);
 		
 		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/REPLACE_ASSIGNEE/"+assignee+"/g", jmx};
@@ -539,7 +551,7 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	public void skipSauceTestRunLocally() {
-		if (BaseTest.sauceLabs) {
+		if (BaseTest.cloudTest) {
 			throw new SkipException("Need to run locally.");
 		}
 	}

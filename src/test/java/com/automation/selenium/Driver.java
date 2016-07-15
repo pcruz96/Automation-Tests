@@ -12,12 +12,13 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import com.automation.config.TestConfiguration;
+import com.automation.tests.BaseTest;
 
 public class Driver {
 
     private static ThreadLocal<WebDriver> threadDvr = new ThreadLocal<WebDriver>();
 
-    public static WebDriver createDriver(String name, String env, String platform, String browser, String version, String deviceName, String deviceOrientation, Boolean sauceLabs, Method method) throws MalformedURLException {
+    public static WebDriver createDriver(String name, String env, String platform, String browser, String version, String deviceName, String deviceOrientation, Boolean cloudTest, Method method) throws MalformedURLException {
 
         DesiredCapabilities cap = null;
         String buildTag = System.getenv("BUILD_TAG"); 
@@ -27,7 +28,7 @@ public class Driver {
         //mobile parameters
         deviceName = deviceName != null ? deviceName : "";
         deviceOrientation = deviceOrientation != null ? deviceOrientation : "portrait";
-        sauceLabs = sauceLabs != null ? sauceLabs : false;
+        cloudTest = cloudTest != null ? cloudTest : false;
         buildTag = buildTag != null ? buildTag : "";
 
         if (browser.equalsIgnoreCase("firefox")) {
@@ -87,9 +88,20 @@ public class Driver {
         cap.setCapability("screenResolution", "1600x1200");
 		//cap.setCapability("idleTimeout", 240);
         
-        if (sauceLabs) {        	
-        	String apiKey = TestConfiguration.getSauceLabsConfig().getString("APIKEY");
-        	threadDvr.set(new RemoteWebDriver(new URL("http://"+apiKey+"@ondemand.saucelabs.com:80/wd/hub"), cap));
+        cap.setCapability("acceptSslCerts", "true");
+        
+        if (cloudTest) {        	
+        	
+        	if (BaseTest.cloudTestProvider.equals("sauceLabs")) {
+	        
+        		String apiKey = TestConfiguration.getSauceLabsConfig().getString("APIKEY");
+	        	threadDvr.set(new RemoteWebDriver(new URL("http://"+apiKey+"@ondemand.saucelabs.com:80/wd/hub"), cap));
+        	
+        	} else if (BaseTest.cloudTestProvider.equals("browserStack")) {
+
+        		String apiKey = TestConfiguration.getBrowserStackConfig().getString("APIKEY");
+            	threadDvr.set(new RemoteWebDriver(new URL("http://"+apiKey+"@hub-cloud.browserstack.com/wd/hub"), cap));
+        	}
         } else {            
         	try {        		
         		//threadDvr.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap));

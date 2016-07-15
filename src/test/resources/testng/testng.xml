@@ -11,7 +11,9 @@
 	<parameter name="suiteId" value="SUITEID" />
 	<!-- get ENV from Automation-Tests/src/test/resources/config/*.conf -->
 	<parameter name="env" value="ENV" />
-	<parameter name="sauceLabs" value="true" />
+	<parameter name="cloudTest" value="true" />
+	<!-- sauceLabs or browserStack -->
+	<parameter name="cloudTestProvider" value="browserStack" />
 	<!-- boolean UPDTESTRAIL -->
 	<parameter name="updateTestRail" value="UPDTESTRAIL" />
 	<!-- boolean add new run in TestRail -->
