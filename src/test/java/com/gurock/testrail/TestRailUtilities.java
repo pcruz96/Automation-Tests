@@ -118,7 +118,7 @@ public class TestRailUtilities extends Log4J {
 		}
 	}
 
-	public String uploadResults(Method method, ITestResult result, String comment, String sauceLabUrl) {			
+	public String uploadResults(Method method, ITestResult result, String comment, String cloudTestLink) {			
 
 		String caseId = getCaseId(method);
 		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
@@ -170,14 +170,14 @@ public class TestRailUtilities extends Log4J {
 		if (dupCaseResults == null || dupCaseResults.contains("Untested")) {
 			String results = TestConfiguration.getTestRailConfig().getString("url") + "cases/results/" + BaseTest.getTestCaseId().replace("c", "");
 				
-			steps += "\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + sauceLabUrl;
+			steps += "\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + cloudTestLink;
 			comment += "\n\n" + steps + "\n\nRESULTS TREND: " + results;
 			
-			if (!sauceLabUrl.contains(BaseTest.getBuildUrl())) {
+			if (!cloudTestLink.contains(BaseTest.getBuildUrl())) {
 				comment += "\n\nBUILD: " + BaseTest.getBuildUrl();
 			}
 			
-			if (!BaseTest.sauceLabs) {
+			if (!BaseTest.cloudTest) {
 				comment += "\n\n ran locally";
 			}
 		}
@@ -345,7 +345,7 @@ public class TestRailUtilities extends Log4J {
 		return null;
 	}
 	
-	public void updateCase(Method method, String typeId, ITestResult result, String sauceLabUrl) {
+	public void updateCase(Method method, String typeId, ITestResult result, String cloudTestLink) {
 
 		String caseId = getCaseId(method);
 		Map<String, String> data = new HashMap<String, String>();
