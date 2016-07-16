@@ -1,5 +1,35 @@
 package com.automation.tests;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+import org.json.simple.parser.ParseException;
+import org.testng.Assert;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
+import org.testng.SkipException;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+
 import com.automation.config.TestConfiguration;
 import com.automation.pageObjs.LoginPage;
 import com.automation.selenium.BrowserStack;
@@ -16,44 +46,23 @@ import com.automation.utils.SlackNotifications;
 import com.gurock.testrail.GetTestCases;
 import com.gurock.testrail.TestRailUtilities;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
-import org.json.simple.parser.ParseException;
-import org.testng.Assert;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.SkipException;
-import org.testng.annotations.*;
-
-import java.util.List;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
-
 public class BaseTest extends TestRailUtilities {
 	
 	protected final static Logger logger = Logger.getLogger(Log4J.class);
 	private static ThreadLocal<String> methodName = new ThreadLocal<String>();
-	private static ThreadLocal<String> testCaseId = new ThreadLocal<String>();
-	public static ThreadLocal<String> testDataName = new ThreadLocal<String>();
+	private static ThreadLocal<String> testCaseId = new ThreadLocal<String>();	
 	private static ThreadLocal<String> maxTestDataName = new ThreadLocal<String>();
 	private static ThreadLocal<String> caseResults = new ThreadLocal<String>();
 	private static ThreadLocal<Boolean> mxTitles = new ThreadLocal<Boolean>();
+	public static ThreadLocal<String> testDataName = new ThreadLocal<String>();
+	
 	boolean methodNameCorrect = false;	
+	
 	Hashtable<String, ITestResult> testResults = new Hashtable<String, ITestResult>();
+	
 	StringWriter errors = new StringWriter();
 	StringBuilder sb = new StringBuilder();
+	
 	public static String host = null;
 	public static String repo = null;
 	public static String project = null;
@@ -61,16 +70,21 @@ public class BaseTest extends TestRailUtilities {
 	public static String suiteId = null;
 	public static String suiteName = null;
 	public static String env = null;
-	public static String runId = null;
-	public static String database = null;
 	public static String os = null;
 	public static String browser = null;
-	String runName;
+	public static String runId = null;
+	public static String database = null;	
+	
 	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
 	public static boolean cloudTest = false;
 	public static String cloudTestProvider = null;
+	
 	HashMap<String, String> jiraMap = new HashMap<String, String>();
+	
+	String runName;
+	public String projectParticipant;
+	public String projectParticipantFullName;
 	
 	public String getTestEnv(String testEnv, boolean tag) {
 		
@@ -141,11 +155,16 @@ public class BaseTest extends TestRailUtilities {
     }
 		
 	public void setActors() {
+		projectParticipant = TestConfiguration.getConfig().getString("projectParticipant");
+		projectParticipantFullName = TestConfiguration.getConfig().getString("projectParticipantFullName");
 	}
 	
 	@BeforeSuite(alwaysRun = true)
-	@Parameters({ "repo", "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "cloudTest", "cloudTestProvider", "os", "browser", "database" }) 
-	public void beforeSuite(String repo, String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean cloudTest, String cloudTestProvider, String os, String browser, @Optional String database) {
+	@Parameters({ "repo", "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "cloudTest",
+			"cloudTestProvider", "os", "browser", "database" })
+	public void beforeSuite(String repo, String projectId, String suiteId, String env, boolean updateTestRail,
+			boolean addRun, String runId, boolean cloudTest, String cloudTestProvider, String os, String browser,
+			@Optional String database) {
 		
 		BaseTest.repo = repo;
 		String[] suite = this.getClass().getName().split("\\.");		
@@ -158,10 +177,10 @@ public class BaseTest extends TestRailUtilities {
 		BaseTest.addRun = addRun;
 		BaseTest.runId = runId;
 		BaseTest.cloudTest = cloudTest;
-		BaseTest.cloudTestProvider = cloudTestProvider;
-		BaseTest.database = database;
+		BaseTest.cloudTestProvider = cloudTestProvider;		
 		BaseTest.os = os;
 		BaseTest.browser = browser;
+		BaseTest.database = database;
 		
 		FileUtilities fu = new FileUtilities();		
 		File dir = new File("test-output");
