@@ -34,9 +34,10 @@ public class Jira {
 
 			String[] s = output.split(",");
 			String issue = s[1].replaceAll("\"", "").replaceAll("key:", "");
-			
+			/*
 			System.out.println("Output from Server .... \n");
 			System.out.println(output);
+			*/
 			return issue;
 
 		} catch (Exception e) {
