@@ -63,6 +63,7 @@ public class BaseTest extends TestRailUtilities {
 	public static String env = null;
 	public static String runId = null;
 	public static String database = null;
+	public static String os = null;
 	public static String browser = null;
 	String runName;
 	public static boolean updTestRail = false;	
@@ -143,8 +144,8 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	@BeforeSuite(alwaysRun = true)
-	@Parameters({ "repo", "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "cloudTest", "cloudTestProvider", "browser", "database" }) 
-	public void beforeSuite(String repo, String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean cloudTest, String cloudTestProvider, String browser, @Optional String database) {
+	@Parameters({ "repo", "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "cloudTest", "cloudTestProvider", "os", "browser", "database" }) 
+	public void beforeSuite(String repo, String projectId, String suiteId, String env, boolean updateTestRail, boolean addRun, String runId, boolean cloudTest, String cloudTestProvider, String os, String browser, @Optional String database) {
 		
 		BaseTest.repo = repo;
 		String[] suite = this.getClass().getName().split("\\.");		
@@ -159,6 +160,7 @@ public class BaseTest extends TestRailUtilities {
 		BaseTest.cloudTest = cloudTest;
 		BaseTest.cloudTestProvider = cloudTestProvider;
 		BaseTest.database = database;
+		BaseTest.os = os;
 		BaseTest.browser = browser;
 		
 		FileUtilities fu = new FileUtilities();		
