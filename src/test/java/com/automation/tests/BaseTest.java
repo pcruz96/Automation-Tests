@@ -155,8 +155,7 @@ public class BaseTest extends TestRailUtilities {
     }
 		
 	public void setActors() {
-		projectParticipant = TestConfiguration.getConfig().getString("projectParticipant");
-		projectParticipantFullName = TestConfiguration.getConfig().getString("projectParticipantFullName");
+		
 	}
 	
 	@BeforeSuite(alwaysRun = true)
@@ -349,12 +348,9 @@ public class BaseTest extends TestRailUtilities {
 					if (cloudTest) {
 						//jiraDesc = cloudTestJobIdLink.replace("/", "\\/");
 						
-						String testRailUrl = TestConfiguration.getTestRailConfig().getString("url");
 						String testRailUsername = TestConfiguration.getTestRailConfig().getString("username");
 						String testRailPassword = TestConfiguration.getTestRailConfig().getString("password");						
-						
-						String caseResults = testRailUrl + "cases/results/".replace("/", "\\/") + this.getCaseId(method);
-						jiraDesc = "TestRail login: " + testRailUsername + " | " + testRailPassword + "\\n\\nHistoric Test Results Trend\\n\\n" + caseResults;
+						jiraDesc = "TestRail login: " + testRailUsername + " | " + testRailPassword;
 					} else {
 						//jiraDesc = testResultLink.replace("/", "\\/");
 						jiraDesc = "See TestRail results below.";
