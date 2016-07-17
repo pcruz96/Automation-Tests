@@ -284,7 +284,7 @@ public class TestRailUtilities extends Log4J {
 		List<String> data = new ArrayList<String>();
 		String tag = this.getBuildTag().replace("-", " ") + " - " + BaseTest.os + " - " + browser;
 		String runName = "";
-		if (tag == "") {
+		if (!tag.contains("jenkins")) {
 			tag = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 			runName = "automation - ui - " + env + getSuiteName(true, BaseTest.suiteId) + " - " + tag;
 		} else {
