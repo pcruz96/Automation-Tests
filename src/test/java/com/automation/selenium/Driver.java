@@ -84,7 +84,7 @@ public class Driver {
         cap.setCapability("name", method.getName());
         cap.setCapability("tags", env);
         cap.setCapability("build", buildTag.toLowerCase());
-        cap.setCapability("screenResolution", "1376x1032");
+        cap.setCapability("screenResolution", "1280x1024");
         cap.setCapability("acceptSslCerts", true);        
 		//cap.setCapability("idleTimeout", 240);
         
