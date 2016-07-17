@@ -189,7 +189,8 @@ public class SeleniumUtils extends Log4J {
 		}
 	}
 	
-	public void clickHiddenElement(By locator) {		
+	public void clickHiddenElement(By locator) {
+		this.waitForElementVisibility(locator);
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].style.visibility='visible';", driver.findElement(locator));
 		executor.executeScript("arguments[0].click();", driver.findElement(locator));		
