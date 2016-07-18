@@ -460,6 +460,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void sendkeys(By locator, Keys key) {
+		BaseTest.skipBrowser("safari");
 		try {
 			driver.findElement(locator).sendKeys(key);
 		} catch (Exception e) {
@@ -478,21 +479,19 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public void acceptAlert() {
-		if (!BaseTest.browser.equals("safari")) {
-			try {			
-				this.threadSleep(5000);
-				driver.switchTo().alert().accept();
-			} catch (Exception e) {}	
-		}		
+		BaseTest.skipBrowser("safari");
+		try {			
+			this.threadSleep(5000);
+			driver.switchTo().alert().accept();
+		} catch (Exception e) {}		
 	}	
 	
 	public void dismissAlert() {
-		if (!BaseTest.browser.equals("safari")) {
-			try {			
-				this.threadSleep(2000);
-				driver.switchTo().alert().dismiss();
-			} catch (Exception e) {}	
-		}		
+		BaseTest.skipBrowser("safari");
+		try {			
+			this.threadSleep(2000);
+			driver.switchTo().alert().dismiss();
+		} catch (Exception e) {}		
 	}
 	
 	public String getCssValueByXpath(By locator, String style){
@@ -513,7 +512,8 @@ public class SeleniumUtils extends Log4J {
 		driver.manage().deleteAllCookies();
 	}
 		
-	public String getAlertTxt() {		
+	public String getAlertTxt() {
+		BaseTest.skipBrowser("safari");
 		this.threadSleep(10000);
 		return driver.switchTo().alert().getText();
 	}

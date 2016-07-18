@@ -574,7 +574,7 @@ public class BaseTest extends TestRailUtilities {
 		}
 	}
 	
-	public void skipBrowser(String browser) {
+	public static void skipBrowser(String browser) {
 		if (BaseTest.browser.equals(browser)) {
 			throw new SkipException("Skipping browser " + browser);
 		}
