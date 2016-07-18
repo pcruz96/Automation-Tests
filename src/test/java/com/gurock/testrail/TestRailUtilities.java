@@ -123,6 +123,7 @@ public class TestRailUtilities extends Log4J {
 		String caseId = getCaseId(method);
 		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
 		String statusId = null;
+		cloudTestLink = cloudTestLink != null ? cloudTestLink : "";
 		Map<String, String> data = new HashMap<String, String>();
 		
 		if (result.getStatus() == ITestResult.SUCCESS) {
