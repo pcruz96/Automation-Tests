@@ -527,6 +527,8 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public String getExceptionAlertTxt(By element) {
+		BaseTest.skipBrowser("safari");
+		BaseTest.skipBrowser("ie");
 		String alertTxt;
 		try {
 			try {
