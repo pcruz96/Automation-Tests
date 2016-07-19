@@ -460,8 +460,8 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void sendkeys(By locator, Keys key) {
-		BaseTest.skipBrowser("safari");
-		BaseTest.skipBrowser("ie");
+		//BaseTest.skipBrowser("safari");
+		//BaseTest.skipBrowser("ie");
 		try {
 			driver.findElement(locator).sendKeys(key);
 		} catch (Exception e) {
@@ -480,8 +480,8 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public void acceptAlert() {
-		BaseTest.skipBrowser("safari");
-		BaseTest.skipBrowser("ie");
+		//BaseTest.skipBrowser("safari");
+		//BaseTest.skipBrowser("ie");
 		try {			
 			this.threadSleep(5000);
 			driver.switchTo().alert().accept();
@@ -489,8 +489,8 @@ public class SeleniumUtils extends Log4J {
 	}	
 	
 	public void dismissAlert() {
-		BaseTest.skipBrowser("safari");
-		BaseTest.skipBrowser("ie");
+		//BaseTest.skipBrowser("safari");
+		//BaseTest.skipBrowser("ie");
 		try {			
 			this.threadSleep(2000);
 			driver.switchTo().alert().dismiss();
@@ -516,8 +516,8 @@ public class SeleniumUtils extends Log4J {
 	}
 		
 	public String getAlertTxt() {
-		BaseTest.skipBrowser("safari");
-		BaseTest.skipBrowser("ie");
+		//BaseTest.skipBrowser("safari");
+		//BaseTest.skipBrowser("ie");
 		this.threadSleep(10000);
 		return driver.switchTo().alert().getText();
 	}
@@ -527,8 +527,8 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public String getExceptionAlertTxt(By element) {
-		BaseTest.skipBrowser("safari");
-		BaseTest.skipBrowser("ie");
+		//BaseTest.skipBrowser("safari");
+		//BaseTest.skipBrowser("ie");
 		String alertTxt;
 		try {
 			try {
