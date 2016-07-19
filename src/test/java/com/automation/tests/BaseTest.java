@@ -287,6 +287,10 @@ public class BaseTest extends TestRailUtilities {
 			}
 			logger.info(steps);
 			String dupResults = BaseTest.getCaseResults();
+			
+			steps = steps != null ? steps : "";
+			dupResults = dupResults != null ? dupResults : "";			
+			
 			if (steps.contains("BaseTest.getCaseResults") && dupResults.contains("Passed")) {
 				cloudTestJobIdLink = "The Sauce Labs session is of a similar test case referenced in the steps. " + dupResults;
 			} else if (jobId != null) {
@@ -295,9 +299,11 @@ public class BaseTest extends TestRailUtilities {
 				logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
 			} else {
 				try {
-					BrowserStack bs = new BrowserStack();
-					cloudTestJobIdLink = bs.getPublicUrl(method.getName());
-					logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
+					if (BaseTest.cloudTestProvider.equals("browserStack")) {
+						BrowserStack bs = new BrowserStack();
+						cloudTestJobIdLink = bs.getPublicUrl(method.getName());
+						logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
+					}
 				} catch (Exception e) {
 					cloudTestJobIdLink = "";
 				}
