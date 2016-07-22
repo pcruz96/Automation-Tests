@@ -289,7 +289,9 @@ public class TestRailUtilities extends Log4J {
 			tag = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 			runName = "automation - ui - " + env + getSuiteName(true, BaseTest.suiteId) + " - " + BaseTest.os + " - " + browser + " - " + tag;			 
 		} else {
-			runName = env + tag;
+			ExecuteShellCommand es = new ExecuteShellCommand();
+			String revision = es.executeCommand("git rev-parse refs/remotes/origin/master^{commit} # timeout=10").substring(0, 7);
+			runName = env + tag + " - " + revision;
 		}
 		
 		addRunUsingJmeter(runName.toLowerCase(), GetTestCases.getAutomatedTests(BaseTest.suiteName));
