@@ -1,15 +1,5 @@
 package com.automation.selenium;
 
-import com.automation.tests.BaseTest;
-import com.automation.utils.Log4J;
-import com.automation.utils.StackTraceToString;
-
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.*;
-import org.testng.Reporter;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -24,16 +14,41 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.NoSuchWindowException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
+
+import com.automation.tests.BaseTest;
+import com.automation.utils.Log4J;
+import com.automation.utils.StackTraceToString;
+
 public class SeleniumUtils extends Log4J {
 
 	WebDriver driver = Driver.getDriver();
-	public int MAX_WAIT = 90;
+	public int MAX_WAIT = 20;
 	boolean printLogs;
-	
+
 	public SeleniumUtils() {		
 		printLogs = true;
 	}
-	
+
 	public SeleniumUtils(boolean printLog) {		
 		printLogs = printLog;
 	}
@@ -50,7 +65,7 @@ public class SeleniumUtils extends Log4J {
 		} 
 		return success;
 	}
-	
+
 	public boolean waitForElementPresentInFrame(By frame, By locator) {
 		this.threadSleep(5000);
 		boolean success = false;
@@ -106,7 +121,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return success;
 	}
-	
+
 	public WebDriver switchToWindow(String regex) throws NoSuchWindowException {
 		boolean windowfound = false;
 		Set<String> windows = driver.getWindowHandles();
@@ -151,7 +166,7 @@ public class SeleniumUtils extends Log4J {
 				.ignoring(NoSuchElementException.class);
 		return wait;
 	}
-	
+
 	public String getSelectedOptionText(String index) {		
 		return driver.findElement(By.cssSelector("option[value='"+index+"']")).getText();
 	}
@@ -188,12 +203,17 @@ public class SeleniumUtils extends Log4J {
 			clickHiddenElement(locator);
 		}
 	}
-	
+
 	public void clickHiddenElement(By locator) {
 		this.waitForElementVisibility(locator);
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].style.visibility='visible';", driver.findElement(locator));
 		executor.executeScript("arguments[0].click();", driver.findElement(locator));		
+	}
+	
+	public void javascriptClick(By locator) {
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].click();", driver.findElement(locator));
 	}
 
 	public void selectOption(By locator, String option) {
@@ -202,7 +222,7 @@ public class SeleniumUtils extends Log4J {
 		list.selectByVisibleText(option);
 		this.waitForPageLoaded();
 	}
-	
+
 	public void selectOptionIndex(By locator, int index) {
 		Select list = new Select(driver.findElement(locator));
 		list.selectByIndex(index);
@@ -220,19 +240,19 @@ public class SeleniumUtils extends Log4J {
 			return -1;
 		}
 	}
-	
+
 	public List<WebElement> getColmn(By locator) {
-			
+
 		try {
 			List<WebElement> cols = driver.findElements(locator);
 			return cols;
-			
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			return null;
 		}
 	}
-		
+
 
 	// Scroll down using java script.
 	public void scrollDown() {
@@ -298,11 +318,11 @@ public class SeleniumUtils extends Log4J {
 
 		}
 	}
-	
+
 	public String getElementActualValue(By element) {		
 		return driver.findElement(element).getAttribute("value");
 	}
-	
+
 	public void takeScreenshot(String name) {
 		File scrFile = ((TakesScreenshot) Driver.getDriver()).getScreenshotAs(OutputType.FILE);					
 		try {
@@ -311,22 +331,22 @@ public class SeleniumUtils extends Log4J {
 			e.printStackTrace();
 		}	
 	}
-	
+
 	public boolean bodyTxtContains(String txt) {
 		this.waitForTextPresent(txt);
-		String bodyTxt = getBodyTxt();
-		return bodyTxt.contains(txt);
+		String bodyTxt = getBodyTxt().toLowerCase();
+		return bodyTxt.contains(txt.toLowerCase());
 	}
-	
+
 	public String dateFormat(String format, Integer days) {
 		DateFormat dateFormat = new SimpleDateFormat(format);
-        Calendar cal = Calendar.getInstance();
-        // can add + or - prefix to days 
-        cal.add(Calendar.DATE, days);    
-        String modifiedDate = dateFormat.format(cal.getTime());
-        return modifiedDate;
+		Calendar cal = Calendar.getInstance();
+		// can add + or - prefix to days 
+		cal.add(Calendar.DATE, days);    
+		String modifiedDate = dateFormat.format(cal.getTime());
+		return modifiedDate;
 	}
-	
+
 	public Date getDate(String format, String date){
 		try{
 			SimpleDateFormat formatter = new SimpleDateFormat(format);
@@ -337,7 +357,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return null;
 	}
-	
+
 	public String getRandomString(int length) {
 		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+";
 		StringBuilder result = new StringBuilder();
@@ -348,7 +368,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return result.toString();
 	}
-	
+
 	public String getRandomAlphaString(int length) {
 		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ";
 		StringBuilder result = new StringBuilder();
@@ -359,7 +379,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return result.toString();
 	}
-	
+
 	public String getRandomAlphaNumString(int length) {
 		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ0123456789";
 		StringBuilder result = new StringBuilder();
@@ -370,7 +390,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return result.toString();
 	}
-	
+
 	public String getRandomNumSpecialCharString(int length) {
 		final String characters = "0123456789!@#$%^&*()_+<,>.?/:;{[}]|";
 		StringBuilder result = new StringBuilder();
@@ -381,7 +401,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return result.toString();
 	}
-	
+
 	public String getRandomAlphaSpecialCharString(int length) {
 		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()_+<,>.?/:;{[}]|";
 		StringBuilder result = new StringBuilder();
@@ -392,7 +412,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return result.toString();
 	}
-	
+
 	public String getRandomSpecialCharString(int length) {
 		final String characters = "!@#$%^&*()_+<,>.?/:;{[}]|";
 		StringBuilder result = new StringBuilder();
@@ -403,7 +423,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return result.toString();
 	}
-	
+
 	public String getRandomNumber(int length) {
 		final String characters = "0123456789";
 		StringBuilder result = new StringBuilder();
@@ -414,25 +434,25 @@ public class SeleniumUtils extends Log4J {
 		}
 		return result.toString();		
 	}
-	
+
 	public String getStringBeforeSingleQuote(String txt) {
 		String[] s = txt.split("'");
 		return s[0];
 	}
-	
+
 	public String getTxt(By locator) {
 		this.waitForElementVisibility(locator);
 		return driver.findElement(locator).getText();
 	}
-	
+
 	public boolean isSelected(By locator) {
 		return driver.findElement(locator).isSelected();
 	}
-		
+
 	public boolean stringContainsNumbers(String str) {
 		return str.matches(".*\\d.*");
 	}
-	
+
 	public boolean stringContainsSpecialChar(String str) {
 		String patternToMatch = "[\\\\!\"#$%&()*+,./:;<=>?@\\[\\]^_{|}~]+";
 		Pattern p = Pattern.compile(patternToMatch);
@@ -440,7 +460,7 @@ public class SeleniumUtils extends Log4J {
 		boolean characterFound = m.find();
 		return characterFound;
 	}
-	
+
 	public void switchToFrame(By locator) {
 		try {
 			WebElement we = driver.findElement(locator);		
@@ -449,14 +469,14 @@ public class SeleniumUtils extends Log4J {
 			this.waitForPageLoaded();
 		} catch (Exception e) {}
 	}
-	
+
 	public int objCount(By locator) {
 		return driver.findElements(locator).size();		
 	}
-	
+
 	public String getMonthName(int month){
-	    String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-	    return monthNames[month];
+		String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+		return monthNames[month];
 	}
 
 	public void sendkeys(By locator, Keys key) {
@@ -466,58 +486,58 @@ public class SeleniumUtils extends Log4J {
 			logger.error(e.getMessage());
 		}
 	}
-	
+
 	public boolean objDisplayed(By locator) {
 		this.waitForElementVisibility(locator);
 		return driver.findElement(locator).isDisplayed();	
 	}
-	
+
 	public boolean isEnabled(By locator) {
 		this.waitForElementVisibility(locator);
 		return driver.findElement(locator).isEnabled();	
 	}
-	
+
 	public void acceptAlert() {
 		try {			
 			this.threadSleep(5000);
 			driver.switchTo().alert().accept();
 		} catch (Exception e) {}		
 	}	
-	
+
 	public void dismissAlert() {
 		try {			
 			this.threadSleep(2000);
 			driver.switchTo().alert().dismiss();
 		} catch (Exception e) {}		
 	}
-	
+
 	public String getCssValueByXpath(By locator, String style){
 		return driver.findElement(locator).getCssValue(style);
 	}
-	
+
 	public void mouseHover (By locator) {
 		Actions action = new Actions(driver);
 		WebElement we = driver.findElement(locator);
 		action.moveToElement(we).build().perform();
 	}	
-	
+
 	public Integer getTableRowCount() {
 		return driver.findElements(By.xpath("//tbody/tr")).size();
 	}
-	
+
 	public void deleteCookies(){
 		driver.manage().deleteAllCookies();
 	}
-		
+
 	public String getAlertTxt() {
 		this.threadSleep(10000);
 		return driver.switchTo().alert().getText();
 	}
-	
+
 	public String removeSpecialChars(String str) {
 		return str.replaceAll("[^a-zA-Z0-9]+","");
 	}
-	
+
 	public String getExceptionAlertTxt(By element) {
 		String alertTxt;
 		try {
@@ -534,7 +554,7 @@ public class SeleniumUtils extends Log4J {
 		}
 		return alertTxt;
 	}
-	
+
 	public String getModalTxt(By element) {
 		String alertTxt = null;
 		try {
@@ -545,36 +565,60 @@ public class SeleniumUtils extends Log4J {
 		}
 		return alertTxt;
 	}
-	
+
 	public void switchToActiveElement() {
 		driver.switchTo().activeElement();	
 	}
-	
+
 	public int getDayOfWeek(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
 		return dayOfWeek;
 	}
-	
+
 	public void clickText(String txt, boolean isHidden) {
 		this.waitForTextPresent(txt);
-		
+
 		if (isHidden) {
 			this.clickHiddenElement(By.xpath("//*[contains(text(),'"+txt+"')]"));	
 		} else {
 			this.clickElement(By.xpath("//*[contains(text(),'"+txt+"')]"));	
 		}						
 	}
-	
+
 	public int getElementsCount(By element) {
 		return driver.findElements(element).size();
 	}
-	
+
 	public int getCurrentMonthInt() {
 		java.util.Date date= new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		return cal.get(Calendar.MONTH);	
 	}	
+
+	public boolean isAlertPresent() 
+	{ 
+		try{ 
+			driver.switchTo().alert(); 
+			return true; 
+		}catch (NoAlertPresentException Ex){ 
+			return false; 
+		}
+	} 
+
+	public static String getCurrentDate() {
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		java.util.Date date= new Date();
+		String currentDate = dateFormat.format(date);
+		return currentDate; 
+	}
+
+	public static String getCurrentDateOffset(int offset) {
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, offset);
+		return dateFormat.format(calendar.getTime()).toString();
+	}
 }
