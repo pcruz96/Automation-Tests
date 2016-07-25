@@ -498,10 +498,14 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void acceptAlert() {
-		try {			
-			this.threadSleep(5000);
-			driver.switchTo().alert().accept();
-		} catch (Exception e) {}		
+		for (int i = 0; i < 3; i++) {
+			try {			
+				this.threadSleep(5000);
+				driver.switchTo().alert().accept();
+				break;
+			} catch (Exception e) {
+			}									
+		}
 	}	
 
 	public void dismissAlert() {
