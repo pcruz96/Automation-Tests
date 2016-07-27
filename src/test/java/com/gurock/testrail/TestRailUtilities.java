@@ -444,7 +444,7 @@ public class TestRailUtilities extends Log4J {
 				String statusId = null;
 				String comments = null;
 				try {
-					JSONObject jsonTestItem = (JSONObject) resultArray.get(resultArray.size() - 1);
+					JSONObject jsonTestItem = (JSONObject) resultArray.get(0);
 					testId = jsonTestItem.get("test_id").toString();								
 					statusId = jsonTestItem.get("status_id").toString();
 					comments = jsonTestItem.get("comment").toString();				
