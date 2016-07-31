@@ -498,9 +498,9 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void acceptAlert() {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 10; i++) {
 			try {			
-				this.threadSleep(5000);
+				this.threadSleep(10000);
 				driver.switchTo().alert().accept();
 				break;
 			} catch (Exception e) {
@@ -534,8 +534,20 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public String getAlertTxt() {
-		this.threadSleep(10000);
-		return driver.switchTo().alert().getText();
+		if (BaseTest.browser.equals("safari")) {
+			this.threadSleep(10000);
+			return driver.switchTo().alert().getText();
+		} else {
+			for (int i = 0; i < 10; i++) {
+				try {			
+					this.threadSleep(10000);
+					String alertTxt = driver.switchTo().alert().getText();
+					return alertTxt;
+				} catch (Exception e) {
+				}									
+			}
+		}
+		return null;
 	}
 
 	public String removeSpecialChars(String str) {
