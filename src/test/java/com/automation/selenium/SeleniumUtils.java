@@ -282,14 +282,17 @@ public class SeleniumUtils extends Log4J {
 		}
 	}
 
-	public void dragAndDrop(By src, By tgt, By expectElement) {
+	public boolean dragAndDrop(By src, By tgt, By expectElement) {		
 		try {
 			WebElement we = driver.findElement(src);
 			WebElement target = driver.findElement(tgt);
 			(new Actions(driver)).dragAndDrop(we, target).perform();
 			waitForElementVisibility(expectElement);
 			this.threadSleep(10000);
-		} catch (Exception e) {}
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	public String getElementAttribute(By locator, String attribute) {
