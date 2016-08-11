@@ -510,9 +510,26 @@ public class SeleniumUtils extends Log4J {
 			}									
 		}
 	}	
+	
+	public void acceptAlert(By obj) {
+		try {			
+			this.clickElement(obj);
+			this.threadSleep(10000);
+			driver.switchTo().alert().accept();
+		} catch (Exception e) {
+		}
+	}
 
 	public void dismissAlert() {
 		try {			
+			this.threadSleep(2000);
+			driver.switchTo().alert().dismiss();
+		} catch (Exception e) {}		
+	}
+	
+	public void dismissAlert(By obj) {
+		try {			
+			this.clickElement(obj);
 			this.threadSleep(2000);
 			driver.switchTo().alert().dismiss();
 		} catch (Exception e) {}		
