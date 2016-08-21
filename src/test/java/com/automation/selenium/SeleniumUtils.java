@@ -657,4 +657,9 @@ public class SeleniumUtils extends Log4J {
 		calendar.add(Calendar.DATE, offset);
 		return dateFormat.format(calendar.getTime()).toString();
 	}
+	
+	public String getDateFormat(String format) {
+		Calendar cal = Calendar.getInstance();
+		return new SimpleDateFormat(format).format(cal.getTime());
+	}
 }
