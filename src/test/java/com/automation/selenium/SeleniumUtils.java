@@ -54,6 +54,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public boolean waitForElementPresent(By locator) {
+		this.waitForPageLoaded();
 		boolean success = false;
 		try {
 			Wait<WebDriver> wait = this.fluentWait();
@@ -109,6 +110,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public boolean waitForElementVisibility(By locator) {
+		this.waitForPageLoaded();
 		boolean success = false;
 		try {
 			Wait<WebDriver> wait = this.fluentWait();
