@@ -16,7 +16,7 @@
 	<!-- boolean add new run in TestRail -->
 	<parameter name="addRun" value="ADDRUN" />
 	<!-- update specific run in TestRail -->
-	<parameter name="runId" value="" />
+	<parameter name="runId" value="RUNID" />
 	<parameter name="cloudTest" value="true" />
 	<!-- sauceLabs or browserStack -->
 	<parameter name="cloudTestProvider" value="CLOUD_TEST_PROVIDER" />
