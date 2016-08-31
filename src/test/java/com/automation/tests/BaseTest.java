@@ -279,11 +279,12 @@ public class BaseTest extends TestRailUtilities {
 			}
 			
 			String steps;
+			GetTestCases gt = new GetTestCases();
 			
 			if (updTestRail) {
-				steps = GetTestCases.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
+				steps = gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
 			} else {
-				steps = GetTestCases.getAutomatedTestCaseSteps(BaseTest.suiteName, method.getName());
+				steps = gt.getAutomatedTestCaseSteps(BaseTest.suiteName, method.getName());
 			}
 			logger.info(steps);
 			String dupResults = BaseTest.getCaseResults();

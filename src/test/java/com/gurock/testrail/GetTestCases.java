@@ -68,7 +68,7 @@ public class GetTestCases extends Log4J {
 		return testCaseName.toLowerCase();
 	}
 	
-	public static String getAutomatedTestCaseSteps(String suite, String testCase) {
+	public String getAutomatedTestCaseSteps(String suite, String testCase) {
 
 		String testCaseSteps = null;
 		TestRailUtilities tr = new TestRailUtilities();

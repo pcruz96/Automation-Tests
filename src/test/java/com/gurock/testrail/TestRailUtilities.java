@@ -147,7 +147,8 @@ public class TestRailUtilities extends Log4J {
 		// Add parameters to the hash map
 		data.put("status_id", statusId);
 		
-		String steps = GetTestCases.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
+		GetTestCases gt = new GetTestCases();		
+		String steps = gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
 		String dupCaseResults = null;
 				
 		if (steps.contains("getCaseResults")) {
@@ -161,7 +162,7 @@ public class TestRailUtilities extends Log4J {
 			dupCaseResults = this.getCaseResults(BaseTest.projectId, BaseTest.suiteId, dupCaseId);
 			
 			if (dupCaseResults.equals("Untested")) {
-				steps += GetTestCases.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), dupMethod);
+				steps += gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), dupMethod);
 			} else {
 				steps += "\n" + dupCaseResults; 
 				comment = steps;
