@@ -1,5 +1,10 @@
 package com.automation.pageObjs;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.automation.selenium.Driver;
@@ -7,8 +12,42 @@ import com.automation.selenium.SeleniumUtils;
 
 public abstract class BasePage extends SeleniumUtils {
 	
-	WebDriver dvr = Driver.getDriver();
+	public WebDriver dvr = Driver.getDriver();
 	
     abstract public void isPageLoaded();
+    
+    public boolean inOrder(String order, String column, int child) {
+    	    	
+    	this.waitForElementVisibility(By.cssSelector("tbody > tr > td"));
+    	this.clickElement(By.xpath("//*[contains(text(),'"+column+"')]/span[@class='select']"));
+    	
+    	if (order.equals("desc")) {
+    		this.clickElement(By.xpath("//*[contains(text(),'"+column+"')]/span[@class='select']"));	
+    	}
+    	
+    	this.threadSleep(5000);
+		List<String> aryList=new ArrayList();
+		List<String> aryList2=new ArrayList();
+
+		for (int i = 1; i < 4; i++) {
+			String value = this.getTxt(By.cssSelector("tbody > tr:nth-child("+i+") > td:nth-child(" + child + ")"));
+			aryList.add(value);
+			aryList2.add(value);
+		}
+		
+		Collections.sort(aryList);		
+		
+		if (order.equals("desc")) {
+			Collections.sort(aryList, Collections.reverseOrder());
+		}
+		
+		logger.info(aryList.toString());
+		logger.info(aryList2.toString());
+		
+		if (aryList.toString().equals(aryList2.toString())) {
+			return true;
+	    }
+		return false;
+	}
 }
 
