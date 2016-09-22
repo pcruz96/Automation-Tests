@@ -451,6 +451,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public boolean isSelected(By locator) {
+		this.waitForElementPresent(locator);
 		return driver.findElement(locator).isSelected();
 	}
 

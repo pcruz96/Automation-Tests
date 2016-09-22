@@ -107,13 +107,7 @@ public class TestRailUtilities extends Log4J {
 				JSONArray resultArray = (JSONArray) client.sendGet("get_runs/" + projectId);
 				JSONObject jsonTestItem = (JSONObject) resultArray.get(0);
 				return jsonTestItem.get("id").toString();
-			} catch (APIException e) {
-				logger.error(e.getMessage());
-			} catch (MalformedURLException e) {
-				logger.error(e.getMessage());
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
+			} catch (Exception e) {}
 			return runId;	
 		}
 	}
