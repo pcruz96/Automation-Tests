@@ -408,7 +408,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public String getRandomAlphaSpecialCharString(int length) {
-		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()_+<,>.?/:;{[}]|";
+		final String characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ!@#$%^&*()_+,.?/:;{[}]|";
 		StringBuilder result = new StringBuilder();
 		while (length > 0) {
 			Random rand = new Random();
