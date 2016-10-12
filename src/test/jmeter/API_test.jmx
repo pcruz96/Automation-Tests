@@ -1274,6 +1274,50 @@ vars.put(&quot;response_contains_txt&quot;, rt);
               <hashTree/>
             </hashTree>
           </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${method}&quot; == &quot;delete&quot; " enabled="true">
+            <stringProp name="IfController.condition">&quot;${method}&quot; == &quot;delete&quot; </stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+            <stringProp name="TestPlan.comments">			</stringProp>
+          </IfController>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${case_id} - ${scenario} - PUT" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value"></stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${env}.gomercatus.com</stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
+              <stringProp name="HTTPSampler.path">${http_request}</stringProp>
+              <stringProp name="HTTPSampler.method">DELETE</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree>
+              <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+                <collectionProp name="HeaderManager.headers">
+                  <elementProp name="Content-Type" elementType="Header">
+                    <stringProp name="Header.name">Content-Type</stringProp>
+                    <stringProp name="Header.value">application/json</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </HeaderManager>
+              <hashTree/>
+            </hashTree>
+          </hashTree>
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - actual_response_code" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">true</stringProp>
             <stringProp name="RegexExtractor.refname">actual_response_code</stringProp>
@@ -1318,13 +1362,67 @@ vars.put(&quot;assertionResult_1&quot;, FailureMessage);</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - response_contains_txt" enabled="true">
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${actualResponseBody}&quot;.indexOf(&quot;${response_contains_txt}&quot;) == -1 " enabled="true">
+              <stringProp name="IfController.condition">&quot;${actualResponseBody}&quot;.indexOf(&quot;${response_contains_txt}&quot;) == -1 </stringProp>
+              <boolProp name="IfController.evaluateAll">false</boolProp>
+            </IfController>
+            <hashTree>
+              <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion - response_contains_txt" enabled="true">
+                <stringProp name="BeanShellAssertion.query">Failure=true ;
+FailureMessage =&quot;Test failed: Expected the actual response body, ${actualResponseBody}, to contain ${response_contains_txt}&quot; ;
+vars.put(&quot;assertionResult_1&quot;, FailureMessage);</stringProp>
+                <stringProp name="BeanShellAssertion.filename"></stringProp>
+                <stringProp name="BeanShellAssertion.parameters"></stringProp>
+                <boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+              </BeanShellAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - ${response_contains_txt}" enabled="false">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="133719110">${response_contains_txt}</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">16</intProp>
+                <stringProp name="Assertion.scope">all</stringProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
+                <stringProp name="filename"></stringProp>
+                <stringProp name="parameters"></stringProp>
+                <boolProp name="resetInterpreter">false</boolProp>
+                <stringProp name="script">import org.apache.jmeter.assertions.AssertionResult; 
+
+AssertionResult[] results = sampleResult.getAssertionResults(); 
+
+for(int i =0,j=1 ; i&lt;results.length;i++) { 
+    AssertionResult result = results[i]; 
+	if(result.isFailure()  || result.isError()) { 
+        vars.put(&quot;assertionResult_&quot; + j, result.getFailureMessage());         
+        j++; 
+	} 
+} 
+String s = vars.get(&quot;assertionResult_1&quot;).trim();
+s = s.replace(&quot;\&quot;&quot;,&quot;&apos;&quot;);     
+s = s.replace(&quot;\n&quot;,&quot;&quot;);     
+String assertionResult_1 = s.replace(&quot;/&quot;,&quot;&quot;);     
+vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
+              </BeanShellListener>
+              <hashTree/>
+              <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler - ${case_id}" enabled="true">
+                <boolProp name="displayJMeterProperties">false</boolProp>
+                <boolProp name="displayJMeterVariables">true</boolProp>
+                <boolProp name="displaySystemProperties">false</boolProp>
+              </DebugSampler>
+              <hashTree/>
+            </hashTree>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - ${response_contains_txt}" enabled="true">
               <collectionProp name="Asserion.test_strings">
                 <stringProp name="133719110">${response_contains_txt}</stringProp>
               </collectionProp>
               <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
               <boolProp name="Assertion.assume_success">false</boolProp>
-              <intProp name="Assertion.test_type">2</intProp>
+              <intProp name="Assertion.test_type">16</intProp>
+              <stringProp name="Assertion.scope">all</stringProp>
             </ResponseAssertion>
             <hashTree/>
             <BeanShellListener guiclass="TestBeanGUI" testclass="BeanShellListener" testname="BeanShell Listener - getFailureMessage" enabled="true">
