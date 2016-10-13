@@ -1336,6 +1336,16 @@ vars.put(&quot;response_contains_txt&quot;, rt);
             <stringProp name="RegexExtractor.match_number">1</stringProp>
           </RegexExtractor>
           <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - expected response" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">expectedResponse</stringProp>
+            <stringProp name="RegexExtractor.regex">${response_contains_txt}</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+            <boolProp name="RegexExtractor.default_empty_value">true</boolProp>
+          </RegexExtractor>
+          <hashTree/>
           <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${actual_response_code}&quot; != &quot;${expected_response_code}&quot; " enabled="true">
             <stringProp name="IfController.condition">&quot;${actual_response_code}&quot; != &quot;${expected_response_code}&quot; </stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
@@ -1362,14 +1372,20 @@ vars.put(&quot;assertionResult_1&quot;, FailureMessage);</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
           </IfController>
           <hashTree>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${actualResponseBody}&quot;.indexOf(&quot;${response_contains_txt}&quot;) == -1 " enabled="true">
-              <stringProp name="IfController.condition">&quot;${actualResponseBody}&quot;.indexOf(&quot;${response_contains_txt}&quot;) == -1 </stringProp>
+            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${expectedResponse}&quot; == &quot;&quot;" enabled="true">
+              <stringProp name="IfController.condition">&quot;${expectedResponse}&quot; == &quot;&quot;</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
             <hashTree>
+              <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler - ${case_id}" enabled="true">
+                <boolProp name="displayJMeterProperties">false</boolProp>
+                <boolProp name="displayJMeterVariables">true</boolProp>
+                <boolProp name="displaySystemProperties">false</boolProp>
+              </DebugSampler>
+              <hashTree/>
               <BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell Assertion - response_contains_txt" enabled="true">
                 <stringProp name="BeanShellAssertion.query">Failure=true ;
-FailureMessage =&quot;Test failed: Expected the actual response body, ${actualResponseBody}, to contain ${response_contains_txt}&quot; ;
+FailureMessage =&quot;Test failed: The actual response body didn&apos;t contain the expected response&quot; ;
 vars.put(&quot;assertionResult_1&quot;, FailureMessage);</stringProp>
                 <stringProp name="BeanShellAssertion.filename"></stringProp>
                 <stringProp name="BeanShellAssertion.parameters"></stringProp>
@@ -1398,23 +1414,7 @@ String assertionResult_1 = s.replace(&quot;/&quot;,&quot;&quot;);
 vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
               </BeanShellListener>
               <hashTree/>
-              <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler - ${case_id}" enabled="true">
-                <boolProp name="displayJMeterProperties">false</boolProp>
-                <boolProp name="displayJMeterVariables">true</boolProp>
-                <boolProp name="displaySystemProperties">false</boolProp>
-              </DebugSampler>
-              <hashTree/>
             </hashTree>
-            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion - ${response_contains_txt}" enabled="false">
-              <collectionProp name="Asserion.test_strings">
-                <stringProp name="133719110">${response_contains_txt}</stringProp>
-              </collectionProp>
-              <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
-              <boolProp name="Assertion.assume_success">false</boolProp>
-              <intProp name="Assertion.test_type">2</intProp>
-              <stringProp name="Assertion.scope">all</stringProp>
-            </ResponseAssertion>
-            <hashTree/>
           </hashTree>
           <BeanShellPostProcessor guiclass="TestBeanGUI" testclass="BeanShellPostProcessor" testname="BeanShell PostProcessor" enabled="true">
             <boolProp name="resetInterpreter">false</boolProp>
@@ -1424,12 +1424,6 @@ vars.put(&quot;assertionResult_1&quot;, assertionResult_1);</stringProp>
 body = body.replace(&quot;\&quot;&quot;, &quot;&apos;&quot;);
 vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
           </BeanShellPostProcessor>
-          <hashTree/>
-          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler - ${case_id}" enabled="false">
-            <boolProp name="displayJMeterProperties">false</boolProp>
-            <boolProp name="displayJMeterVariables">true</boolProp>
-            <boolProp name="displaySystemProperties">false</boolProp>
-          </DebugSampler>
           <hashTree/>
         </hashTree>
         <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${loadTest}&quot; == &quot;false&quot; &amp;&amp; &quot;${updTestRail}&quot; == &quot;true&quot;" enabled="true">
