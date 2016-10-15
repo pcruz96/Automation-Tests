@@ -119,7 +119,12 @@
           </elementProp>
           <elementProp name="repoUrl" elementType="Argument">
             <stringProp name="Argument.name">repoUrl</stringProp>
-            <stringProp name="Argument.value">https://github.com/...</stringProp>
+            <stringProp name="Argument.value">https://github.com//Automation-Tests/tree/master/src/test/jmeter</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="resultsUrl" elementType="Argument">
+            <stringProp name="Argument.name">resultsUrl</stringProp>
+            <stringProp name="Argument.value">https://.testrail.net/index.php?/cases/results/</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="case_ids" elementType="Argument">
@@ -1569,7 +1574,7 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 1,&#xd;
-	&quot;comment&quot;: &quot;Actual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\n${repoUrl}\n\n${build_url}&quot;&#xd;
+	&quot;comment&quot;: &quot;Actual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\nREPO: ${repoUrl}\n\nRESULTS TREND: ${resultsUrl}${case_id}\n\nBUILD: ${build_url}&quot;&#xd;
 &#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
