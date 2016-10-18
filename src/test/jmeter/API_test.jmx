@@ -1285,7 +1285,7 @@ vars.put(&quot;response_contains_txt&quot;, rt);
             <stringProp name="TestPlan.comments">			</stringProp>
           </IfController>
           <hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${case_id} - ${scenario} - PUT" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="${case_id} - ${scenario} - DELETE" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -1341,7 +1341,7 @@ vars.put(&quot;response_contains_txt&quot;, rt);
             <stringProp name="RegexExtractor.match_number">1</stringProp>
           </RegexExtractor>
           <hashTree/>
-          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - expected response" enabled="true">
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor - expectedResponse" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">expectedResponse</stringProp>
             <stringProp name="RegexExtractor.regex">${response_contains_txt}</stringProp>
@@ -1382,7 +1382,7 @@ vars.put(&quot;assertionResult_1&quot;, FailureMessage);</stringProp>
               <boolProp name="IfController.evaluateAll">false</boolProp>
             </IfController>
             <hashTree>
-              <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler - ${case_id}" enabled="true">
+              <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="FAILED - ${case_id}" enabled="true">
                 <boolProp name="displayJMeterProperties">false</boolProp>
                 <boolProp name="displayJMeterVariables">true</boolProp>
                 <boolProp name="displaySystemProperties">false</boolProp>
