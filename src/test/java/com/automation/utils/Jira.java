@@ -65,7 +65,7 @@ public class Jira {
 				if (s.length == 2) {
 					latestKey = s[s.length - 1];
 				} else {
-					latestKey = s[s.length - 2];
+					latestKey = s[1];
 				}
 
 				if (latestKey.indexOf("\"Fixed\"") > 0 || latestKey.indexOf("\"Verified\"") > 0 || latestKey.indexOf("\"Closed\"") > 0 || latestKey.indexOf("\"Done\"") > 0) {
