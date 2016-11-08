@@ -12,7 +12,7 @@ public class GetTestCases extends Log4J {
 	public static void main(String[] args) {
 		
 		logger.info("Args: projectId suiteId startTCID endTCID");
-		if ((args == null) || (args.length == 0) || (args.length < 4)) {
+		if ((args == null) || (args.length == 0) || (args.length < 3)) {
 			logger.info("Check args.\n"
 					+ "Usage: projectId suiteId startTCID endTCID");
 			System.exit(0);
@@ -20,7 +20,12 @@ public class GetTestCases extends Log4J {
 		String projectId = args[0];
 		String suiteId = args[1];
 		int startTCID = Integer.parseInt(args[2]);
-		int endTCID = Integer.parseInt(args[3]);
+		int endTCID;
+		try {
+			endTCID = Integer.parseInt(args[3]);
+		} catch (Exception e) {
+			endTCID = startTCID;
+		}
 		String filePath = "convertedTestRailTests_TestNGmethods.txt";
 		TestRailUtilities tr = new TestRailUtilities();
 		
