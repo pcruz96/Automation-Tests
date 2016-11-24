@@ -429,7 +429,7 @@ public class TestRailUtilities extends Log4J {
 		if (!BaseTest.updTestRail) {
 			return "Untested";
 		} else {			
-			String runId = getRunId(null, projectId, suiteId);
+			String runId = getRunId(BaseTest.runId, projectId, suiteId);
 			try {
 				JSONArray resultArray = (JSONArray) getClient().sendGet("get_results_for_case/" + runId + "/" + caseId.replace("c", ""));
 				if (!resultArray.isEmpty()) {
