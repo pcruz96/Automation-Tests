@@ -419,7 +419,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public String getRandomSpecialCharString(int length) {
-		final String characters = "!@#$%^&*()_+<,>.?/:;{[}]|";
+		final String characters = "!@#$%^&*()_+,.?/:;{[}]|";
 		StringBuilder result = new StringBuilder();
 		while (length > 0) {
 			Random rand = new Random();
