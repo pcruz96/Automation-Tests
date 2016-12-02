@@ -275,7 +275,7 @@ public class TestRailUtilities extends Log4J {
 		}
 	}
 	
-	public List<String> addRun(String env, String browser) {
+	public List<String> addRun(String env, String envRevision, String browser) {
 
 		List<String> data = new ArrayList<String>();
 		String tag = this.getBuildTag().replace("-", " ");
@@ -286,7 +286,7 @@ public class TestRailUtilities extends Log4J {
 		} else {
 			ExecuteShellCommand es = new ExecuteShellCommand();
 			String revision = es.executeCommand("git rev-parse refs/remotes/origin/master^{commit} # timeout=10").substring(0, 7);
-			runName = env + tag + " - commit:" + revision;
+			runName = env + tag + " - commit:" + revision + " - " + envRevision;
 		}
 		
 		addRunUsingJmeter(runName.toLowerCase(), GetTestCases.getAutomatedTests(BaseTest.suiteName));

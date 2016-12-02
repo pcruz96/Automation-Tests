@@ -193,27 +193,38 @@ public class BaseTest extends TestRailUtilities {
 		new File("test-output").mkdir();
 		fu.createFile("test-output/log4j-application.log");
 		org.apache.log4j.PropertyConfigurator.configure("src/test/resources/log4j.properties");
-		
+
 		if (updTestRail && addRun) {
 			
-			List lst = (List) addRun(getTestEnv(env, false), browser);
+			String revision = getAutomationEnvRevision();
+			
+			List lst = (List) addRun(getTestEnv(env, false), revision, browser);
 			
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();			
 			logger.info("\n\nrun name: " + runName + "\n");
-						
 			ExecuteShellCommand es = new ExecuteShellCommand();
 			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};			
 			String[] cmd2 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng.xml"};			
 			es.executeArrayCommand(cmd1);
 			es.executeArrayCommand(cmd2);
 		}			
-		
 		TestConfiguration.setConfig(env);
-		BaseTest.host = TestConfiguration.getConfig().getString("login.url");		
-		
+		BaseTest.host = TestConfiguration.getConfig().getString("login.url");				
 		createTestNGfailed(fu);
-		removeTmpFiles();		
+		removeTmpFiles();
+	}
+	
+	public String getAutomationEnvRevision() {
+		ExecuteShellCommand es = new ExecuteShellCommand();
+		String[] cmd = new String[] {"curl", "-u", “user:password”, “jenkins_url/lastBuild/consoleText", "2>&1"};		
+		String consoleTxt = es.executeArrayCommand(cmd);
+		String[] s1 = consoleTxt.split("Checking out Revision ");
+		String[] s2 = s1[1].split(" ");
+		String[] s3 = s2[1].split("/");
+		String revision = s2[0].substring(0, 6);
+		String branch = s3[s3.length - 1].replace(")", "").replace("\n", "");
+		return branch + ":" + revision;  
 	}
 
 	@BeforeMethod(alwaysRun = true)
