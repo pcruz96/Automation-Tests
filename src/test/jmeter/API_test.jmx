@@ -852,6 +852,61 @@ vars.put(&quot;suite&quot;, suite);</stringProp>
               <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
             </BeanShellSampler>
             <hashTree/>
+            <SystemSampler guiclass="SystemSamplerGui" testclass="SystemSampler" testname="OS Process Sampler - get lastBuild consoleText" enabled="true">
+              <boolProp name="SystemSampler.checkReturnCode">false</boolProp>
+              <stringProp name="SystemSampler.expectedReturnCode">0</stringProp>
+              <stringProp name="SystemSampler.command">curl</stringProp>
+              <elementProp name="SystemSampler.arguments" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="Argument">
+                    <stringProp name="Argument.name"></stringProp>
+                    <stringProp name="Argument.value">-u</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Argument">
+                    <stringProp name="Argument.name"></stringProp>
+                    <stringProp name="Argument.value">user:password</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Argument">
+                    <stringProp name="Argument.name"></stringProp>
+                    <stringProp name="Argument.value">jenkinsUrl/lastBuild/consoleText</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                  <elementProp name="" elementType="Argument">
+                    <stringProp name="Argument.name"></stringProp>
+                    <stringProp name="Argument.value">2&gt;&amp;1</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <elementProp name="SystemSampler.environment" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="SystemSampler.directory"></stringProp>
+            </SystemSampler>
+            <hashTree>
+              <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="get revision" enabled="true">
+                <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+                <stringProp name="RegexExtractor.refname">revision</stringProp>
+                <stringProp name="RegexExtractor.regex">Checking out Revision (.*)</stringProp>
+                <stringProp name="RegexExtractor.template">$1$</stringProp>
+                <stringProp name="RegexExtractor.default"></stringProp>
+                <stringProp name="RegexExtractor.match_number">1</stringProp>
+              </RegexExtractor>
+              <hashTree/>
+            </hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler - get automation env revision " enabled="true">
+              <stringProp name="BeanShellSampler.query">String[] s = vars.get(&quot;revision&quot;).split(&quot; &quot;);
+vars.put(&quot;rev&quot;, s[0].substring(0,7));
+String[] s1 = s[1].split(&quot;/&quot;);
+vars.put(&quot;branch&quot;, s1[s1.length - 1].replace(&quot;)&quot;,&quot;&quot;));
+vars.put(&quot;revision&quot;, vars.get(&quot;branch&quot;) + &quot;:&quot; + vars.get(&quot;rev&quot;));</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="add_run" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
@@ -860,7 +915,7 @@ vars.put(&quot;suite&quot;, suite);</stringProp>
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
                     <stringProp name="Argument.value">{&#xd;
 	&quot;suite_id&quot;: ${suite_id},&#xd;
-	&quot;name&quot;: &quot;automation - api - ${env} - ${suite}tests - ${__time(yyyy-MM-dd)} - commit:${commit} - ${sprint}&quot;,&#xd;
+	&quot;name&quot;: &quot;automation - api - ${env} - ${suite}tests - ${__time(yyyy-MM-dd)} - commit:${commit} - ${revision} - ${sprint}&quot;,&#xd;
 	&quot;include_all&quot;: false,&#xd;
 	&quot;case_ids&quot;: ${__property(cids)}&#xd;
 }</stringProp>

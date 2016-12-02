@@ -222,7 +222,7 @@ public class BaseTest extends TestRailUtilities {
 		String[] s1 = consoleTxt.split("Checking out Revision ");
 		String[] s2 = s1[1].split(" ");
 		String[] s3 = s2[1].split("/");
-		String revision = s2[0].substring(0, 6);
+		String revision = s2[0].substring(0, 7);
 		String branch = s3[s3.length - 1].replace(")", "").replace("\n", "");
 		return branch + ":" + revision;  
 	}
