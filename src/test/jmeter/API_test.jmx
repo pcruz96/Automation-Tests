@@ -1196,7 +1196,8 @@ vars.put(&quot;response_contains_txt&quot;, rt);
         </IfController>
         <hashTree>
           <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="ignore error resetting assertionResult" enabled="true">
-            <stringProp name="BeanShellSampler.query">vars.put(&quot;assertionResult_1&quot;, &quot;&quot;);</stringProp>
+            <stringProp name="BeanShellSampler.query">vars.put(&quot;assertionResult_1&quot;, &quot;&quot;);
+vars.put(&quot;actualResponseBody&quot;, &quot;&quot;);</stringProp>
             <stringProp name="BeanShellSampler.filename"></stringProp>
             <stringProp name="BeanShellSampler.parameters"></stringProp>
             <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
