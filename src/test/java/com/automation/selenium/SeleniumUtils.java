@@ -304,7 +304,7 @@ public class SeleniumUtils extends Log4J {
 		return elementAttribute;
 	}
 
-	public void waitForPageLoaded() {
+	public boolean waitForPageLoaded() {
 
 		ExpectedCondition<Boolean> expectation = new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver driver) {
@@ -319,8 +319,9 @@ public class SeleniumUtils extends Log4J {
 				.ignoring(NoSuchElementException.class);
 		try {
 			wait.until(expectation);
+			return true;
 		} catch (Throwable error) {
-
+			return false;
 		}
 	}
 
