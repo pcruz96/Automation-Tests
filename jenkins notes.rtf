@@ -123,4 +123,10 @@ cp $JENKINS_HOME/jobs/Automation-Tests/workspace/src/test/resources/testng/testn
 curl -X POST --data-urlencode 'payload=\{"channel": "#eng_automation_tests", "text": "emailed '$newHtml'"\}' https://hooks.slack.com/services/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\
 \
 */\
+\
+consoleOTxt=`curl -u \'91username:password\'92 buildUrl/lastBuild/consoleText 2>&1 | grep 'Checking out Revision' | sed 's/(/\\\\(/g' | sed 's/)/\\\\)/g'`\
+branch=`echo $consoleOTxt | cut -d' ' -f5 | rev | cut -d'/' -f1 | rev | sed 's/)//g'`\
+revision=`echo $consoleOTxt | cut -d' ' -f4 | cut -c1-7`\
+\
+sed -i.tmp "s/RUNNAME/RUNNAME - $branchRevision/g" src/test/jmeter/addTestRailRun.jmx\
 }
