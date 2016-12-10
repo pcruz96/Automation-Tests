@@ -36,13 +36,29 @@ then\
 	java -jar src/test/java/com/automation/testng/exclude_testng_groups.jar $EXCLUDEGROUPS\
 fi    \
 \
+if [ "$CASEIDS" != "" ]\
+then\
+	java -jar src/test/java/com/automation/testng/add_testng_methods.jar $CASEIDS\
+fi    \
+\
+consoleTxt=`curl -u 'mercatus:40^Dlt&fHoo%M0z3' https://ci-us.gomercatus.com/job/mercatus-automation-build/lastBuild/consoleText 2>&1 | grep 'Checking out Revision' | sed 's/(/\\\\(/g' | sed 's/)/\\\\)/g'`\
+branch=`echo $consoleTxt | cut -d' ' -f5 | rev | cut -d'/' -f1 | rev | sed 's/)//g'`\
+revision=`echo $consoleTxt | cut -d' ' -f4 | cut -c1-7`\
+branchRevision=$branch:$revision\
+\
+____________________________________________________________________________________________________________________________________________\
+\
+sed -i.tmp "s/RUNNAME/RUNNAME - $branchRevision/g" src/test/jmeter/addTestRailRun.jmx\
+\
 $ENV $BUILD_TAG results\
 \
 If the emailable-report.html is not attached, the build was aborted. Results are also updated in Test Rail > Test Runs & Results if Jenkins UPDTESTRAIL build parameter = true. Copy the contents of failedAndSkippedTests.txt and replace the methods tag in testng.xml. Set the addRun parameter in testng.xml to false. Rerun and debug the failed tests. Resend the emailable-report.html with the following text in the body, "Reran failedAndSkippedTests.txt. Attached report."\
 \
 target/surefire-reports/emailable-report.html, test-output/log4j-application.log, src/test/resources/testng/testng_retryFailed.xml\
 \
-/* api tests\
+____________________________________________________________________________________________________________________________________________\
+\
+api tests\
 \
 if [ ! -d "apache-jmeter-3.0" ]\
 then	\
@@ -63,8 +79,6 @@ sed -i.tmp "s/automation - api - \\$\{env\} - \\$\{suite\}tests - \\$\{__time(yy
 sed -i.tmp "s/\\$\{build_url\}/http\\:\\/\\/10.10.1.217\\:8080\\/job\\/Automation-API-Tests\\/$BUILD_NUMBER/g" src/test/jmeter/*.jmx\
 \
 apache-jmeter-3.0/bin/jmeter -n -t src/test/jmeter/$JMX -l target/jmeter/results/$JTL\
-\
-*/\
 \
 bash shell\\ scripts/disable_jmeter_tests.sh *.jmx -xe\
 bash shell\\ scripts/disable_jmeter_tests.sh $JMX -x\
@@ -90,7 +104,9 @@ bash /Users/pcruz/Jmeter/apache-jmeter-2.13/bin/jmeter.sh -n -t src/test/jmeter/
 \
 Performance Plugin use 1.9 - {\field{\*\fldinst{HYPERLINK "http://updates.jenkins-ci.org/download/plugins/performance/"}}{\fldrslt http://updates.jenkins-ci.org/download/plugins/performance/}}\
 \
- /* replace build tag in html report\
+____________________________________________________________________________________________________________________________________________\
+\
+replace build tag in html report\
 \
 rm -r $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/\
 \
@@ -121,12 +137,4 @@ cp $JENKINS_HOME/jobs/Automation-Tests/workspace/test-output/failedAndSkippedTes
 cp $JENKINS_HOME/jobs/Automation-Tests/workspace/src/test/resources/testng/testng.xml $JENKINS_HOME/jobs/Send\\ Report\\ for\\ Automation-Tests/workspace/\
 \
 curl -X POST --data-urlencode 'payload=\{"channel": "#eng_automation_tests", "text": "emailed '$newHtml'"\}' https://hooks.slack.com/services/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\
-\
-*/\
-\
-consoleOTxt=`curl -u \'91username:password\'92 buildUrl/lastBuild/consoleText 2>&1 | grep 'Checking out Revision' | sed 's/(/\\\\(/g' | sed 's/)/\\\\)/g'`\
-branch=`echo $consoleOTxt | cut -d' ' -f5 | rev | cut -d'/' -f1 | rev | sed 's/)//g'`\
-revision=`echo $consoleOTxt | cut -d' ' -f4 | cut -c1-7`\
-\
-sed -i.tmp "s/RUNNAME/RUNNAME - $branchRevision/g" src/test/jmeter/addTestRailRun.jmx\
 }
