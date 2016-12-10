@@ -197,7 +197,19 @@ public class GetTestCases extends Log4J {
 					String[] s1 = line.split(" ");
 					String[] s2 = s1[2].split("_");
 					Integer caseId = Integer.parseInt(s2[0].replace("c", ""));
-					caseIds.add(caseId);
+					
+					String cids = System.getenv("CASEIDS");
+					
+					if (cids != null) {
+						for (String c : cids.split(",")) {
+							if (c.replace("c", "").trim().equals(caseId.toString())) {
+								caseIds.add(caseId);
+								break;
+							}
+						}							
+					} else {
+						caseIds.add(caseId);	
+					}						
 					foundTest = false;
 				}				
 			}			
