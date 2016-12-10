@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import com.automation.selenium.Driver;
 import com.automation.tests.BaseTest;
 
+@Listeners(com.automation.testng.MyResultListener.class)
 public class Suite extends BaseTest {
 
 	@Test(groups={"Acceptance"}, enabled=true)
