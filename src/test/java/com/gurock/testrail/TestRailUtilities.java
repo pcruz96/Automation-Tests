@@ -147,11 +147,19 @@ public class TestRailUtilities extends Log4J {
 				
 		if (steps.contains("getCaseResults")) {
 			
-			String[] s1 = steps.split("// ");
-			String[] s2 = s1[1].split("\n");
-			String dupMethod = s2[0].replace("();", "");
-			String[] s3 = dupMethod.split("_");
-			String dupCaseId = s3[0];
+			String dupMethod = "";
+			String dupCaseId = "";
+			String[] s1 = steps.split("\n");
+			
+			for (int i = 0; i < s1.length - 1; i++) {
+				if (!s1[i].contains("@Test") && !s1[i].contains("void") && !s1[i].contains("//") && s1[i].contains("_")) {
+					String[] s2 = s1[i].split(" ");
+					dupMethod = s2[1].replace("();", "").trim();
+					String[] s3 = dupMethod.split("_");
+					dupCaseId = s3[0];
+					break;
+				}
+			}
 			
 			dupCaseResults = this.getCaseResults(BaseTest.projectId, BaseTest.suiteId, dupCaseId);
 			
