@@ -62,6 +62,7 @@ public class BaseTest extends TestRailUtilities {
 	
 	StringWriter errors = new StringWriter();
 	StringBuilder sb = new StringBuilder();
+	StringBuilder notPassedCaseIds = new StringBuilder();
 	
 	public static String host = null;
 	public static String repo = null;
@@ -456,12 +457,14 @@ public class BaseTest extends TestRailUtilities {
 		es.executeArrayCommand(cmd2);
 		es.executeArrayCommand(cmd3);
 		removeTmpFiles();
+		logger.info("not passed case ids: " + notPassedCaseIds.toString());
 	}	
 	
 	public void appendSkippedAndFailedTests(ITestResult result, Method method) {
 		if ((!sb.toString().contains(method.getName()) && result.getStatus() == ITestResult.FAILURE && Retry.retryCount == Retry.MAXRETRYCOUNT) || result.getStatus() == ITestResult.SKIP) {
 			sb.append("<include name=\"" + method.getName() + "\" />\n");
 			addFailedTestsToTestNG(method);
+			notPassedCaseIds.append("c" + this.getCaseId(method) + ",");
 		} 
 	}	
 	
