@@ -42,7 +42,7 @@ import com.automation.utils.StackTraceToString;
 public class SeleniumUtils extends Log4J {
 
 	WebDriver driver = Driver.getDriver();
-	public int MAX_WAIT = 20;
+	public int MAX_WAIT = 90;
 	boolean printLogs;
 
 	public SeleniumUtils() {		
@@ -53,75 +53,69 @@ public class SeleniumUtils extends Log4J {
 		printLogs = printLog;
 	}
 
+	public Wait<WebDriver> fluentWait() {
+		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+				.withTimeout(MAX_WAIT, TimeUnit.SECONDS)
+				.pollingEvery(3, TimeUnit.SECONDS)
+				.ignoring(NoSuchElementException.class);
+		return wait;
+	}
+
 	public boolean waitForElementPresent(By locator) {
 		this.waitForPageLoaded();
-		boolean success = false;
-		try {
-			Wait<WebDriver> wait = this.fluentWait();
-			wait.until(ExpectedConditions.presenceOfElementLocated(locator));					
-			success = true;
-		} catch (Exception e) {}		
-		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present.\n");
+		try {			
+			this.fluentWait().until(ExpectedConditions.presenceOfElementLocated(locator));					
+			return true;
+		} catch (Exception e) {		
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present.\n");			
 		} 
-		return success;
+		return false;
 	}
 
 	public boolean waitForElementPresentInFrame(By frame, By locator) {
 		this.threadSleep(5000);
-		boolean success = false;
 		try {
 			this.switchToFrame(frame);
-			Wait<WebDriver> wait = this.fluentWait();
-			wait.until(ExpectedConditions.presenceOfElementLocated(locator));
-			success = true;
-		} catch (Exception e) {}
-		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present in frame.\n");
+			this.fluentWait().until(ExpectedConditions.presenceOfElementLocated(locator));
+			return true;
+		} catch (Exception e) {
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not present in frame.\n");			
 		}
-		return success;
+		return false;
 	}
 
 	public boolean waitForTextPresent(String text) {
-		boolean success = false;
 		try {
-			Wait<WebDriver> wait = this.fluentWait();
-			success = wait.until(ExpectedConditions
+			this.fluentWait().until(ExpectedConditions
 					.textToBePresentInElement(
 							driver.findElement(By.tagName("body")), text));
-		} catch (Exception e) {}
-		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + text + " is not present.\n");
+			return true;
+		} catch (Exception e) {
+			logger.error(BaseTest.getMethodName() + " - " + text + " is not present.\n");			
 		}
-		return success;
+		return false;
 	}
 
 	public boolean waitForElementClickable(By locator) {
-		boolean success = false;
 		try {
-			Wait<WebDriver> wait = this.fluentWait();
-			wait.until(ExpectedConditions.elementToBeClickable(locator));
-			success = true;
-		} catch (TimeoutException e) {}
-		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not clickable.\n");
+			this.fluentWait().until(ExpectedConditions.elementToBeClickable(locator));
+			return true;
+		} catch (TimeoutException e) {
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not clickable.\n");			
 		}
-		return success;
+		return false;
 	}
 
 	public boolean waitForElementVisibility(By locator) {
 		this.waitForPageLoaded();
-		boolean success = false;
 		try {
-			Wait<WebDriver> wait = this.fluentWait();
-			wait.until(ExpectedConditions
+			this.fluentWait().until(ExpectedConditions
 					.visibilityOfElementLocated(locator));
-			success = true;
-		} catch (Exception e) {}
-		if (!success) {
-			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not visible.\n");
+			return true;
+		} catch (Exception e) {
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not visible.\n");			
 		}
-		return success;
+		return false;
 	}
 
 	public WebDriver switchToWindow(String regex) throws NoSuchWindowException {
@@ -161,13 +155,6 @@ public class SeleniumUtils extends Log4J {
 	// FluentWait instance defines the maximum amount of time to wait for a
 	// condition,
 	// as well as the frequency with which to check the condition
-	public Wait<WebDriver> fluentWait() {
-		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-				.withTimeout(MAX_WAIT, TimeUnit.SECONDS)
-				.pollingEvery(3, TimeUnit.SECONDS)
-				.ignoring(NoSuchElementException.class);
-		return wait;
-	}
 
 	public String getSelectedOptionText(String index) {		
 		return driver.findElement(By.cssSelector("option[value='"+index+"']")).getText();
@@ -299,8 +286,7 @@ public class SeleniumUtils extends Log4J {
 
 	public String getElementAttribute(By locator, String attribute) {
 		waitForElementVisibility(locator);
-		String elementAttribute = driver.findElement(locator).getAttribute(
-				attribute);
+		String elementAttribute = driver.findElement(locator).getAttribute(attribute);				
 		return elementAttribute;
 	}
 

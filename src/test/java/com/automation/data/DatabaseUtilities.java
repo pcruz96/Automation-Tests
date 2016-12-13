@@ -65,7 +65,7 @@ public class DatabaseUtilities extends Log4J {
 	public List<String> getResults(String query) {
 
 		List<String> data = new ArrayList<String>();
-		Integer i = 0;
+
 		try {
 			this.setConfig();
 			con = DriverManager.getConnection(url, user, password);

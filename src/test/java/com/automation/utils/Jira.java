@@ -1,14 +1,11 @@
 
 package com.automation.utils;
 
-import java.util.Map;
-
 import com.automation.config.TestConfiguration;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.sun.media.jfxmedia.logging.Logger;
 
 public class Jira {
 	
@@ -150,13 +147,13 @@ public class Jira {
 					try {
 						String input="{\"transition\":{\"id\":\""+i+"1\"}}";
 						ClientResponse response = webResource.type("application/json").post(ClientResponse.class, input);
-						String output = response.getEntity(String.class);						
+						response.getEntity(String.class);						
 					} catch (Exception e) {}
 				}
 				try {
 					String input2="{\"update\":{\"comment\":[{\"add\":{\"body\":\"automation passed "+sauceLabsJobIdLink+"\"}}]}}";
 					ClientResponse response2 = webResource2.type("application/json").put(ClientResponse.class, input2);
-					String output2 = response2.getEntity(String.class);
+					response2.getEntity(String.class);
 				} catch (Exception e) {}
 			}
 		} catch (Exception e) {

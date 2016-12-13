@@ -129,10 +129,8 @@ public class FileUtilities extends Log4J{
 		File f = new File(file);
 		Scanner scanner = new Scanner(f);
 
-		int lineNum = 0;
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
-			lineNum++;
 
 			if (line.contains(str)) {
 				return true;

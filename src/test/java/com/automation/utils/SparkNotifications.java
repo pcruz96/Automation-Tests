@@ -1,6 +1,5 @@
 package com.automation.utils;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -19,7 +18,7 @@ public class SparkNotifications {
 	        request.addHeader(new BasicHeader("Authorization", "Bearer MWJiMDg2NDQtOTBlMy00OTc5LThhZTgtNDQxMDliM2FhMjNhM2U0Yjk1ODctY2Zl"));       
 	        request.addHeader("content-type", "application/json");
 	        request.setEntity(params);
-	        HttpResponse response = httpClient.execute(request);
+	        httpClient.execute(request);
 	        //System.out.println(response.toString());
 	    } catch (Exception ex) {}	    
 	}

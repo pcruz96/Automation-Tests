@@ -1,6 +1,5 @@
 package com.automation.utils;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -19,7 +18,7 @@ public class SlackNotifications {
 	        StringEntity params =new StringEntity("payload={\"channel\": \"#automation\", \"username\": \"webhookbot\", \"text\": \""+txt+"\"}");
 	        request.addHeader("content-type", "application/x-www-form-urlencoded");
 	        request.setEntity(params);
-	        HttpResponse response = httpClient.execute(request);
+	        httpClient.execute(request);
 	    }catch (Exception ex) {}	    
 	}
 }
