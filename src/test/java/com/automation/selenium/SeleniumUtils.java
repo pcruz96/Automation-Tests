@@ -335,6 +335,21 @@ public class SeleniumUtils extends Log4J {
 		Calendar cal = Calendar.getInstance();
 		// can add + or - prefix to days 
 		cal.add(Calendar.DATE, days);    
+		String modifiedDate = dateFormat.format(cal.getTime());		
+		return modifiedDate;
+	}
+	
+	public String weekdayDateFormat(String format, Integer days) {
+		DateFormat dateFormat = new SimpleDateFormat(format);
+		Calendar cal = Calendar.getInstance();
+		// can add + or - prefix to days     
+		cal.setTime(cal.getTime());
+		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		if (dayOfWeek == 7 || dayOfWeek == 1) {
+			cal.add(Calendar.DATE, days + 2);    				
+		} else {
+			cal.add(Calendar.DATE, days);    
+		}
 		String modifiedDate = dateFormat.format(cal.getTime());
 		return modifiedDate;
 	}
