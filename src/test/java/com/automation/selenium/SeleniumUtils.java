@@ -171,7 +171,7 @@ public class SeleniumUtils extends Log4J {
 		return optionsText.toString().trim();
 	}
 
-	public void waitUntilElementVisible(Integer sec, By locator) {
+	public void waitUntilElementVisible(int sec, By locator) {
 		WebDriverWait wait = new WebDriverWait(driver, sec);
 		wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 	}
@@ -262,7 +262,7 @@ public class SeleniumUtils extends Log4J {
 		return bodyText;
 	}
 
-	public void threadSleep(Integer milliseconds) {
+	public void threadSleep(int milliseconds) {
 		try {
 			Thread.sleep(milliseconds);
 		} catch (InterruptedException e) {
@@ -330,7 +330,7 @@ public class SeleniumUtils extends Log4J {
 		return bodyTxt.contains(txt.toLowerCase());
 	}
 
-	public String dateFormat(String format, Integer days) {
+	public String dateFormat(String format, int days) {
 		DateFormat dateFormat = new SimpleDateFormat(format);
 		Calendar cal = Calendar.getInstance();
 		// can add + or - prefix to days 
@@ -339,7 +339,7 @@ public class SeleniumUtils extends Log4J {
 		return modifiedDate;
 	}
 	
-	public String weekdayDateFormat(String format, Integer days) {
+	public String weekdayDateFormat(String format, int days) {
 		DateFormat dateFormat = new SimpleDateFormat(format);
 		Calendar cal = Calendar.getInstance();
 		// can add + or - prefix to days     
@@ -448,6 +448,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public String getTxt(By locator) {
+		this.threadSleep(3000);
 		this.waitForElementVisibility(locator);
 		return driver.findElement(locator).getText();
 	}
@@ -550,7 +551,7 @@ public class SeleniumUtils extends Log4J {
 		action.moveToElement(we).build().perform();
 	}	
 
-	public Integer getTableRowCount() {
+	public int getTableRowCount() {
 		return driver.findElements(By.xpath("//tbody/tr")).size();
 	}
 
