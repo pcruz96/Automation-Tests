@@ -85,6 +85,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public boolean waitForTextPresent(String text) {
+		this.waitForPageLoaded();
 		try {
 			this.fluentWait().until(ExpectedConditions
 					.textToBePresentInElement(
