@@ -43,7 +43,6 @@ public class MasterTests extends BaseTest {
 	
 	public void logPerfTestResponseTimesAndScreencasts() {
 		if (isPerfTest && cloudTest && updTestRail) {
-			this.logPerfResults(perfTestsResponseTimes.toString(), perfMethodCaseId);
 			String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);
 			Map<String, String> data = new HashMap<String, String>();		
 			SauceLabs sl = new SauceLabs();
@@ -61,7 +60,8 @@ public class MasterTests extends BaseTest {
 				tr.getClient().sendPost(uri, data);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}				
+			}
+			this.logPerfResults(perfTestsResponseTimes.toString(), perfMethodCaseId);				
 		}	
 	}
 	
