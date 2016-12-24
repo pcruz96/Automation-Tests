@@ -42,7 +42,7 @@ import com.automation.utils.StackTraceToString;
 public class SeleniumUtils extends Log4J {
 
 	WebDriver driver = Driver.getDriver();
-	public int MAX_WAIT = 90;
+	public int MAX_WAIT = 20;
 	boolean printLogs;
 
 	public SeleniumUtils() {		
@@ -56,7 +56,7 @@ public class SeleniumUtils extends Log4J {
 	public Wait<WebDriver> fluentWait() {
 		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
 				.withTimeout(MAX_WAIT, TimeUnit.SECONDS)
-				.pollingEvery(3, TimeUnit.SECONDS)
+				.pollingEvery(1, TimeUnit.SECONDS)
 				.ignoring(NoSuchElementException.class);
 		return wait;
 	}
@@ -300,12 +300,8 @@ public class SeleniumUtils extends Log4J {
 			}
 		};
 
-		Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
-				.withTimeout(MAX_WAIT, TimeUnit.SECONDS)
-				.pollingEvery(1, TimeUnit.SECONDS)
-				.ignoring(NoSuchElementException.class);
 		try {
-			wait.until(expectation);
+			fluentWait().until(expectation);
 			return true;
 		} catch (Throwable error) {
 			return false;
