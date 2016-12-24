@@ -186,18 +186,20 @@ public class TestRailUtilities extends Log4J {
 				cmnt.append("\n\n ran locally");
 			}
 		}
+		
+		comment = cmnt.toString();
 
-		if (cmnt.indexOf("JIRA bug") != -1) {
+		if (comment.contains("JIRA bug")) {
 			
 			String[] s = comment.split(" : ");
 			String bug = s[0].replaceAll("JIRA bug - ", "");			
 			if (!bug.matches("null")) {
 				data.put("defects", bug);
 			}
-			cmnt.toString().replaceAll("JIRA bug - " + bug + " : ", "");
+			comment = comment.replaceAll("JIRA bug - " + bug + " : ", "ERROR: ");
 		}
 		
-		data.put("comment", cmnt.toString());
+		data.put("comment", comment);
 		
 		try {
 			String uri = "add_result_for_case/" + runId + "/" + caseId;
