@@ -671,8 +671,8 @@ public class SeleniumUtils extends Log4J {
 		return new SimpleDateFormat(format).format(cal.getTime());
 	}
 	
-	public void multiselect(By obj, int get) {
-		for (int i = 2; i < (get + 1); i++) {
+	public void multiselect(By obj, int get) {		
+		for (int i = 2; i < (get + 2); i++) {
 			List<WebElement> items = driver.findElements(obj);
 			Actions actions = new Actions(driver);
 			actions.click(items.get(0)).keyDown(Keys.COMMAND).click(items.get(i)).keyUp(Keys.COMMAND).build().perform();
