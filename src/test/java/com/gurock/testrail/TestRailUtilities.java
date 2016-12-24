@@ -119,6 +119,7 @@ public class TestRailUtilities extends Log4J {
 		String statusId = null;
 		cloudTestLink = cloudTestLink != null ? cloudTestLink : "";
 		Map<String, String> data = new HashMap<String, String>();
+		StringBuffer cmnt = new StringBuffer(comment); 
 		
 		if (result.getStatus() == ITestResult.SUCCESS) {
 			statusId = "1";
@@ -142,14 +143,14 @@ public class TestRailUtilities extends Log4J {
 		data.put("status_id", statusId);
 		
 		GetTestCases gt = new GetTestCases();		
-		String steps = gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
+		StringBuffer steps = new StringBuffer(gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName()));
 		String dupCaseResults = null;
 				
-		if (steps.contains("getCaseResults")) {
+		if (steps.indexOf("getCaseResults") != -1) {
 			
 			String dupMethod = "";
 			String dupCaseId = "";
-			String[] s1 = steps.split("\n");
+			String[] s1 = steps.toString().split("\n");
 			
 			for (int i = 0; i < s1.length - 1; i++) {
 				if (!s1[i].contains("@Test") && !s1[i].contains("void") && !s1[i].contains("//") && s1[i].contains("_")) {
@@ -164,39 +165,39 @@ public class TestRailUtilities extends Log4J {
 			dupCaseResults = this.getCaseResults(BaseTest.projectId, BaseTest.suiteId, dupCaseId);
 			
 			if (dupCaseResults.equals("Untested")) {
-				steps += gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), dupMethod);
+				steps.append(gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), dupMethod));
 			} else {
-				steps += "\n" + dupCaseResults; 
-				comment = steps;
+				steps.append("\n" + dupCaseResults); 
+				cmnt.append(steps.toString()); 
 			}
 		} 			
 			
 		if (dupCaseResults == null || dupCaseResults.contains("Untested")) {
 			String results = TestConfiguration.getTestRailConfig().getString("url") + "cases/results/" + BaseTest.getTestCaseId().replace("c", "");
 				
-			steps += "\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + cloudTestLink;
-			comment += "\n\n" + steps + "\n\nRESULTS TREND: " + results;
+			steps.append("\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + cloudTestLink);
+			cmnt.append("\n\n" + steps + "\n\nRESULTS TREND: " + results);
 			
 			if (!cloudTestLink.contains(BaseTest.getBuildUrl())) {
-				comment += "\n\nBUILD: " + BaseTest.getBuildUrl();
+				cmnt.append("\n\nBUILD: " + BaseTest.getBuildUrl());
 			}
 			
 			if (!BaseTest.cloudTest) {
-				comment += "\n\n ran locally";
+				cmnt.append("\n\n ran locally");
 			}
 		}
 
-		if (comment.indexOf("JIRA bug") != -1) {
+		if (cmnt.indexOf("JIRA bug") != -1) {
 			
 			String[] s = comment.split(" : ");
 			String bug = s[0].replaceAll("JIRA bug - ", "");			
 			if (!bug.matches("null")) {
 				data.put("defects", bug);
 			}
-			comment = comment.replaceAll("JIRA bug - " + bug + " : ", "");
+			cmnt.toString().replaceAll("JIRA bug - " + bug + " : ", "");
 		}
 		
-		data.put("comment", comment);
+		data.put("comment", cmnt.toString());
 		
 		try {
 			String uri = "add_result_for_case/" + runId + "/" + caseId;
@@ -294,7 +295,8 @@ public class TestRailUtilities extends Log4J {
 		} else {
 			ExecuteShellCommand es = new ExecuteShellCommand();
 			String revision = es.executeCommand("git rev-parse refs/remotes/origin/master^{commit} # timeout=10").substring(0, 7);
-			runName = env + tag + " - commit:" + revision + " - " + envRevision;
+			//runName = tag + " - commit:" + revision + " - " + envRevision;
+			runName = tag + " - commit:" + revision;
 		}
 		
 		addRunUsingJmeter(runName.toLowerCase(), GetTestCases.getAutomatedTests(BaseTest.suiteName));
@@ -303,14 +305,12 @@ public class TestRailUtilities extends Log4J {
 			JSONArray resultArray = (JSONArray) client.sendGet("get_runs/"
 					+ BaseTest.projectId);
 			
-			for (int i = 0; i < resultArray.size(); i++) {
-				JSONObject jsonTestItem = (JSONObject) resultArray.get(i);												
-				String runId = jsonTestItem.get("id").toString();
-				String name = jsonTestItem.get("name").toString();
-				data.add(runId);
-				data.add(name);
-				return data;
-			}
+			JSONObject jsonTestItem = (JSONObject) resultArray.get(0);												
+			String runId = jsonTestItem.get("id").toString();
+			String name = jsonTestItem.get("name").toString();
+			data.add(runId);
+			data.add(name);
+			return data;
 			
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
@@ -357,7 +357,7 @@ public class TestRailUtilities extends Log4J {
 		Map<String, String> data = new HashMap<String, String>();
 
 		// Add parameters to the hash map
-		data.put("type_id", typeId);
+		data.put("custom_auto_status", typeId);
 		/*
 		if (result.getStatus() == ITestResult.FAILURE) {
 			try {
@@ -568,12 +568,12 @@ public class TestRailUtilities extends Log4J {
 		try {
 			JSONObject jsonTestItem = (JSONObject) getClient().sendGet("get_case/" + caseId);
 			String sectionId = jsonTestItem.get("section_id").toString();
-			String sections = "";
+			StringBuffer sections = new StringBuffer("");
 			JSONObject jsonTestItem2;
 						
 			do {
 				jsonTestItem2 = (JSONObject) getClient().sendGet("get_section/" + sectionId);
-				sections += "" + jsonTestItem2.get("name").toString().replace(" ", "_") + "\", \"";
+				sections.append("" + jsonTestItem2.get("name").toString().replace(" ", "_") + "\", \"");
 				try {
 					sectionId = jsonTestItem2.get("parent_id").toString();
 				} catch (Exception e) {
@@ -610,5 +610,15 @@ public class TestRailUtilities extends Log4J {
 		su.clickElement(By.cssSelector("button[type='submit']"));
 		dvr.get(TestConfiguration.getTestRailConfig().getString("url") + "tests/view/" + testId);			
 		su.sendkeys(By.tagName("body"), Keys.PAGE_DOWN);
+	}
+	
+	public void logPerfResults(String comment) {			
+		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
+		Map<String, String> data = new HashMap<String, String>();		
+		data.put("comment", comment);		
+		try {
+			String uri = "add_result_for_case/" + runId + "/" + BaseTest.getTestCaseId().replace("c", "");
+			JSONObject response = (JSONObject) client.sendPost(uri, data);
+		} catch (Exception e) {}
 	}
 }
