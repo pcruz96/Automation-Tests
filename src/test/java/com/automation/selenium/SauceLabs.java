@@ -16,6 +16,10 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.testng.ITestResult;
 
 import com.automation.config.TestConfiguration;
@@ -30,53 +34,39 @@ public class SauceLabs extends Log4J {
 	StringWriter errors = new StringWriter();
 	
 	public String getJobId(Method method) {
-		String jobId = null;
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		String jobsFullInfo = es.executeCommand("curl -u "+apiKey+" https://saucelabs.com/rest/v1/"+user+"/jobs?full=true&limit=50");
-		String[] array = null;
-		if (jobsFullInfo.contains("browser_short_version")) {
-			array = jobsFullInfo.split("browser_short_version");
-		} else if (jobsFullInfo.contains("browser_version")) {
-			array = jobsFullInfo.split("browser_version");
-		}
-		for (String s : array) {
-			if (s.contains(method.getName())) {
-				String[] array2 = s.split(",");
-				for (String s2 : array2) {
-					if (s2.contains("\"id\"")) {
-						String[] array3 = s2.toString().split(":");
-						jobId = array3[1].toString().replace("\"", "").trim();
-						return jobId;
-					}
+		String jobs = es.executeCommand("curl -u "+apiKey+" https://saucelabs.com/rest/v1/"+user+"/jobs?full=true&limit=50");
+		JSONArray array;
+		try {
+			array = (JSONArray) new JSONParser().parse(jobs);
+			for (int i = 0; i < array.size(); i++) {
+				JSONObject json = (JSONObject) array.get(i);
+				if (json.get("name").equals(method.getName())) {
+					return json.get("id").toString();
 				}
-			}
-		}
-		return jobId;
+			}			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+		return null;
 	}
 	
 	public String getJobId(String caseId) {
-		String jobId = null;
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		String jobsFullInfo = es.executeCommand("curl -u "+apiKey+" https://saucelabs.com/rest/v1/"+user+"/jobs?full=true&limit=50");
-		String[] array = null;
-		if (jobsFullInfo.contains("browser_short_version")) {
-			array = jobsFullInfo.split("browser_short_version");
-		} else if (jobsFullInfo.contains("browser_version")) {
-			array = jobsFullInfo.split("browser_version");
-		}
-		for (String s : array) {			
-			if (s.contains(caseId)) {
-				String[] array2 = s.split(",");
-				for (String s2 : array2) {
-					if (s2.contains("\"id\"")) {
-						String[] array3 = s2.toString().split(":");
-						jobId = array3[1].toString().replace("\"", "").trim();
-						return jobId;
-					}
+		String jobs = es.executeCommand("curl -u "+apiKey+" https://saucelabs.com/rest/v1/"+user+"/jobs?full=true&limit=50");
+		JSONArray array;
+		try {
+			array = (JSONArray) new JSONParser().parse(jobs);			
+			for (int i = 0; i < array.size(); i++) {
+				JSONObject json = (JSONObject) array.get(i);
+				if (((String) json.get("name")).contains(caseId)) {
+					return json.get("id").toString();		
 				}
-			}
-		}
-		return jobId;
+			}			
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}	
+		return null;
 	}
 
 	public String getLinkToSauceLabJobId(String jobId)
