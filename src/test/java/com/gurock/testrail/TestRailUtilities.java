@@ -614,13 +614,15 @@ public class TestRailUtilities extends Log4J {
 		su.sendkeys(By.tagName("body"), Keys.PAGE_DOWN);
 	}
 	
-	public void logPerfResults(String comment) {			
+	public void logPerfResults(String comment, String perfMethodCaseId) {			
 		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
 		Map<String, String> data = new HashMap<String, String>();		
-		data.put("comment", comment);		
+		data.put("comment", "RESPONSE TIMES:\n\n" + comment);		
 		try {
-			String uri = "add_result_for_case/" + runId + "/" + BaseTest.getTestCaseId().replace("c", "");
-			JSONObject response = (JSONObject) client.sendPost(uri, data);
-		} catch (Exception e) {}
+			String uri = "add_result_for_case/" + runId + "/" + perfMethodCaseId;
+			client.sendPost(uri, data);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
