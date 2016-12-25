@@ -674,4 +674,17 @@ public class SeleniumUtils extends Log4J {
 			actions.click(items.get(0)).keyDown(Keys.COMMAND).click(items.get(i)).keyUp(Keys.COMMAND).build().perform();
 		}
 	}
+	
+	public void scrollIntoView(By obj) {
+		WebElement element = driver.findElement(obj);
+		JavascriptExecutor executor = (JavascriptExecutor)driver;
+		executor.executeScript("arguments[0].scrollIntoView(true);", element);
+	}
+	
+	public void fileUpload(By obj, String file) {
+		WebElement upload = driver.findElement(obj);
+		File f = new File(file);
+		String file2 = f.getAbsolutePath();
+        upload.sendKeys(file2);
+	}
 }
