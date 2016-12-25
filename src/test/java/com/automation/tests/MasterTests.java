@@ -35,7 +35,7 @@ public class MasterTests extends BaseTest {
         for (int i = 0; i < testClass.groups().length; i++) {
             if (testClass.groups()[i].contains("Performance")) {
             	isPerfTest = true;
-            	perfMethodCaseId = BaseTest.getTestCaseId().replace("c", "");
+            	perfMethodCaseId = this.getCaseId(method);
             	break;
             }
         }
