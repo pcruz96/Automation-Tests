@@ -86,6 +86,7 @@ public class BaseTest extends TestRailUtilities {
 	String runName;
 	public String projectParticipant;
 	public String projectParticipantFullName;
+	int failCount = 0;
 	
 	public String getTestEnv(String testEnv, boolean tag) {
 		
@@ -197,9 +198,10 @@ public class BaseTest extends TestRailUtilities {
 
 		if (updTestRail && addRun) {
 			
-			String revision = getAutomationEnvRevision();
+			//String revision = getAutomationEnvRevision(); debug 
+			String revision = "";
 			
-			List lst = (List) addRun(getTestEnv(env, false), revision, browser);
+			List<String> lst = addRun(getTestEnv(env, false), revision, browser);
 			
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();			
@@ -245,7 +247,7 @@ public class BaseTest extends TestRailUtilities {
 				methodNameCorrect = true;
 			}
 		}
-		
+		/*
 		String tc = "";
 		if (!this.getTestCaseName().contains("verify_")) {
 			tc = "verify_" + this.getTestCaseName();	
@@ -253,10 +255,13 @@ public class BaseTest extends TestRailUtilities {
 			tc = this.getTestCaseName();	
 		}	
 		testDataName.set(tc + "-" + this.getRandomUUIDString());
+		*/
+		testDataName.set(BaseTest.getTestCaseId() + "-" + BaseTest.getRandomUUIDString());
+		testDataName.set(BaseTest.getTestDataName().substring(0, 30));
 		
 		SeleniumUtils su = new SeleniumUtils();
 		maxTestDataName.set(BaseTest.getTestDataName() + su.getRandomString(255 - BaseTest.getTestDataName().length()));
-		
+
 		Driver.createDriver(name, getTestEnv(env, true), os, os_version, browser, version, deviceName,
 				deviceOrientation, cloudTest, method);
 		
@@ -267,12 +272,12 @@ public class BaseTest extends TestRailUtilities {
 			login.login(TestConfiguration.getConfig().getString("login.username"), TestConfiguration.getConfig().getString("login.password"));	
 		} catch (Exception e) {
 			throw new SkipException("LoginPage is not loaded");
-		}		
+		}
 	}
 
 	@AfterMethod(alwaysRun = true)
 	public void tearDown(ITestContext context, ITestResult result, Method method) throws IOException, ParseException {
-		
+
 		String cloudTestJobIdLink = "";
 		
 		//will display testId for faster tracking
@@ -409,6 +414,11 @@ public class BaseTest extends TestRailUtilities {
 				
 			} else if (cloudTest) {
 				cn.postMsg(msg + " - " + cloudTestJobIdLink);			
+			}		
+			failCount++;
+			if (failCount == 100) {
+				logger.error("100 tests failed. Exiting...");
+				System.exit(1);
 			}
 		}
 		this.appendSkippedAndFailedTests(result, method);
