@@ -417,18 +417,18 @@ public class BaseTest extends TestRailUtilities {
 			}		
 			failCount++;			
 		}
-		this.appendSkippedAndFailedTests(result, method);
-		if (failCount == 100) {
-			logger.error("100 tests failed. Exiting...");
-			logger.info("not passed case ids: " + notPassedCaseIds.toString());
-			System.exit(1);
-		}
+		this.appendSkippedAndFailedTests(result, method);		
 		this.removePassedTestsFromTestNG(result, method);
 		try {
 			if(Driver.getDriver() != null) {
 				Driver.getDriver().quit();
 			}
-		} catch (Exception e) {}			
+		} catch (Exception e) {}
+		if (failCount == 100) {
+			logger.error("100 tests failed. Exiting...");
+			logger.info("not passed case ids: " + notPassedCaseIds.toString());
+			System.exit(1);
+		}
 	}
 	
 	//@AfterClass(alwaysRun = true)
