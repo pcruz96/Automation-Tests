@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -616,8 +617,17 @@ public class TestRailUtilities extends Log4J {
 	
 	public void logPerfResults(String comment, String perfMethodCaseId) {			
 		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
-		Map<String, String> data = new HashMap<String, String>();		
-		data.put("comment", "RESPONSE TIMES:\n\n" + comment);		
+		Map<String, String> data = new HashMap<String, String>();
+		List<String> list = new ArrayList<String>();
+		
+		String[] s = comment.split("\n");
+		
+		for (String str : s) {
+			list.add(str + "\n");
+		}
+		Collections.sort(list);
+		String sorted = new String(list.toString().replaceAll("[\\[,\\]]", ""));
+		data.put("comment", "RESPONSE TIMES:\n\n" + sorted);		
 		try {
 			String uri = "add_result_for_case/" + runId + "/" + perfMethodCaseId;
 			client.sendPost(uri, data);
