@@ -415,13 +415,14 @@ public class BaseTest extends TestRailUtilities {
 			} else if (cloudTest) {
 				cn.postMsg(msg + " - " + cloudTestJobIdLink);			
 			}		
-			failCount++;
-			if (failCount == 100) {
-				logger.error("100 tests failed. Exiting...");
-				System.exit(1);
-			}
+			failCount++;			
 		}
 		this.appendSkippedAndFailedTests(result, method);
+		if (failCount == 100) {
+			logger.error("100 tests failed. Exiting...");
+			logger.info("not passed case ids: " + notPassedCaseIds.toString());
+			System.exit(1);
+		}
 		this.removePassedTestsFromTestNG(result, method);
 		try {
 			if(Driver.getDriver() != null) {
