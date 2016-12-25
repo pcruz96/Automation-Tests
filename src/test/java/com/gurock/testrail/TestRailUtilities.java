@@ -618,8 +618,7 @@ public class TestRailUtilities extends Log4J {
 	public void logPerfResults(String comment, String perfMethodCaseId) {			
 		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
 		Map<String, String> data = new HashMap<String, String>();
-		List<String> list = new ArrayList<String>();
-		
+		List<String> list = new ArrayList<String>();		
 		String[] s = comment.split("\n");
 		
 		for (String str : s) {
@@ -627,7 +626,7 @@ public class TestRailUtilities extends Log4J {
 		}
 		Collections.sort(list);
 		String sorted = new String(list.toString().replaceAll("[\\[,\\]]", ""));
-		data.put("comment", "RESPONSE TIMES:\n\n" + sorted);		
+		data.put("comment", "RESPONSE TIMES SORTED:\n\n" + sorted);		
 		try {
 			String uri = "add_result_for_case/" + runId + "/" + perfMethodCaseId;
 			client.sendPost(uri, data);
