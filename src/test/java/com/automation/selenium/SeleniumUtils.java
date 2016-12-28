@@ -26,6 +26,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -671,7 +672,9 @@ public class SeleniumUtils extends Log4J {
 		for (int i = 2; i < (get + 2); i++) {
 			List<WebElement> items = driver.findElements(obj);
 			Actions actions = new Actions(driver);
-			actions.click(items.get(0)).keyDown(Keys.COMMAND).click(items.get(i)).keyUp(Keys.COMMAND).build().perform();
+			try {
+				actions.click(items.get(0)).keyDown(Keys.COMMAND).click(items.get(i)).keyUp(Keys.COMMAND).build().perform();
+			} catch (Exception e) {}
 		}
 	}
 	
@@ -686,5 +689,15 @@ public class SeleniumUtils extends Log4J {
 		File f = new File(file);
 		String file2 = f.getAbsolutePath();
         upload.sendKeys(file2);
+	}
+	
+	public void dragAndDropAction(By src, By tgt) {
+		this.waitForElementVisibility(src);
+		Actions builder = new Actions(driver);
+		Action dragAndDrop = builder.clickAndHold(driver.findElement(src))
+		   .moveToElement(driver.findElement(tgt))
+		   .release(driver.findElement(tgt))
+		   .build();
+		dragAndDrop.perform();
 	}
 }
