@@ -120,7 +120,7 @@ public class GetTestCases extends Log4J {
 				lineNumber++;
 			}
 			testCaseSteps = "\n" + sb.toString();			
-			return testCaseSteps;
+			return suite + "\n" + testCaseSteps;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
