@@ -298,7 +298,7 @@ public class TestRailUtilities extends Log4J {
 			runName = tag + " - commit:" + revision;
 		}
 		
-		addRunUsingJmeter(runName.toLowerCase(), GetTestCases.getAutomatedTests(BaseTest.suiteName));
+		addRunUsingJmeter(runName.toLowerCase(), GetTestCases.getAutomatedTests());
 		
 		try {
 			JSONArray resultArray = (JSONArray) client.sendGet("get_runs/"

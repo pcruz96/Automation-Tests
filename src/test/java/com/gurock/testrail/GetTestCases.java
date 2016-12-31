@@ -1,6 +1,7 @@
 package com.gurock.testrail;
 
 import com.automation.tests.BaseTest;
+import com.automation.utils.ExecuteShellCommand;
 import com.automation.utils.FileUtilities;
 import com.automation.utils.Log4J;
 
@@ -127,7 +128,7 @@ public class GetTestCases extends Log4J {
 		return testCaseSteps;
 	}
 	
-	public static List<Integer> getAutomatedTests(String suite) {
+	public static List<Integer> getAutomatedTests() {
 
 		TestRailUtilities tr = new TestRailUtilities();
 		String project;
@@ -142,88 +143,95 @@ public class GetTestCases extends Log4J {
 		String includeGroups = System.getenv("INCLUDEGROUPS");
 		String excludeGroups = System.getenv("EXCLUDEGROUPS");
 		
-		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+".java"))) {
-			
-			String line = br.readLine();
-			boolean foundTest = false;
-
-			while (line != null) {
-				line = br.readLine();
-				try {
-					if (line.contains("@Test") && line.replaceAll(" ", "").contains("enabled=true")) {
-						
-						String[] g = null;
-						
-						if (includeGroups == null || includeGroups.equals(".*") && excludeGroups.isEmpty()) {
-							
-							foundTest = true;							
-							
-						} else if (includeGroups.equals(".*") && !excludeGroups.isEmpty()) {
-							
-							g = excludeGroups.split(",");																
-							int i = 0;
-							
-							for (String group : g) {
-								if (line.contains(group.trim())) {									
-									break;
-								} else if (i == g.length - 1) {
-									foundTest = true;
-								}
-								i++;
-							}
-						
-						} else {
-							if (!includeGroups.equals(".*")) {
-							
-								g = includeGroups.split(",");
+		ExecuteShellCommand es = new ExecuteShellCommand();
+		String[] tests = es.executeCommand("ls src/test/java/com/automation/tests/"+project).split("\n");
+		
+		for (String test : tests) {
+		
+			if (test.contains(".java")) {
+				try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+test))) {
+					
+					String line = br.readLine();
+					boolean foundTest = false;
+		
+					while (line != null) {
+						line = br.readLine();
+						try {
+							if (line.contains("@Test") && line.replaceAll(" ", "").contains("enabled=true")) {
 								
-								for (String group : g) {
-									if (line.contains(group.trim())) {
-										foundTest = true;
-										break;
+								String[] g = null;
+								
+								if (includeGroups == null || includeGroups.equals(".*") && excludeGroups.isEmpty()) {
+									
+									foundTest = true;							
+									
+								} else if (includeGroups.equals(".*") && !excludeGroups.isEmpty()) {
+									
+									g = excludeGroups.split(",");																
+									int i = 0;
+									
+									for (String group : g) {
+										if (line.contains(group.trim())) {									
+											break;
+										} else if (i == g.length - 1) {
+											foundTest = true;
+										}
+										i++;
+									}
+								
+								} else {
+									if (!includeGroups.equals(".*")) {
+									
+										g = includeGroups.split(",");
+										
+										for (String group : g) {
+											if (line.contains(group.trim())) {
+												foundTest = true;
+												break;
+											}
+										}
+									
+									} else if (!excludeGroups.isEmpty()) {
+										
+										g = excludeGroups.split(",");
+										
+										for (String group : g) {
+											if (!line.contains(group.trim())) {
+												foundTest = true;
+												break;
+											}
+										}							
 									}
 								}
+							}
+						} catch (Exception e) {}
+						
+						if (foundTest && !line.contains("@Test")) {
 							
-							} else if (!excludeGroups.isEmpty()) {
-								
-								g = excludeGroups.split(",");
-								
-								for (String group : g) {
-									if (!line.contains(group.trim())) {
-										foundTest = true;
+							String[] s1 = line.split(" ");
+							String[] s2 = s1[2].split("_");
+							Integer caseId = Integer.parseInt(s2[0].replace("c", ""));
+							
+							String cids = System.getenv("CASEIDS");
+							
+							if (cids != null) {
+								for (String c : cids.split(",")) {
+									if (c.replace("c", "").trim().equals(caseId.toString())) {
+										caseIds.add(caseId);
 										break;
 									}
 								}							
-							}
-						}
-					}
-				} catch (Exception e) {}
-				
-				if (foundTest && !line.contains("@Test")) {
-					
-					String[] s1 = line.split(" ");
-					String[] s2 = s1[2].split("_");
-					Integer caseId = Integer.parseInt(s2[0].replace("c", ""));
-					
-					String cids = System.getenv("CASEIDS");
-					
-					if (cids != null) {
-						for (String c : cids.split(",")) {
-							if (c.replace("c", "").trim().equals(caseId.toString())) {
-								caseIds.add(caseId);
-								break;
-							}
-						}							
-					} else {
-						caseIds.add(caseId);	
-					}						
-					foundTest = false;
-				}				
-			}			
-			return caseIds;
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+							} else {
+								caseIds.add(caseId);	
+							}						
+							foundTest = false;
+						}				
+					}			
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		return caseIds;
 	}
