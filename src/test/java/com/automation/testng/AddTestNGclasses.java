@@ -1,11 +1,19 @@
 package com.automation.testng;
 
 import java.io.*;
+import java.util.HashSet;
+import com.automation.utils.FileUtilities;
 
 public class AddTestNGclasses {
+	
+	static HashSet<String> hs;
 
 	@SuppressWarnings("resource")
 	public static void main(String[] arg) {
+		
+		if (System.getenv("CASE_IDS") != null) {
+			hs = getTestMethodsClasses();
+		}
 
 		String inputFile = "src/test/resources/testng/testng.xml";
 		String outputFile = "src/test/resources/testng/testng_groups.xml";
@@ -37,7 +45,9 @@ public class AddTestNGclasses {
 					if (line.contains("<classes>") && i == 0) {
 						for (String test : tests) {
 							if (test.contains(".java")) {
-								bw.write("<class name=\""+pkg+test.replace(".java", "")+"\" />" + "\n");
+								if (System.getenv("CASE_IDS") == null || (System.getenv("CASE_IDS") != null && hs.toString().contains(test))) {
+									bw.write("<class name=\""+pkg+test.replace(".java", "")+"\" />" + "\n");
+								}
 							}
 						}
 						i++;
@@ -74,5 +84,20 @@ public class AddTestNGclasses {
 			e.printStackTrace();
 		}
 		return output.toString(); 
+	}
+	
+	public static HashSet<String> getTestMethodsClasses() {		
+		HashSet<String> hs = new HashSet<String>();
+		FileUtilities fu = new FileUtilities();
+		String suite = "";
+		String[] tests = System.getenv("CASE_IDS").split(",");
+		
+		for (String test : tests) {
+			try {
+				suite = fu.scanFiles("src/test/java/com/automation/tests/*", "public void " + test + "_");
+				hs.add(suite);
+			} catch (Exception e) {}	
+		}			
+		return hs;
 	}
 }
