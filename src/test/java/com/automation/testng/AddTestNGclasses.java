@@ -2,26 +2,27 @@ package com.automation.testng;
 
 import java.io.*;
 import java.util.HashSet;
-import com.automation.utils.FileUtilities;
 
 public class AddTestNGclasses {
 	
 	static HashSet<String> hs;
+	static String testDir = "";
 
 	@SuppressWarnings("resource")
 	public static void main(String[] arg) {
 		
-		if (System.getenv("CASEIDS") != null) {
-			hs = getTestMethodsClasses();
-		}
-
 		String inputFile = "src/test/resources/testng/testng.xml";
 		String outputFile = "src/test/resources/testng/testng_groups.xml";
 		File ifile = new File(inputFile);
 		File ofile = new File(outputFile);
 				
-		String[] tests = executeCommand("ls " + arg[0]).split("\n");
-		String pkg = arg[0].replace("src/test/java/", "").replace("/", ".");
+		testDir = arg[0];
+		String[] tests = executeCommand("ls " + testDir).split("\n");
+		String pkg = testDir.replace("src/test/java/", "").replace("/", ".");
+		
+		if (System.getenv("CASEIDS") != null) {
+			hs = getTestMethodsClasses();
+		}
 
 		try {
 			if (!ofile.exists()) {
@@ -88,16 +89,49 @@ public class AddTestNGclasses {
 	
 	public static HashSet<String> getTestMethodsClasses() {		
 		HashSet<String> hs = new HashSet<String>();
-		FileUtilities fu = new FileUtilities();
 		String suite = "";
 		String[] tests = System.getenv("CASEIDS").split(",");
 		
 		for (String test : tests) {
-			try {
-				suite = fu.scanFiles("src/test/java/com/automation/tests/*", "public void " + test + "_");
-				hs.add(suite);
-			} catch (Exception e) {}	
+			suite = scanFiles(testDir, "public void " + test + "_");
+			hs.add(suite);	
 		}			
 		return hs;
 	}
+		
+	public static String scanFiles(String folderPath, String searchString) {
+		try {
+	        File folder = new File(folderPath);
+	
+	        if (folder.isDirectory()) {
+	            for (File file : folder.listFiles()) {
+	                if (!file.isDirectory()) {
+	                    BufferedReader br = new BufferedReader(new FileReader(file));
+	                    String content = "";
+	                    try {
+	                        StringBuilder sb = new StringBuilder();
+	                        String line = br.readLine();
+	
+	                        while (line != null) {
+	                            sb.append(line);
+	                            sb.append(System.lineSeparator());
+	                            line = br.readLine();
+	                        }
+	                        content = sb.toString();
+	
+	
+	                    } finally {
+	                        br.close();
+	                    }
+	                    if (content.contains(searchString)) {                    	
+	                        return file.getName().toString();
+	                    }
+	                }
+	            }
+	        } else {
+	            System.out.println("Not a Directory!");
+	        }
+		} catch (Exception e) {}
+        return null;
+    }
 }
