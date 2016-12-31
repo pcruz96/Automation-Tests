@@ -89,6 +89,10 @@ public class GetTestCases extends Log4J {
 		FileUtilities fu = new FileUtilities();
 		String suite = "";
 		try {
+			if (testCase.contains(".")) {
+				String[] tc = testCase.split("\\.");
+				testCase = tc[1];	
+			}			
 			suite = fu.scanFiles("src/test/java/com/automation/tests/" + project, "public void " + testCase);			
 		} catch (Exception e) {}
 		
@@ -120,7 +124,7 @@ public class GetTestCases extends Log4J {
 				lineNumber++;
 			}
 			testCaseSteps = "\n" + sb.toString();			
-			return suite + "\n" + testCaseSteps;
+			return "\n" + suite + "\n" + testCaseSteps;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
