@@ -11,7 +11,7 @@ public class AddTestNGclasses {
 	@SuppressWarnings("resource")
 	public static void main(String[] arg) {
 		
-		if (System.getenv("CASE_IDS") != null) {
+		if (System.getenv("CASEIDS") != null) {
 			hs = getTestMethodsClasses();
 		}
 
@@ -45,7 +45,7 @@ public class AddTestNGclasses {
 					if (line.contains("<classes>") && i == 0) {
 						for (String test : tests) {
 							if (test.contains(".java")) {
-								if (System.getenv("CASE_IDS") == null || (System.getenv("CASE_IDS") != null && hs.toString().contains(test))) {
+								if (System.getenv("CASEIDS") == null || (System.getenv("CASEIDS") != null && hs.toString().contains(test))) {
 									bw.write("<class name=\""+pkg+test.replace(".java", "")+"\" />" + "\n");
 								}
 							}
@@ -90,7 +90,7 @@ public class AddTestNGclasses {
 		HashSet<String> hs = new HashSet<String>();
 		FileUtilities fu = new FileUtilities();
 		String suite = "";
-		String[] tests = System.getenv("CASE_IDS").split(",");
+		String[] tests = System.getenv("CASEIDS").split(",");
 		
 		for (String test : tests) {
 			try {
