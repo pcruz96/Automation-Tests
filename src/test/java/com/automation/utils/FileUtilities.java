@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Scanner;
 
-/**
- * Created by pkasal on 3/5/15.
- */
 public class FileUtilities extends Log4J{
 
     public boolean isDownloadFileExists(String targetFilePath) {

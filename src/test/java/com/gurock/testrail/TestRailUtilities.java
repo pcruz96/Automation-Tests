@@ -144,7 +144,7 @@ public class TestRailUtilities extends Log4J {
 		data.put("status_id", statusId);
 		
 		GetTestCases gt = new GetTestCases();		
-		StringBuffer steps = new StringBuffer(gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName()));
+		StringBuffer steps = new StringBuffer(gt.getAutomatedTestCaseSteps(method.getName()));
 		String dupCaseResults = null;
 				
 		if (steps.indexOf("getCaseResults") != -1) {
@@ -166,7 +166,7 @@ public class TestRailUtilities extends Log4J {
 			dupCaseResults = this.getCaseResults(BaseTest.projectId, BaseTest.suiteId, dupCaseId);
 			
 			if (dupCaseResults.equals("Untested")) {
-				steps.append(gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), dupMethod));
+				steps.append(gt.getAutomatedTestCaseSteps(dupMethod));
 			} else {
 				steps.append("\n" + dupCaseResults); 
 				cmnt.append(steps.toString()); 

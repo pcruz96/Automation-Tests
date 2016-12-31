@@ -299,9 +299,9 @@ public class BaseTest extends TestRailUtilities {
 			GetTestCases gt = new GetTestCases();
 			
 			if (updTestRail) {
-				steps = gt.getAutomatedTestCaseSteps(getSuiteName(false, BaseTest.suiteId), method.getName());
+				steps = gt.getAutomatedTestCaseSteps(method.getName());
 			} else {
-				steps = gt.getAutomatedTestCaseSteps(BaseTest.suiteName, method.getName());
+				steps = gt.getAutomatedTestCaseSteps(method.getName());
 			}
 			logger.info(steps);
 			String dupResults = BaseTest.getCaseResults();

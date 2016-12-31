@@ -1,6 +1,7 @@
 package com.gurock.testrail;
 
 import com.automation.tests.BaseTest;
+import com.automation.utils.FileUtilities;
 import com.automation.utils.Log4J;
 
 import java.io.*;
@@ -73,7 +74,7 @@ public class GetTestCases extends Log4J {
 		return testCaseName.toLowerCase();
 	}
 	
-	public String getAutomatedTestCaseSteps(String suite, String testCase) {
+	public String getAutomatedTestCaseSteps(String testCase) {
 
 		String testCaseSteps = null;
 		TestRailUtilities tr = new TestRailUtilities();
@@ -84,7 +85,13 @@ public class GetTestCases extends Log4J {
 			project = BaseTest.project;
 		}
 		
-		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite+".java"))) {
+		FileUtilities fu = new FileUtilities();
+		String suite = "";
+		try {
+			suite = fu.scanFiles("src/test/java/com/automation/tests/" + project, "public void " + testCase);			
+		} catch (Exception e) {}
+		
+		try (BufferedReader br = new BufferedReader(new FileReader("src/test/java/com/automation/tests/"+project+"/"+suite))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 			String group = null;
