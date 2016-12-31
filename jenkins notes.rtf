@@ -17,7 +17,6 @@ sed -i.tmp "s/OS/$OS/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/BROWSER/$BROWSER/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/DATABASE/$DATABASE/g" src/test/resources/testng/testng.xml\
 sed -i.tmp "s/WHO/$WHO/g" src/test/resources/testng/testng.xml\
-sed -i.tmp "s/CLASS/$CLASS/g" src/test/resources/testng/testng.xml\
 \
 if [ $JIRA = false ]\
 then\
@@ -39,12 +38,16 @@ fi    \
 if [ "$CASEIDS" != "" ]\
 then\
 	java -jar src/test/java/com/automation/testng/add_testng_methods.jar $CASEIDS\
-fi    \
+fi  \
+\
+java -jar src/test/java/com/automation/testng/add_classes.jar $TESTS_DIR\
 \
 consoleTxt=`curl -u 'mercatus:40^Dlt&fHoo%M0z3' https://ci-us.gomercatus.com/job/mercatus-automation-build/lastBuild/consoleText 2>&1 | grep 'Checking out Revision' | sed 's/(/\\\\(/g' | sed 's/)/\\\\)/g'`\
 branch=`echo $consoleTxt | cut -d' ' -f5 | rev | cut -d'/' -f1 | rev | sed 's/)//g'`\
 revision=`echo $consoleTxt | cut -d' ' -f4 | cut -c1-7`\
 branchRevision=$branch:$revision\
+\
+sed -i.tmp "s/RUNNAME/RUNNAME - $branchRevision/g" src/test/jmeter/addTestRailRun.jmx\
 \
 ____________________________________________________________________________________________________________________________________________\
 \
