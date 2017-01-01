@@ -9,9 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Set;
 
 import javax.crypto.BadPaddingException;
@@ -115,29 +113,27 @@ public class SauceLabs extends Log4J {
 		}
 	}
 	
-	public List<String> getScreencasts(String caseId, int count) {
+	public String getScreencast(String method) {
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		String jobs = es.executeCommand("curl -u "+apiKey+" https://saucelabs.com/rest/v1/"+user+"/jobs?full=true&limit=50");
 		JSONArray array;
-		List<String> data = new ArrayList<String>();
 		try {
 			array = (JSONArray) new JSONParser().parse(jobs);
-			int c = 0;
+
 			for (int i = 0; i < array.size(); i++) {
+				
 				JSONObject json = (JSONObject) array.get(i);
-				if (((String) json.get("name")).contains(caseId)) {
-					c++;
+				
+				if (((String) json.get("name")).equals(method)) {
+
 					String jobId = json.get("id").toString();
 					String cloudTestJobIdLink = null;
 					try {
 						cloudTestJobIdLink = this.getLinkToSauceLabJobId(jobId);
+						return cloudTestJobIdLink;
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
 					}
-					data.add(cloudTestJobIdLink);
-					if (c == count) {
-						return data;	
-					}					
 				}
 			}			
 		} catch (ParseException e) {
