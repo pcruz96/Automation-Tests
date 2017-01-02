@@ -125,18 +125,6 @@ public class TestRailUtilities extends Log4J {
 			statusId = "1";
 		} else if (result.getStatus() == ITestResult.FAILURE) {
 			statusId = "5";	
-			/*
-			try {
-				CustomException ce = new CustomException();
-				String error = ce.getStackTrace(result, method);
-				if (error.length() > 250) {
-					error = "..." + error.substring(error.indexOf("automation"), error.length());
-				}
-				data.put("defects", error);
-			} catch (Exception e) {
-				data.put("defects", "");
-			}
-			*/
 		}
 		
 		// Add parameters to the hash map
@@ -320,32 +308,6 @@ public class TestRailUtilities extends Log4J {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
-		/*
-		// Add parameters to the hash map
-		data.put("suite_id", BaseTest.suiteId);		
-		data.put("name", runName.toLowerCase());		
-		//List<Integer> caseIds = GetTestCases.getAutomatedTests(BaseTest.suiteName);		
-		//data.put("case_ids", caseIds);
-				
-		try {
-			String uri = "add_run/" + BaseTest.projectId;
-			JSONObject response = (JSONObject) client.sendPost(uri, data);
-
-			if (response == null) {
-				// Write the test results into file
-				logger.error("error creating new run for projectId/suiteId, " + BaseTest.projectId + "/" + BaseTest.suiteId);
-			} else {
-				return response.get("id").toString();
-			}					
-		} catch (APIException e) {
-			logger.error(e.getMessage());
-		} catch (MalformedURLException e) {
-			logger.error(e.getMessage());
-		} catch (IOException e) {
-			logger.error(e.getMessage());
-		}
-		*/
 		return null;
 	}
 	
@@ -356,22 +318,6 @@ public class TestRailUtilities extends Log4J {
 
 		// Add parameters to the hash map
 		data.put("custom_auto_status", typeId);
-		/*
-		if (result.getStatus() == ITestResult.FAILURE) {
-			try {
-				CustomException ce = new CustomException();
-				String error = ce.getStackTrace(result, method);
-				if (error.length() > 250) {
-					error = error.substring(0,250);
-				}
-				data.put("refs", error);
-			} catch (Exception e) {
-				data.put("refs", "");
-			}
-		} else {
-			data.put("refs", "");
-		}
-		*/
 		try {
 			String uri = "update_case/" + caseId;
 			client.sendPost(uri, data);
@@ -458,11 +404,6 @@ public class TestRailUtilities extends Log4J {
 				String details = " - caseId : " + caseId + " | testId : " + testId + "\n\n" + comments;
 				
 				if (statusId.equals("1")) {			
-					/*
-					return "Passed - projectId : " + projectId + " = " + this.getProjectName(projectId) + " | suiteId : " 
-							+ suiteId + " = " + this.getSuiteName(false, suiteId) + " | caseId : " + caseId + " | testId : " 
-							+ testId + "\n\n" + comments;
-							*/
 					return "Passed" + details;					
 				} else {
 					return "Failed" + details;
@@ -593,7 +534,6 @@ public class TestRailUtilities extends Log4J {
 			JSONObject jsonTestItem2 = (JSONObject) getClient().sendGet("get_section/" + sectionId);
 			return jsonTestItem2.get("name").toString();
 		} catch (IOException | APIException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;

@@ -74,7 +74,8 @@ public class BaseTest extends TestRailUtilities {
 	public static String os = null;
 	public static String browser = null;
 	public static String runId = null;
-	public static String database = null;	
+	public static String database = null;
+	public static String databaseName = null;
 	
 	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
@@ -156,8 +157,8 @@ public class BaseTest extends TestRailUtilities {
 		return "";
     }
 		
-	public void setActors() {
-		
+	public void setVars() {
+
 	}
 	
 	@BeforeSuite(alwaysRun = true)
@@ -213,14 +214,15 @@ public class BaseTest extends TestRailUtilities {
 			es.executeArrayCommand(cmd2);
 		}			
 		TestConfiguration.setConfig(env);
-		BaseTest.host = TestConfiguration.getConfig().getString("login.url");				
+		BaseTest.host = TestConfiguration.getConfig().getString("login.url");
+		BaseTest.databaseName = TestConfiguration.getDbConfig().getString("db." + BaseTest.env + ".name");
 		createTestNGfailed(fu);
 		removeTmpFiles();
 	}
 	
 	public String getAutomationEnvRevision() {
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		String[] cmd = new String[] {"curl", "-u", “user:password”, “jenkins_url/lastBuild/consoleText", "2>&1"};		
+		String[] cmd = new String[] {"curl", "-u", "mercatus:40^Dlt&fHoo%M0z3", "https://ci-us.gomercatus.com/job/mercatus-automation-build/lastBuild/consoleText", "2>&1"};		
 		String consoleTxt = es.executeArrayCommand(cmd);
 		String[] s1 = consoleTxt.split("Checking out Revision ");
 		String[] s2 = s1[1].split(" ");
@@ -237,7 +239,7 @@ public class BaseTest extends TestRailUtilities {
 			@Optional String deviceName, @Optional String deviceOrientation, @Optional String who, Method method)			
 			throws MalformedURLException {
 		
-		setActors();
+		setVars();
 		methodName.set(method.getName());
 		
 		if (updTestRail) {
@@ -552,7 +554,6 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+descWithoutLink+"/g", jmx};
 		es.executeArrayCommand(cmd1);
 		
-		//String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+desc+"/g", jmx};
 		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+testRailOrCloudTestLink+"/g", jmx};
 		es.executeArrayCommand(cmd2);
 		
