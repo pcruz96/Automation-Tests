@@ -85,17 +85,27 @@ public class GetTestCases extends Log4J {
 
 		FileUtilities fu = new FileUtilities();
 		String suite = "";
+		String filePath = "";
 		try {
 			if (testCase.contains(".")) {
 				String[] tc = testCase.split("\\.");
 				testCase = tc[1];
 			}
-			suite = fu.scanFiles("src/test/java/com/automation/tests/" + project, "public void " + testCase);
+			ExecuteShellCommand es = new ExecuteShellCommand();
+			String[] dirs = es.executeCommand("find src/test/java/com/automation/tests/" + project + " -type d")
+					.split("\n");
+
+			for (String dir : dirs) {
+				suite = fu.scanFiles(dir, "public void " + testCase);
+				if (suite != null) {
+					filePath = dir + "/" + suite;
+					break;
+				}
+			}
 		} catch (Exception e) {
 		}
 
-		try (BufferedReader br = new BufferedReader(
-				new FileReader("src/test/java/com/automation/tests/" + project + "/" + suite))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
 			String group = null;
@@ -124,7 +134,7 @@ public class GetTestCases extends Log4J {
 				lineNumber++;
 			}
 			testCaseSteps = "\n" + sb.toString();
-			return "\n" + suite + "\n" + testCaseSteps;
+			return "\n" + filePath + "\n" + testCaseSteps;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
