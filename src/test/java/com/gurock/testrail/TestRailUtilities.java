@@ -176,7 +176,7 @@ public class TestRailUtilities extends Log4J {
 		if (comment.contains("JIRA bug")) {
 			
 			String[] s = comment.split(" : ");
-			String bug = s[0].replaceAll("JIRA bug - ", "");			
+			String bug = s[0].replaceAll("JIRA bug - ", "") + "\n";			
 			if (!bug.matches("null")) {
 				data.put("defects", bug);
 			}
