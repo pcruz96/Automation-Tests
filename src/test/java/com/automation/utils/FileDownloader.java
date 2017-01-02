@@ -137,8 +137,7 @@ public class FileDownloader {
      * @throws IOException
      * @throws NullPointerException
      */
-    @SuppressWarnings("deprecation")
-	private String downloader(WebElement element, String attribute) throws IOException, NullPointerException, URISyntaxException {
+    private String downloader(WebElement element, String attribute) throws IOException, NullPointerException, URISyntaxException {
         String fileToDownloadLocation = element.getAttribute(attribute);
         if (fileToDownloadLocation.trim().equals("")) throw new NullPointerException("The element you have specified does not link to anything!");
  
@@ -147,7 +146,8 @@ public class FileDownloader {
         downloadedFile.renameTo(this.renamedFile);
         if (downloadedFile.canWrite() == false) downloadedFile.setWritable(true);
  
-        HttpClient client = new DefaultHttpClient();
+        @SuppressWarnings("resource")
+		HttpClient client = new DefaultHttpClient();
         BasicHttpContext localContext = new BasicHttpContext();
  
         LOG.info("Mimic WebDriver cookie state: " + this.mimicWebDriverCookieState);

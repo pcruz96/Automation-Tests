@@ -124,6 +124,7 @@ public class FileUtilities extends Log4J{
     
 	public boolean stringInFile(String str, String file) throws FileNotFoundException {
 		File f = new File(file);
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(f);
 
 		while (scanner.hasNextLine()) {

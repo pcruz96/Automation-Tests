@@ -26,6 +26,7 @@ public class Rally {
 	final String password = "";
 	final String workspaceRef = "/workspace/";
 	
+	@SuppressWarnings("deprecation")
 	public void convertRallyTestCasesToTestNGmethods(String project) throws URISyntaxException, IOException {
 		
 		String suiteName = project.replaceAll("[^a-zA-Z0-9]+","_");
@@ -77,6 +78,7 @@ public class Rally {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void getTestCases(String project) throws URISyntaxException, IOException {
 		
 		String projectRef = "/project/" + getProjectRef(project);
@@ -109,6 +111,7 @@ public class Rally {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public String getLatestTestCaseResultId(String project, String testCaseId) throws URISyntaxException, IOException {
 		
 		String projectRef = "/project/" + getProjectRef(project);
@@ -141,6 +144,7 @@ public class Rally {
 		return null;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public String getProjectRef(String project) throws URISyntaxException, IOException {
 		
 		RallyRestApi restApi = null;
@@ -215,6 +219,7 @@ public class Rally {
 
 	public void createTestResult(String build, String testCaseId, String verdict, String notes) throws URISyntaxException, IOException {			
 
+		@SuppressWarnings("deprecation")
 		RallyRestApi restApi = new RallyRestApi(new URI(host), username, password);
 
 		JsonObject json = new JsonObject();
