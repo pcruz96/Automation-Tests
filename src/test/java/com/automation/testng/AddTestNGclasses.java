@@ -58,7 +58,7 @@ public class AddTestNGclasses {
 								for (String test : tests) {
 									if (test.contains(".java")) {
 										if (System.getenv("CASEIDS") == null
-												|| (System.getenv("CASEIDS") != null && hs.toString().contains(test))) {
+												|| (System.getenv("CASEIDS") != null && hs.toString().contains("<" + test + ">"))) {
 											String pkg = dir.replace("src/test/java/", "").replace("/", ".");
 
 											if (subDir) {
@@ -117,7 +117,7 @@ public class AddTestNGclasses {
 			for (String test : tests) {
 				suite = scanFiles(dir, "public void " + test + "_");
 				if (suite != null) {
-					hs.add(suite);
+					hs.add("<" + suite + ">");
 				}
 			}
 		}
