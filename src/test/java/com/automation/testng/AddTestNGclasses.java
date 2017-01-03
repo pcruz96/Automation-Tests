@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 public class AddTestNGclasses {
 
-	static HashSet<String> hs;
+	static HashSet<String> testMethodsClasses;
 	static String testDir = "";
 
 	@SuppressWarnings("resource")
@@ -18,7 +18,11 @@ public class AddTestNGclasses {
 		testDir = arg[0];
 
 		if (System.getenv("CASEIDS") != null) {
-			hs = getTestMethodsClasses();
+			testMethodsClasses = getTestMethodsClasses();
+			disableTests();
+			deleteTmpFiles();
+			enableTests();
+			deleteTmpFiles();
 		}
 
 		try {
@@ -58,7 +62,7 @@ public class AddTestNGclasses {
 								for (String test : tests) {
 									if (test.contains(".java")) {
 										if (System.getenv("CASEIDS") == null
-												|| (System.getenv("CASEIDS") != null && hs.toString().contains("<" + test + ">"))) {
+												|| (System.getenv("CASEIDS") != null && testMethodsClasses.toString().contains("<" + test + ">"))) {
 											String pkg = dir.replace("src/test/java/", "").replace("/", ".");
 
 											if (subDir) {
@@ -80,6 +84,7 @@ public class AddTestNGclasses {
 				} catch (Exception e) {
 				}
 			}
+			
 			bw.close();
 			ofile.renameTo(ifile);
 			System.out.println("updated " + inputFile);
@@ -158,5 +163,95 @@ public class AddTestNGclasses {
 		} catch (Exception e) {
 		}
 		return null;
+	}
+	
+	public static String executeArrayCommand(String[] command) {
+		 
+		StringBuffer output = new StringBuffer();
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec(command);
+			p.waitFor();
+			BufferedReader reader = 
+                            new BufferedReader(new InputStreamReader(p.getInputStream()));
+ 
+                        String line = "";			
+			while ((line = reader.readLine())!= null) {
+				output.append(line + "\n");
+			}
+ 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return output.toString(); 
+	} 
+	
+	public static void disableTests() {
+		String[] dirs = executeCommand("find src/test/java/com/automation/tests/ -type d").split("\n");
+		String[] sed;		
+		for (String dir : dirs) {
+			
+			String[] tests = executeCommand("ls " + dir).split("\n");
+			
+			for (String test : tests) {
+				sed = new String[] {"sed", "-i.tmp", "s/enabled=true/enabled=false/g", dir + "/" + test};
+				executeArrayCommand(sed);
+			}
+		}
+	}
+	
+	public static void enableTests() {
+		String suite = "";
+		String[] dirs = executeCommand("find " + testDir + " -type d").split("\n");
+		String[] tests = System.getenv("CASEIDS").split(",");
+		File file = new File("src/test/java/com/automation/testng/sedCmds.txt");
+		FileWriter fw;
+		BufferedWriter bw = null;
+		try {
+			fw = new FileWriter(file.getAbsoluteFile());
+			bw = new BufferedWriter(fw);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		for (String dir : dirs) {
+			for (String test : tests) {
+				suite = scanFiles(dir, "public void " + test + "_");
+				if (suite != null) {
+					String suitePath = dir + "/" + suite;
+					String[] grep = executeCommand("grep -n " + test + " " + suitePath).split(":");
+					int testLineNum = Integer.valueOf(grep[0]);
+					int enabledLineNum = testLineNum - 1;
+					try {						
+						bw.write("sed -i.tmp " + enabledLineNum + "s/enabled=false/enabled=true/ " + suitePath + "\n");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}	
+		try {
+			bw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		executeCommand("bash " + file);
+	}
+	
+	public static void deleteTmpFiles(){		
+		String[] dirs = executeCommand("find src/test/java/com/automation/tests/ -type d").split("\n");
+
+		for (String dir : dirs) {			
+			File d = new File(dir);
+			File[] files = d.listFiles();
+	        for(File test : files) {
+	        	if (test.toString().contains(".tmp")) {
+	        		test.delete();
+	        	}
+	        }
+		}
 	}
 }
