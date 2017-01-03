@@ -211,7 +211,6 @@ public class AddTestNGclasses {
 			fw = new FileWriter(file.getAbsoluteFile());
 			bw = new BufferedWriter(fw);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -225,8 +224,7 @@ public class AddTestNGclasses {
 					int enabledLineNum = testLineNum - 1;
 					try {						
 						bw.write("sed -i.tmp " + enabledLineNum + "s/enabled=false/enabled=true/ " + suitePath + "\n");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
+					} catch (IOException e) {			
 						e.printStackTrace();
 					}
 				}
@@ -235,10 +233,10 @@ public class AddTestNGclasses {
 		try {
 			bw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		executeCommand("bash " + file);
+		file.delete();
 	}
 	
 	public static void deleteTmpFiles(){		
