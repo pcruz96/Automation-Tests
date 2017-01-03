@@ -29,6 +29,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
 
 import com.automation.config.TestConfiguration;
 import com.automation.pageObjs.LoginPage;
@@ -69,7 +70,6 @@ public class BaseTest extends TestRailUtilities {
 	public static String project = null;
 	public static String projectId = null;
 	public static String suiteId = null;
-	public static String suiteName = null;
 	public static String env = null;
 	public static String os = null;
 	public static String browser = null;
@@ -173,7 +173,6 @@ public class BaseTest extends TestRailUtilities {
 		BaseTest.project = suite[suite.length - 2];
 		BaseTest.projectId = projectId; 
 		BaseTest.suiteId = suiteId;
-		BaseTest.suiteName = suite[suite.length - 1];
 		BaseTest.env = env.replace(".conf", "");		
 		BaseTest.updTestRail = updateTestRail;	
 		BaseTest.addRun = addRun;
@@ -271,7 +270,14 @@ public class BaseTest extends TestRailUtilities {
 		try {			
 			LoginPage login = new LoginPage();
 			who = who != null ? who : "login";
-			login.login(TestConfiguration.getConfig().getString("login.username"), TestConfiguration.getConfig().getString("login.password"));	
+			/*
+			if (isPerfTest(method)) {
+				login.login(TestConfiguration.getConfig().getString("login.performance.username"), TestConfiguration.getConfig().getString("login.performance.password"));
+			} else {
+				login.login(TestConfiguration.getConfig().getString("login.username"), TestConfiguration.getConfig().getString("login.password"));	
+			}
+			*/
+			login.login(TestConfiguration.getConfig().getString("login.username"), TestConfiguration.getConfig().getString("login.password"));
 		} catch (Exception e) {
 			throw new SkipException("LoginPage is not loaded");
 		}
@@ -330,8 +336,8 @@ public class BaseTest extends TestRailUtilities {
 			}
 		} 
 		
-		String msg = "failed - automation - ui - " + getTestEnv(env, false)
-		+ BaseTest.suiteName + " - " + BaseTest.browser + " - " + BaseTest.getMethodName();
+		String msg = "failed - automation - ui - " + this.getTestSuite() + " - " + BaseTest.browser + " - "
+				+ BaseTest.getMethodName();
 
 		msg = msg.toLowerCase();
 		
@@ -611,5 +617,34 @@ public class BaseTest extends TestRailUtilities {
 		if (BaseTest.browser.equals(browser)) {
 			throw new SkipException("Skipping browser " + browser);
 		}
+	}
+	
+	public boolean isPerfTest(Method method) {
+		Test testClass = method.getAnnotation(Test.class);
+
+        for (int i = 0; i < testClass.groups().length; i++) {
+            if (testClass.groups()[i].contains("Performance")) {
+            	return true;
+            }
+        }
+        return false;
+	}
+	
+	public String getTestSuite() {
+		ExecuteShellCommand es = new ExecuteShellCommand();
+		String[] dirs = es.executeCommand("find src/test/java/com/automation/tests -type d").split("\n");
+		String suite = "";
+		FileUtilities fu = new FileUtilities();
+
+		for (String dir : dirs) {
+			try {
+				suite = fu.scanFiles(dir, "public void " + BaseTest.getMethodName());
+				if (suite != null) {
+					suite = suite.replace(".java", "");
+					break;
+				}
+			} catch (Exception e) {}
+		}
+		return suite;
 	}
 }
