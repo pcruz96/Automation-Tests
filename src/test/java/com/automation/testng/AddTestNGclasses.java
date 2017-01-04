@@ -216,17 +216,27 @@ public class AddTestNGclasses {
 
 		for (String dir : dirs) {
 			for (String test : tests) {
-				suite = scanFiles(dir, "public void " + test + "_");
+				String searchMethod = "public void " + test + "_";
+				suite = scanFiles(dir, searchMethod);
 				if (suite != null) {
 					String suitePath = dir + "/" + suite;
-					String[] grep = executeCommand("grep -n " + test + " " + suitePath).split(":");
-					int testLineNum = Integer.valueOf(grep[0]);
-					int enabledLineNum = testLineNum - 1;
-					try {						
-						bw.write("sed -i.tmp " + enabledLineNum + "s/enabled=false/enabled=true/ " + suitePath + "\n");
-					} catch (IOException e) {			
-						e.printStackTrace();
-					}
+					String[] grep = executeCommand("grep -n " + test + " " + suitePath).split("\n");
+					
+					for (String result : grep) {
+						
+						if (result.contains(searchMethod)) {
+							
+							String[] r = result.split(":");
+							int testLineNum = Integer.valueOf(r[0]);
+							int enabledLineNum = testLineNum - 1;
+							try {						
+								bw.write("sed -i.tmp " + enabledLineNum + "s/enabled=false/enabled=true/ " + suitePath + "\n");
+								break;
+							} catch (IOException e) {			
+								e.printStackTrace();
+							}		
+						}
+					}					
 				}
 			}
 		}	
