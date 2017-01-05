@@ -62,8 +62,8 @@ public class BaseTest extends TestRailUtilities {
 	Hashtable<String, ITestResult> testResults = new Hashtable<String, ITestResult>();
 	
 	StringWriter errors = new StringWriter();
-	StringBuffer sb = new StringBuffer("");
-	StringBuffer notPassedCaseIds = new StringBuffer("");
+	StringBuilder sb = new StringBuilder();
+	StringBuilder notPassedCaseIds = new StringBuilder();
 	
 	public static String host = null;
 	public static String repo = null;
