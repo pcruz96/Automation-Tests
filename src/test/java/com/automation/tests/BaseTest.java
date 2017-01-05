@@ -198,10 +198,7 @@ public class BaseTest extends TestRailUtilities {
 
 		if (updTestRail && addRun) {
 			
-			//String revision = getAutomationEnvRevision(); debug 
-			String revision = "";
-			
-			List<String> lst = addRun(getTestEnv(env, false), revision, browser);
+			List<String> lst = addRun(getTestEnv(env, false), browser);
 			
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();			
@@ -219,18 +216,6 @@ public class BaseTest extends TestRailUtilities {
 		removeTmpFiles();
 	}
 	
-	public String getAutomationEnvRevision() {
-		ExecuteShellCommand es = new ExecuteShellCommand();
-		String[] cmd = new String[] {"curl", "-u", "mercatus:40^Dlt&fHoo%M0z3", "https://ci-us.gomercatus.com/job/mercatus-automation-build/lastBuild/consoleText", "2>&1"};		
-		String consoleTxt = es.executeArrayCommand(cmd);
-		String[] s1 = consoleTxt.split("Checking out Revision ");
-		String[] s2 = s1[1].split(" ");
-		String[] s3 = s2[1].split("/");
-		String revision = s2[0].substring(0, 7);
-		String branch = s3[s3.length - 1].replace(")", "").replace("\n", "");
-		return branch + ":" + revision;  
-	}
-
 	@BeforeMethod(alwaysRun = true)
 	@Parameters({ "name", "os", "os_version", "browser", "version", "deviceName", "deviceOrientation", "who" })			
 	public void setup(@Optional String name, @Optional String os, @Optional String os_version,
@@ -240,7 +225,8 @@ public class BaseTest extends TestRailUtilities {
 		
 		setVars();
 		methodName.set(method.getName());
-		
+		BaseTest.getMethodName();
+
 		if (updTestRail) {
 			if (getMethodName().equals(getCaseId(method))) {
 				Assert.assertEquals(getMethodName(), getMethodName() + " does not conform to the method naming convention. expected c${test rails test case id}_${desc}");
@@ -248,18 +234,10 @@ public class BaseTest extends TestRailUtilities {
 				methodNameCorrect = true;
 			}
 		}
-		/*
-		String tc = "";
-		if (!this.getTestCaseName().contains("verify_")) {
-			tc = "verify_" + this.getTestCaseName();	
-		} else {
-			tc = this.getTestCaseName();	
-		}	
-		testDataName.set(tc + "-" + this.getRandomUUIDString());
-		*/
-		testDataName.set(BaseTest.getTestCaseId() + "-" + BaseTest.getRandomUUIDString());
-		testDataName.set(BaseTest.getTestDataName().substring(0, 30));
 		
+		testDataName.set(BaseTest.getTestCaseId() + "-" + BaseTest.getRandomUUIDString());
+		testDataName.set(BaseTest.getTestDataName().substring(0, 30));		
+
 		SeleniumUtils su = new SeleniumUtils();
 		maxTestDataName.set(BaseTest.getTestDataName() + su.getRandomString(255 - BaseTest.getTestDataName().length()));
 
@@ -270,13 +248,6 @@ public class BaseTest extends TestRailUtilities {
 		try {			
 			LoginPage login = new LoginPage();
 			who = who != null ? who : "login";
-			/*
-			if (isPerfTest(method)) {
-				login.login(TestConfiguration.getConfig().getString("login.performance.username"), TestConfiguration.getConfig().getString("login.performance.password"));
-			} else {
-				login.login(TestConfiguration.getConfig().getString("login.username"), TestConfiguration.getConfig().getString("login.password"));	
-			}
-			*/
 			login.login(TestConfiguration.getConfig().getString("login.username"), TestConfiguration.getConfig().getString("login.password"));
 		} catch (Exception e) {
 			throw new SkipException("LoginPage is not loaded");
