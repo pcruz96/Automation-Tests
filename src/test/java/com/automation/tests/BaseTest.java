@@ -303,14 +303,8 @@ public class BaseTest extends TestRailUtilities {
 				}
 			}
 			
-			String steps;
-			GetTestCases gt = new GetTestCases();
-			
-			if (updTestRail) {
-				steps = gt.getAutomatedTestCaseSteps(method.getName());
-			} else {
-				steps = gt.getAutomatedTestCaseSteps(method.getName());
-			}
+			GetTestCases gt = new GetTestCases();			
+			String steps = gt.getAutomatedTestCaseSteps(method.getName());
 			logger.info(steps);
 			String dupResults = BaseTest.getCaseResults();
 			
