@@ -168,7 +168,7 @@ public class TestRailUtilities extends Log4J {
 			String results = TestConfiguration.getTestRailConfig().getString("url") + "cases/results/" + BaseTest.getTestCaseId().replace("c", "");
 				
 			steps.append("\nREPO: " + BaseTest.repo + "\n\nSCREENCAST: " + cloudTestLink);
-			cmnt.append("\n\n" + steps + "\n\nRESULTS TREND: " + results);
+			cmnt.append("\n\n" + steps + "\n\nHISTORY: " + results);
 			
 			if (!cloudTestLink.contains(BaseTest.getBuildUrl())) {
 				cmnt.append("\n\nBUILD: " + BaseTest.getBuildUrl());

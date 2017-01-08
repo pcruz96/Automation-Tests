@@ -1630,7 +1630,7 @@ vars.put(&quot;actualResponseBody&quot;, body);</stringProp>
                       <boolProp name="HTTPArgument.always_encode">false</boolProp>
                       <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 1,&#xd;
-	&quot;comment&quot;: &quot;Actual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\nREPO: ${repoUrl}\n\nRESULTS TREND: ${resultsUrl}${case_id}\n\nBUILD: ${build_url}&quot;&#xd;
+	&quot;comment&quot;: &quot;Actual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\nREPO: ${repoUrl}\n\nHISTORY: ${resultsUrl}${case_id}\n\nBUILD: ${build_url}&quot;&#xd;
 &#xd;
 }</stringProp>
                       <stringProp name="Argument.metadata">=</stringProp>
@@ -2189,7 +2189,7 @@ vars.put(&quot;jiraBugUrl&quot;, jiraBugUrl);</stringProp>
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
                         <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 5,&#xd;
-	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\nREPO: ${repoUrl}\n\nRESULTS TREND: ${resultsUrl}${case_id}\n\nBUILD: ${build_url}&quot;,&#xd;
+	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\nREPO: ${repoUrl}\n\nHISTORY: ${resultsUrl}${case_id}\n\nBUILD: ${build_url}&quot;,&#xd;
 	&quot;defects&quot;: &quot;${key}&quot;&#xd;
 }</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
@@ -2273,7 +2273,7 @@ vars.put(&quot;jiraBugUrl&quot;, jiraBugUrl);</stringProp>
                         <boolProp name="HTTPArgument.always_encode">false</boolProp>
                         <stringProp name="Argument.value">{&#xd;
 	&quot;status_id&quot;: 5,&#xd;
-	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\nREPO: ${repoUrl}\n\nRESULTS TREND: ${resultsUrl}${case_id}\n\nBUILD: ${build_url}&quot;&#xd;
+	&quot;comment&quot;: &quot;${assertionResult_1}\n\nActual Response Code: ${actual_response_code}\n\nActual Response Body: ${actualResponseBody}\n\nREPO: ${repoUrl}\n\nHISTORY: ${resultsUrl}${case_id}\n\nBUILD: ${build_url}&quot;&#xd;
 }</stringProp>
                         <stringProp name="Argument.metadata">=</stringProp>
                       </elementProp>
