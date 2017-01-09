@@ -679,6 +679,7 @@ public class SeleniumUtils extends Log4J {
 	}
 	
 	public void scrollIntoView(By obj) {
+		this.waitForPageLoaded();
 		WebElement element = driver.findElement(obj);
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].scrollIntoView(true);", element);
