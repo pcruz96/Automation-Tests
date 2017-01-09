@@ -130,6 +130,8 @@ public class DatabaseUtilities extends Log4J {
 			con = DriverManager.getConnection(url, user, password);
 			st = con.createStatement();
 			st.executeUpdate(update);
+			st.close();
+			con.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}		
