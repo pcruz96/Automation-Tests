@@ -75,14 +75,6 @@ public class GetTestCases extends Log4J {
 	public String getAutomatedTestCaseSteps(String testCase) {
 
 		String testCaseSteps = null;
-		TestRailUtilities tr = new TestRailUtilities();
-		String project;
-		if (BaseTest.updTestRail) {
-			project = tr.getProjectName(BaseTest.projectId).replace(" ", "_");
-		} else {
-			project = BaseTest.project;
-		}
-
 		FileUtilities fu = new FileUtilities();
 		String suite = "";
 		String filePath = "";
@@ -92,8 +84,7 @@ public class GetTestCases extends Log4J {
 				testCase = tc[1];
 			}
 			ExecuteShellCommand es = new ExecuteShellCommand();
-			String[] dirs = es.executeCommand("find src/test/java/com/automation/tests/" + project + " -type d")
-					.split("\n");
+			String[] dirs = es.executeCommand("find src/test/java/com/automation/tests/ -type d").split("\n");
 
 			for (String dir : dirs) {
 				suite = fu.scanFiles(dir, "public void " + testCase);
