@@ -133,26 +133,26 @@ public class DatabaseUtilities extends Log4J {
 			st.close();
 			con.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}		
 	}
 	
 	public String runQuery(String query, int sleep) {
 		String result = null;
 		
-		for (int i = 1; i < 11; i++) {
+		for (int i = 0; i < 20; i++) {
 			result = this.executeQuery(query);
 			
 			if (result == null) {
 				try {
-					//logger.info("retry db query count: " + i);
+					//logger.info(BaseTest.getMethodName() + " - retry db query count: " + i);
 					Thread.sleep(sleep);					
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}	
 			} else {
-				logger.info(result);
+				//logger.info(result);
 				return result;
 			}
 		} 
