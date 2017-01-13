@@ -308,7 +308,7 @@ public class BaseTest extends TestRailUtilities {
 		
 		if (updTestRail) {
 			if (runId == null) {				
-				runId = this.getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);
+				runId = this.getRunId(BaseTest.runId, BaseTest.projectId);
 			}					
 			if (methodNameCorrect) {					
 				if (result.getStatus() == ITestResult.SUCCESS) {				

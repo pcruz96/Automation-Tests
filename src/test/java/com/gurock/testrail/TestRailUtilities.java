@@ -47,9 +47,9 @@ public class TestRailUtilities extends Log4J {
     }
 
 	public APIClient getClient() {
-		APIClient client = new APIClient("https://autotests.testrail.net/");
-		client.setUser("pcruz96@yahoo.com");
-		client.setPassword("XykKZUA115OZkNdd8eD6");
+		APIClient client = new APIClient("https://mercatus.testrail.net/");
+		client.setUser("development@gomercatus.com");
+		client.setPassword("r8Po*^OfUr%rK^BWi");
 		return client;
 	}
 	
@@ -97,7 +97,7 @@ public class TestRailUtilities extends Log4J {
 		return caseId;
 	}
 
-	public String getRunId(String runId, String projectId, String suiteId) {
+	public String getRunId(String runId, String projectId) {
 		if (runId != null && runId != "") {
 			return runId;
 		} else {
@@ -114,8 +114,7 @@ public class TestRailUtilities extends Log4J {
 
 	public String uploadResults(Method method, ITestResult result, String comment, String cloudTestLink) {			
 
-		String caseId = getCaseId(method);
-		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
+		String caseId = getCaseId(method);				
 		String statusId = null;
 		cloudTestLink = cloudTestLink != null ? cloudTestLink : "";
 		Map<String, String> data = new HashMap<String, String>();
@@ -190,7 +189,7 @@ public class TestRailUtilities extends Log4J {
 		data.put("comment", comment);
 		
 		try {
-			String uri = "add_result_for_case/" + runId + "/" + caseId;
+			String uri = "add_result_for_case/" + BaseTest.runId + "/" + caseId;
 			JSONObject response = (JSONObject) client.sendPost(uri, data);
 
 			if (response == null) {
@@ -251,15 +250,14 @@ public class TestRailUtilities extends Log4J {
 	public void addComment(String projectId, String suiteId, Method method,
 			String comment) {
 
-		String caseId = getCaseId(method);
-		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);
+		String caseId = getCaseId(method);		
 
 		Map<String, String> data = new HashMap<String, String>();
 
 		// Add parameters to the hash map
 		data.put("comment", comment);
 		try {
-			String uri = "add_result_for_case/" + runId + "/" + caseId;
+			String uri = "add_result_for_case/" + BaseTest.runId + "/" + caseId;
 			JSONObject response = (JSONObject) client.sendPost(uri, data);
 			if (response == null) {
 				// Write the test results into file
@@ -383,10 +381,9 @@ public class TestRailUtilities extends Log4J {
 		
 		if (!BaseTest.updTestRail) {
 			return "Untested";
-		} else {			
-			String runId = getRunId(BaseTest.runId, projectId, suiteId);
+		} else {						
 			try {
-				JSONArray resultArray = (JSONArray) getClient().sendGet("get_results_for_case/" + runId + "/" + caseId.replace("c", ""));
+				JSONArray resultArray = (JSONArray) getClient().sendGet("get_results_for_case/" + BaseTest.runId + "/" + caseId.replace("c", ""));
 				if (!resultArray.isEmpty()) {
 					//logger.info(resultArray);	
 				}			
@@ -426,10 +423,9 @@ public class TestRailUtilities extends Log4J {
 		
 		if (!BaseTest.updTestRail) {
 			return "Untested";
-		} else {			
-			String runId = getRunId(BaseTest.runId, projectId, suiteId);
+		} else {						
 			try {
-				JSONArray resultArray = (JSONArray) getClient().sendGet("get_results_for_case/" + runId + "/" + caseId);
+				JSONArray resultArray = (JSONArray) getClient().sendGet("get_results_for_case/" + BaseTest.runId + "/" + caseId);
 				if (!resultArray.isEmpty()) {
 					//logger.info(resultArray);	
 				}			
@@ -554,11 +550,11 @@ public class TestRailUtilities extends Log4J {
 	}
 	
 	public void logPerfResults(String comment, String perfMethodCaseId) {			
-		String runId = getRunId(BaseTest.runId, BaseTest.projectId, BaseTest.suiteId);		
+				
 		Map<String, String> data = new HashMap<String, String>();
 		data.put("comment", comment);
 		try {
-			String uri = "add_result_for_case/" + runId + "/" + perfMethodCaseId;
+			String uri = "add_result_for_case/" + BaseTest.runId + "/" + perfMethodCaseId;
 			client.sendPost(uri, data);
 		} catch (Exception e) {
 			e.printStackTrace();
