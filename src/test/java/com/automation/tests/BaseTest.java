@@ -484,7 +484,7 @@ public class BaseTest extends TestRailUtilities {
 	
 	public void createTestNGfailed(FileUtilities fu) {
 		String currentTestNG = null;
-		String testngDir = System.getProperty("user.dir") + "/src/test/resources/testng/";
+		String testngDir = "src/test/resources/testng/";
 		try {
 			currentTestNG = fu.scanFiles(testngDir, "<parameter name=\"suiteId\" value=\""+suiteId+"\"");
 		} catch (FileNotFoundException e1) {
