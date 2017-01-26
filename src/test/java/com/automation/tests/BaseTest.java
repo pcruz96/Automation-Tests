@@ -483,17 +483,9 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	public void createTestNGfailed(FileUtilities fu) {
-		String currentTestNG = null;
-		String testngDir = "src/test/resources/testng/";
-		try {
-			currentTestNG = fu.scanFiles(testngDir, "<parameter name=\"suiteId\" value=\""+suiteId+"\"");
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		
-		File from = new File(testngDir + currentTestNG);		
+
+		String testngDir = "src/test/resources/testng/";		
+		File from = new File(testngDir + "testng.xml");		
 		try {
 			fu.deleteExistsFile(testngDir + "testng_retryFailed.xml");
 			File to = new File(testngDir + "testng_retryFailed.xml");
