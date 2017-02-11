@@ -701,4 +701,19 @@ public class SeleniumUtils extends Log4J {
 		   .build();
 		dragAndDrop.perform();
 	}
+	
+	public boolean isTimeStampValid(String format, String inputString) {
+		SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
+		try {
+			sdf.parse(inputString);
+			return true;
+		} catch (ParseException e) {
+			return false;
+		}
+	}
+	
+	public String getCssValue(By obj, String cssField) {
+		this.waitForElementVisibility(obj);
+		return driver.findElement(obj).getCssValue(cssField);
+	}
 }
