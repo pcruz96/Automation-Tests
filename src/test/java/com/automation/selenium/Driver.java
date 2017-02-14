@@ -16,7 +16,7 @@ import com.automation.tests.BaseTest;
 
 public class Driver {
 
-    private static ThreadLocal<WebDriver> threadDvr = new ThreadLocal<WebDriver>();
+    private static ThreadLocal<RemoteWebDriver> threadDvr = new ThreadLocal<RemoteWebDriver>();
 
     public static WebDriver createDriver(String name, String env, String os, String os_version, String browser, String version, String deviceName, String deviceOrientation, Boolean cloudTest, Method method) throws MalformedURLException {
 
@@ -115,7 +115,7 @@ public class Driver {
         return threadDvr.get();
     }
 
-    public static WebDriver getDriver() {
+    public static RemoteWebDriver getDriver() {
         return threadDvr.get();
     }
 }
