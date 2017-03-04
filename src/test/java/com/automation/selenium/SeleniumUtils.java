@@ -215,6 +215,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void selectOptionIndex(By locator, int index) {
+		this.waitForElementVisibility(locator);
 		Select list = new Select(driver.findElement(locator));
 		list.selectByIndex(index);
 		this.waitForPageLoaded();
@@ -469,12 +470,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void switchToFrame(By locator) {
-		try {
-			WebElement we = driver.findElement(locator);		
-			driver.switchTo().frame(we);
-			this.threadSleep(3000);
-			this.waitForPageLoaded();
-		} catch (Exception e) {}
+		fluentWait().until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
 	}
 
 	public int objCount(By locator) {
@@ -668,12 +664,12 @@ public class SeleniumUtils extends Log4J {
 		return new SimpleDateFormat(format).format(cal.getTime());
 	}
 	
-	public void multiselect(By obj, int get) {		
-		for (int i = 2; i < (get + 2); i++) {
+	public void multiselect(int start, By obj, int get) {		
+		for (int i = start; i < (get + 2); i++) {
 			List<WebElement> items = driver.findElements(obj);
 			Actions actions = new Actions(driver);
 			try {
-				actions.click(items.get(0)).keyDown(Keys.COMMAND).click(items.get(i)).keyUp(Keys.COMMAND).build().perform();
+				actions.click(items.get(i)).keyDown(Keys.COMMAND).click(items.get(i+1)).keyUp(Keys.COMMAND).build().perform();
 			} catch (Exception e) {}
 		}
 	}
