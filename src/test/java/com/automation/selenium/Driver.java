@@ -106,8 +106,7 @@ public class Driver {
         	}
         } else {            
         	try {        		
-        		//threadDvr.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap));
-        		threadDvr.set(new FirefoxDriver());
+        		threadDvr.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap));        		
         	} catch (Exception e) {
         		threadDvr.set(new FirefoxDriver());
         	}

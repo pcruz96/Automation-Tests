@@ -210,7 +210,9 @@ public class SeleniumUtils extends Log4J {
 	public void selectOption(By locator, String option) {
 		waitForElementVisibility(locator);
 		Select list = new Select(driver.findElement(locator));
-		list.selectByVisibleText(option);
+		if (!list.getOptions().isEmpty()) {
+			list.selectByVisibleText(option);	
+		}		
 		this.waitForPageLoaded();
 	}
 
@@ -280,7 +282,7 @@ public class SeleniumUtils extends Log4J {
 			WebElement target = driver.findElement(tgt);
 			(new Actions(driver)).dragAndDrop(we, target).perform();
 			waitForElementVisibility(expectElement);
-			this.threadSleep(10000);
+			this.threadSleep(5000);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -503,7 +505,7 @@ public class SeleniumUtils extends Log4J {
 	public void acceptAlert() {
 		for (int i = 0; i < 10; i++) {
 			try {			
-				this.threadSleep(10000);
+				this.threadSleep(5000);
 				driver.switchTo().alert().accept();
 				break;
 			} catch (Exception e) {
@@ -514,7 +516,7 @@ public class SeleniumUtils extends Log4J {
 	public void acceptAlert(By obj) {
 		try {			
 			this.clickElement(obj);
-			this.threadSleep(10000);
+			this.threadSleep(5000);
 			driver.switchTo().alert().accept();
 		} catch (Exception e) {
 		}
@@ -555,12 +557,12 @@ public class SeleniumUtils extends Log4J {
 
 	public String getAlertTxt() {
 		if (BaseTest.browser.equals("safari")) {
-			this.threadSleep(10000);
+			this.threadSleep(5000);
 			return driver.switchTo().alert().getText();
 		} else {
 			for (int i = 0; i < 10; i++) {
 				try {			
-					this.threadSleep(10000);
+					this.threadSleep(5000);
 					String alertTxt = driver.switchTo().alert().getText();
 					return alertTxt;
 				} catch (Exception e) {
