@@ -303,13 +303,7 @@ public class SeleniumUtils extends Log4J {
 						"return document.readyState").equals("complete");
 			}
 		};
-
-		try {
-			fluentWait().until(expectation);
-			return true;
-		} catch (Throwable error) {
-			return false;
-		}
+		return fluentWait().until(expectation);
 	}
 
 	public String getElementActualValue(By element) {		
