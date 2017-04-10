@@ -3,8 +3,11 @@ package com.automation.selenium;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -62,6 +65,12 @@ public class Driver {
             cap = DesiredCapabilities.chrome();
             cap.setBrowserName(DesiredCapabilities.chrome().getBrowserName());
             cap.setVersion(version);
+            
+            Map<String, Object> prefs = new HashMap<String, Object>();
+            ChromeOptions options = new ChromeOptions();
+            prefs.put("credentials_enable_service", false);
+            prefs.put("profile.password_manager_enabled", false);
+            options.setExperimentalOption("prefs", prefs);
             
         } else if (browser.equalsIgnoreCase("safari")) {
             
