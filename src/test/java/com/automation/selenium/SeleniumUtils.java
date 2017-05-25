@@ -162,8 +162,9 @@ public class SeleniumUtils extends Log4J {
 		return driver.findElement(By.cssSelector("option[value='"+index+"']")).getText();
 	}
 
-	public String getOptionsText(By locator) {
-		Select list = new Select(driver.findElement(locator));
+	public String getOptionsText(By locator) {		
+		this.waitForElementVisibility(locator);
+		Select list = new Select(driver.findElement(locator));		
 		List<WebElement> options = list.getOptions();
 		StringBuilder optionsText = new StringBuilder();
 		for (WebElement we : options) {
@@ -196,7 +197,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void clickHiddenElement(By locator) {
-		this.waitForElementVisibility(locator);
+		this.waitForElementPresent(locator);
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].style.visibility='visible';", driver.findElement(locator));
 		executor.executeScript("arguments[0].click();", driver.findElement(locator));		
@@ -542,7 +543,9 @@ public class SeleniumUtils extends Log4J {
 	}	
 
 	public int getTableRowCount() {
-		return driver.findElements(By.xpath("//tbody/tr")).size();
+		By obj = By.xpath("//tbody/tr");
+		this.waitForElementPresent(obj);
+		return driver.findElements(obj).size();
 	}
 
 	public void deleteCookies(){
