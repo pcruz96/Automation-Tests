@@ -233,7 +233,7 @@ public class GetTestCases extends Log4J {
 											break;
 										}
 									}
-								} else {
+								} else if (caseId != null) {
 									caseIds.add(caseId);
 								}
 								foundTest = false;
