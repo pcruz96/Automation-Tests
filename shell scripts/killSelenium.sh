@@ -5,10 +5,16 @@ do
     kill -9 $x
 done
 
-ps=`ps -ef|grep firefox|cut -d ' ' -f4`
-for x in $ps
+count=4
+
+while [ ${count} -lt 7 ]
 do
-    kill -9 $x
+	ps=`ps -ef|grep firefox|cut -d ' ' -f${count}`
+	for x in $ps
+	do
+	    kill -9 $x
+	done
+	((count++))
 done
 
 clear
