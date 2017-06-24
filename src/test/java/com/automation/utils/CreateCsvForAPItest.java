@@ -22,11 +22,11 @@ public class CreateCsvForAPItest {
 		}
 		String projectId = args[0];
 		String suiteId = args[1];
-		int startTCID = Integer.parseInt(args[2]);
-		int endTCID = Integer.parseInt(args[3]);
+		String tests = args[2];
+		String[] tc = tests.split(",");
 		
 		TestRailUtilities tr = new TestRailUtilities();
-		ArrayList<TestcaseModel> results = tr.getTestCases(projectId, suiteId, startTCID, endTCID);
+		ArrayList<TestcaseModel> results = tr.getTestCases(projectId, suiteId, tc);
 		
 		CSVWriter writer = new CSVWriter(new FileWriter("api.tests.csv"), ',');
 		

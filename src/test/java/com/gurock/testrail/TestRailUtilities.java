@@ -208,12 +208,12 @@ public class TestRailUtilities extends Log4J {
 		return null;
 	}
 
-	public ArrayList<TestcaseModel> getTestCases(String projectId, String suiteId, int startTCID, int endTCID) {
+	public ArrayList<TestcaseModel> getTestCases(String projectId, String suiteId, String[] tests) {
 				
 		ArrayList<TestcaseModel> list = new ArrayList<TestcaseModel>();
 		try {
-			for (int i = startTCID; i <= endTCID; i++) {
-				JSONObject jsonTestItem = (JSONObject) client.sendGet("get_case/" + i);						
+			for (String t : tests) {
+				JSONObject jsonTestItem = (JSONObject) client.sendGet("get_case/" + t);						
 				TestcaseModel testcaseModel = new TestcaseModel();
 				testcaseModel.setDescription(jsonTestItem.get("title").toString());						
 				testcaseModel.setTestID(jsonTestItem.get("id").toString());				

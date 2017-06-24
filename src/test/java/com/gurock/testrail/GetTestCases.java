@@ -20,17 +20,13 @@ public class GetTestCases extends Log4J {
 		}
 		String projectId = args[0];
 		String suiteId = args[1];
-		int startTCID = Integer.parseInt(args[2]);
-		int endTCID;
-		try {
-			endTCID = Integer.parseInt(args[3]);
-		} catch (Exception e) {
-			endTCID = startTCID;
-		}
+		String caseIds = args[2];
+
 		String filePath = "convertedTestRailTests_TestNGmethods.txt";
 		TestRailUtilities tr = new TestRailUtilities();
 
-		ArrayList<TestcaseModel> results = tr.getTestCases(projectId, suiteId, startTCID, endTCID);
+		String[] tests = caseIds.split(",");
+		ArrayList<TestcaseModel> results = tr.getTestCases(projectId, suiteId, tests);
 		String suiteName = tr.getSuiteName(false, suiteId).replace("Tests", "") + "Tests";
 		try {
 			File file = new File(filePath);
