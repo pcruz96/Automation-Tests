@@ -711,4 +711,23 @@ public class SeleniumUtils extends Log4J {
 		this.waitForElementVisibility(obj);
 		return driver.findElement(obj).getCssValue(cssField);
 	}
+	
+    
+    public void fillFields(By obj, String str) {
+    	this.waitForElementVisibility(obj);
+    	List<WebElement> elms = driver.findElements(obj);
+		
+		for (WebElement we : elms) {
+			we.sendKeys(str);
+		}
+    }
+    
+    public void clickAll(By obj) {
+    	this.waitForElementVisibility(obj);
+    	List<WebElement> elms = driver.findElements(obj);
+		
+		for (WebElement we : elms) {
+			we.click();
+		}
+    }
 }
