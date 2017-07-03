@@ -28,6 +28,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -37,13 +39,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 
 import com.automation.tests.BaseTest;
+import com.automation.utils.FileUtilities;
 import com.automation.utils.Log4J;
 import com.automation.utils.StackTraceToString;
 
 public class SeleniumUtils extends Log4J {
 
 	WebDriver driver = Driver.getDriver();
-	public int MAX_WAIT = 20;
+	private static final int MAX_WAIT = 90;
 	boolean printLogs;
 
 	public SeleniumUtils() {		
@@ -450,7 +453,8 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public boolean isSelected(By locator) {
-		this.waitForElementVisibility(locator);
+		this.threadSleep(3000);
+		this.waitForElementPresent(locator);
 		return driver.findElement(locator).isSelected();
 	}
 
@@ -729,5 +733,13 @@ public class SeleniumUtils extends Log4J {
 		for (WebElement we : elms) {
 			we.click();
 		}
+    }
+    
+    public void uploadFile(String mayBeRelativePath, By obj) {
+    	String filePath = FileUtilities.getAbsoluteFilePath(mayBeRelativePath);
+    	if (BaseTest.cloudTest) {
+    		((RemoteWebDriver) Driver.getDriver()).setFileDetector(new LocalFileDetector());
+    	}
+		Driver.getDriver().findElement(obj).sendKeys(filePath);
     }
 }

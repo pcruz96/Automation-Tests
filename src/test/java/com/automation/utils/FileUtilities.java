@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.util.Scanner;
 
@@ -135,5 +136,9 @@ public class FileUtilities extends Log4J{
 			}
 		}
 		return false;
+	}
+	
+	public static String getAbsoluteFilePath(String mayBeRelativePath) {
+		return FileSystems.getDefault().getPath(mayBeRelativePath).normalize().toAbsolutePath().toString();
 	}
 }
