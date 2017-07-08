@@ -1,9 +1,11 @@
 package com.automation.utils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -140,5 +142,43 @@ public class FileUtilities extends Log4J{
 	
 	public static String getAbsoluteFilePath(String mayBeRelativePath) {
 		return FileSystems.getDefault().getPath(mayBeRelativePath).normalize().toAbsolutePath().toString();
+	}
+	
+	public static void appendToFile(String filename, String text) throws IOException {
+
+		BufferedWriter output = null;
+		try {
+			File file = new File(filename);
+			
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+			
+			output = new BufferedWriter(fw);
+			output.write(text);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (output != null) {
+				output.close();
+			}
+		}
+	}
+	
+	public static String readFile(String filename, String searchStr) throws FileNotFoundException {
+		File f = new File(filename);
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(f);
+		String line = null;
+		while (scanner.hasNextLine()) {
+			line = scanner.nextLine();
+
+			if (line.contains(searchStr)) {
+				break;
+			}
+		}		
+		return line;
 	}
 }
