@@ -144,7 +144,7 @@ public class FileUtilities extends Log4J{
 		return FileSystems.getDefault().getPath(mayBeRelativePath).normalize().toAbsolutePath().toString();
 	}
 	
-	public static void appendToFile(String filename, String text) throws IOException {
+	public static void appendToFile(boolean append, String filename, String text) throws IOException {
 
 		BufferedWriter output = null;
 		try {
@@ -154,7 +154,7 @@ public class FileUtilities extends Log4J{
 				file.createNewFile();
 			}
 			
-			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(), append);
 			
 			output = new BufferedWriter(fw);
 			output.write(text);
