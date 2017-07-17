@@ -742,4 +742,11 @@ public class SeleniumUtils extends Log4J {
     	}
 		Driver.getDriver().findElement(obj).sendKeys(filePath);
     }
+    
+    public void doubleClick(By obj) {
+    	this.waitForElementPresent(obj);
+    	Actions action = new Actions(Driver.getDriver());
+		WebElement element = Driver.getDriver().findElement(obj);
+		action.doubleClick(element).perform();
+    }
 }
