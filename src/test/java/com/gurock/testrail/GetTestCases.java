@@ -242,6 +242,7 @@ public class GetTestCases extends Log4J {
 				}
 			}
 		}
+		logger.info("adding case ids: " + caseIds);
 		return caseIds;
 	}
 }

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.9" jmeter="3.0 r1743807">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Test Plan" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">true</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="host" elementType="Argument">
+            <stringProp name="Argument.name">host</stringProp>
+            <stringProp name="Argument.value"></stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="run_id" elementType="Argument">
+            <stringProp name="Argument.name">run_id</stringProp>
+            <stringProp name="Argument.value">RUN_ID</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="case_ids" elementType="Argument">
+            <stringProp name="Argument.name">case_ids</stringProp>
+            <stringProp name="Argument.value">CASE_IDS</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ConfigTestElement guiclass="HttpDefaultsGui" testclass="ConfigTestElement" testname="HTTP Request Defaults" enabled="true">
+        <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments"/>
+        </elementProp>
+        <stringProp name="HTTPSampler.domain">${host}</stringProp>
+        <stringProp name="HTTPSampler.port"></stringProp>
+        <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+        <stringProp name="HTTPSampler.response_timeout"></stringProp>
+        <stringProp name="HTTPSampler.protocol">https</stringProp>
+        <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+        <stringProp name="HTTPSampler.path"></stringProp>
+        <stringProp name="HTTPSampler.concurrentPool">4</stringProp>
+      </ConfigTestElement>
+      <hashTree/>
+      <CacheManager guiclass="CacheManagerGui" testclass="CacheManager" testname="HTTP Cache Manager" enabled="true">
+        <boolProp name="clearEachIteration">true</boolProp>
+        <boolProp name="useExpires">true</boolProp>
+      </CacheManager>
+      <hashTree/>
+      <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+        <collectionProp name="CookieManager.cookies"/>
+        <boolProp name="CookieManager.clearEachIteration">true</boolProp>
+      </CookieManager>
+      <hashTree/>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="testRail" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1463336109000</longProp>
+        <longProp name="ThreadGroup.end_time">1463336109000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="login" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="name" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">name</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="password" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">true</boolProp>
+                <stringProp name="Argument.name">password</stringProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+              </elementProp>
+              <elementProp name="rememberme" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value">1</stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+                <boolProp name="HTTPArgument.use_equals">true</boolProp>
+                <stringProp name="Argument.name">rememberme</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">/index.php?/auth/login/</stringProp>
+          <stringProp name="HTTPSampler.method">POST</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          <stringProp name="TestPlan.comments">Detected the start of a redirect chain</stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Referer" elementType="Header">
+                <stringProp name="Header.name">Referer</stringProp>
+                <stringProp name="Header.value">https://${host}/index.php?/auth/login</stringProp>
+              </elementProp>
+              <elementProp name="Accept-Language" elementType="Header">
+                <stringProp name="Header.name">Accept-Language</stringProp>
+                <stringProp name="Header.value">en-US,en;q=0.5</stringProp>
+              </elementProp>
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/x-www-form-urlencoded</stringProp>
+              </elementProp>
+              <elementProp name="Accept-Encoding" elementType="Header">
+                <stringProp name="Header.name">Accept-Encoding</stringProp>
+                <stringProp name="Header.value">gzip, deflate</stringProp>
+              </elementProp>
+              <elementProp name="User-Agent" elementType="Header">
+                <stringProp name="Header.name">User-Agent</stringProp>
+                <stringProp name="Header.value">Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:39.0) Gecko/20100101 Firefox/39.0</stringProp>
+              </elementProp>
+              <elementProp name="Accept" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+        </hashTree>
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="get_statuses" enabled="false">
+          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments">
+              <elementProp name="" elementType="HTTPArgument">
+                <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                <stringProp name="Argument.value"></stringProp>
+                <stringProp name="Argument.metadata">=</stringProp>
+              </elementProp>
+            </collectionProp>
+          </elementProp>
+          <stringProp name="HTTPSampler.domain">${host}</stringProp>
+          <stringProp name="HTTPSampler.port"></stringProp>
+          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+          <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          <stringProp name="HTTPSampler.protocol">https</stringProp>
+          <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+          <stringProp name="HTTPSampler.path">/index.php?/api/v2/get_statuses</stringProp>
+          <stringProp name="HTTPSampler.method">GET</stringProp>
+          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+          <boolProp name="HTTPSampler.monitor">false</boolProp>
+          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+        </HTTPSamplerProxy>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="Content-Type" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor" enabled="true">
+            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+            <stringProp name="RegexExtractor.refname">run_id</stringProp>
+            <stringProp name="RegexExtractor.regex">id&quot;:(.*?),</stringProp>
+            <stringProp name="RegexExtractor.template">$1$</stringProp>
+            <stringProp name="RegexExtractor.default"></stringProp>
+            <stringProp name="RegexExtractor.match_number">1</stringProp>
+          </RegexExtractor>
+          <hashTree/>
+        </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="BeanShell Sampler" enabled="true">
+          <stringProp name="BeanShellSampler.query">String[] cases = vars.get(&quot;case_ids&quot;).split(&quot;,&quot;);
+
+vars.put(&quot;length&quot;, cases.length.toString());
+	
+int i = 0;
+
+for (String c : cases) {
+	vars.put(&quot;id_&quot; + i, c.replace(&quot;c&quot;, &quot;&quot;));
+	i++;
+}
+
+
+</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+        <ForeachController guiclass="ForeachControlPanel" testclass="ForeachController" testname="ForEach Controller" enabled="true">
+          <stringProp name="ForeachController.inputVal">id</stringProp>
+          <stringProp name="ForeachController.returnVal">case_id</stringProp>
+          <boolProp name="ForeachController.useSeparator">true</boolProp>
+          <stringProp name="ForeachController.startIndex">-1</stringProp>
+          <stringProp name="ForeachController.endIndex">${length}</stringProp>
+        </ForeachController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="get_results_for_case" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value"></stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">${host}</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding">UTF-8</stringProp>
+            <stringProp name="HTTPSampler.path">/index.php?/api/v2/get_results_for_case/${run_id}/${case_id}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree>
+            <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+              <collectionProp name="HeaderManager.headers">
+                <elementProp name="Content-Type" elementType="Header">
+                  <stringProp name="Header.name">Content-Type</stringProp>
+                  <stringProp name="Header.value">application/json</stringProp>
+                </elementProp>
+              </collectionProp>
+            </HeaderManager>
+            <hashTree/>
+            <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Regular Expression Extractor" enabled="true">
+              <stringProp name="RegexExtractor.useHeaders">false</stringProp>
+              <stringProp name="RegexExtractor.refname">status_id</stringProp>
+              <stringProp name="RegexExtractor.regex">status_id&quot;:(.*?),</stringProp>
+              <stringProp name="RegexExtractor.template">$1$</stringProp>
+              <stringProp name="RegexExtractor.default"></stringProp>
+              <stringProp name="RegexExtractor.match_number">1</stringProp>
+            </RegexExtractor>
+            <hashTree/>
+          </hashTree>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${status_id}&quot; != 1" enabled="true">
+            <stringProp name="IfController.condition">&quot;${status_id}&quot; != 1</stringProp>
+            <boolProp name="IfController.evaluateAll">false</boolProp>
+          </IfController>
+          <hashTree>
+            <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="add notPassedCaseIds" enabled="true">
+              <stringProp name="BeanShellSampler.query">String notPassedCaseIds = vars.get(&quot;notPassedCaseIds&quot;) + &quot;c&quot; + vars.get(&quot;case_id&quot;) + &quot;,&quot;;
+vars.put(&quot;notPassedCaseIds&quot;, notPassedCaseIds.replace(&quot;null&quot;, &quot;&quot;));</stringProp>
+              <stringProp name="BeanShellSampler.filename"></stringProp>
+              <stringProp name="BeanShellSampler.parameters"></stringProp>
+              <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+            </BeanShellSampler>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="print notPassedCaseIds" enabled="true">
+          <stringProp name="BeanShellSampler.query">System.out.println(&quot;\n&quot; + vars.get(&quot;notPassedCaseIds&quot;) + &quot;\n&quot;);</stringProp>
+          <stringProp name="BeanShellSampler.filename"></stringProp>
+          <stringProp name="BeanShellSampler.parameters"></stringProp>
+          <boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+        </BeanShellSampler>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
