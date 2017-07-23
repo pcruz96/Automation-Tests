@@ -20,7 +20,7 @@ public class GetTestCases extends Log4J {
 		}
 		String projectId = args[0];
 		String suiteId = args[1];
-		String caseIds = args[2];
+		String caseIds = args[2].toLowerCase().replace("c", "");
 
 		String filePath = "convertedTestRailTests_TestNGmethods.txt";
 		TestRailUtilities tr = new TestRailUtilities();
@@ -46,7 +46,7 @@ public class GetTestCases extends Log4J {
 
 				sections = sections.substring(0, sections.length() - 2);
 
-				String testCaseMethodStr = "\t@Test(groups={\"" + sections + "\"}, enabled=false)\n" + "\tpublic void c"
+				String testCaseMethodStr = "\t@Test(groups={\"" + sections + "\"}, enabled=true)\n" + "\tpublic void c"
 						+ t.getTestID() + "_" + getTestCaseName(t.getDescription()) + "() {\n" + "\t\n" + "\t}\n";
 
 				logger.info("ADDED: " + testCaseMethodStr);
