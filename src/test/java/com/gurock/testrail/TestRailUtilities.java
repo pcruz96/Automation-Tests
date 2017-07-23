@@ -409,11 +409,11 @@ public class TestRailUtilities extends Log4J {
 					return "Failed" + details;
 				}
 			} catch (APIException e) {
-				logger.error(e.getMessage());
+				logger.error(caseId + " - " + e.getMessage());
 			} catch (MalformedURLException e) {
-				logger.error(e.getMessage());
+				logger.error(caseId + " - " + e.getMessage());
 			} catch (IOException e) {
-				logger.error(e.getMessage());
+				logger.error(caseId + " - " + e.getMessage());
 			}
 			return "Untested";
 		}
