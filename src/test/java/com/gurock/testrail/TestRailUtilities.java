@@ -199,11 +199,11 @@ public class TestRailUtilities extends Log4J {
 			
 			return response.get("test_id").toString();
 		} catch (APIException e) {
-			logger.error(e.getMessage());
+			logger.error(caseId + " - " + e.getMessage());
 		} catch (MalformedURLException e) {
-			logger.error(e.getMessage());
+			logger.error(caseId + " - " + e.getMessage());
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			logger.error(caseId + " - " + e.getMessage());
 		}
 		return null;
 	}
@@ -323,11 +323,11 @@ public class TestRailUtilities extends Log4J {
 			String uri = "update_case/" + caseId;
 			client.sendPost(uri, data);
 		} catch (APIException e) {
-			logger.error(e.getMessage());
+			logger.error(caseId + " - " + e.getMessage());
 		} catch (MalformedURLException e) {
-			logger.error(e.getMessage());
+			logger.error(caseId + " - " + e.getMessage());
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			logger.error(caseId + " - " + e.getMessage());
 		}
 	}
 	
@@ -439,11 +439,11 @@ public class TestRailUtilities extends Log4J {
 					return null;
 				}
 			} catch (APIException e) {
-				logger.error(e.getMessage());
+				logger.error(caseId + " - " + e.getMessage());
 			} catch (MalformedURLException e) {
-				logger.error(e.getMessage());
+				logger.error(caseId + " - " + e.getMessage());
 			} catch (IOException e) {
-				logger.error(e.getMessage());
+				logger.error(caseId + " - " + e.getMessage());
 			}
 			return null;
 		}
