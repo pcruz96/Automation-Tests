@@ -749,4 +749,12 @@ public class SeleniumUtils extends Log4J {
 		WebElement element = Driver.getDriver().findElement(obj);
 		action.doubleClick(element).perform();
     }
+    
+    public String getSelectOptions(String asmptn) {
+		return this.getOptionsText(By.xpath("//*[.='"+asmptn+"']/following::select"));
+	}
+	
+	public void selectOption(String label, String option) {
+		this.selectOption(By.xpath("//*[.='"+label+"']/following::select"), option);
+	}
 }
