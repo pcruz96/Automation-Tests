@@ -187,7 +187,6 @@ public class BaseTest extends TestRailUtilities {
 		File dir = new File("test-output");
 		try {
 			FileUtils.deleteDirectory(dir);
-			logger.info("deleted the dir " + dir);
 		} catch (IOException e) {
 			e.printStackTrace(new PrintWriter(errors));
 			logger.error(errors);
@@ -202,7 +201,7 @@ public class BaseTest extends TestRailUtilities {
 			
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();			
-			logger.info("\n\nrun name: " + runName + "\n");
+			logger.info("\n\nrun id | name: " + BaseTest.runId + " | " + runName + "\n");
 			ExecuteShellCommand es = new ExecuteShellCommand();
 			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};			
 			String[] cmd2 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng.xml"};			
@@ -258,6 +257,7 @@ public class BaseTest extends TestRailUtilities {
 	public void tearDown(ITestContext context, ITestResult result, Method method) throws IOException, ParseException {
 
 		String cloudTestJobIdLink = "";
+		String steps = null;
 		
 		//will display testId for faster tracking
 		this.getCaseResults(projectId, suiteId, getCaseId(method));
@@ -275,14 +275,14 @@ public class BaseTest extends TestRailUtilities {
 			}
 			
 			GetTestCases gt = new GetTestCases();			
-			String steps = gt.getAutomatedTestCaseSteps(method.getName());
+			steps = gt.getAutomatedTestCaseSteps(method.getName());
 			logger.info(steps);
 			String dupResults = BaseTest.getCaseResults();
 			
 			steps = steps != null ? steps : "";
 			dupResults = dupResults != null ? dupResults : "";			
 			
-			if (steps.contains("BaseTest.getCaseResults") && dupResults.contains("Passed")) {
+			if (steps.contains("getCaseResults") && dupResults.contains("Passed")) {
 				cloudTestJobIdLink = "The Sauce Labs session is of a similar test case referenced in the steps. " + dupResults;
 			} else if (jobId != null) {
 				testResults.put(jobId, result);
@@ -588,20 +588,10 @@ public class BaseTest extends TestRailUtilities {
 	}
 	
 	public String getTestSuite() {
-		ExecuteShellCommand es = new ExecuteShellCommand();
-		String[] dirs = es.executeCommand("find src/test/java/com/automation/tests -type d").split("\n");
-		String suite = "";
-		FileUtilities fu = new FileUtilities();
-
-		for (String dir : dirs) {
-			try {
-				suite = fu.scanFiles(dir, "public void " + BaseTest.getMethodName());
-				if (suite != null) {
-					suite = suite.replace(".java", "");
-					break;
-				}
-			} catch (Exception e) {}
-		}
+		ExecuteShellCommand es = new ExecuteShellCommand();		
+		String[] cmd = new String[] {"grep", "-Ril", "public void " + BaseTest.getMethodName(), "src/test/java/com/automation/tests"};
+		String suite = es.executeArrayCommand(cmd);
+		suite = suite.replace(".java", "");
 		return suite;
 	}
 }
