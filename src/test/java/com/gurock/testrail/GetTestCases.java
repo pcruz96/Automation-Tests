@@ -80,15 +80,8 @@ public class GetTestCases extends Log4J {
 				testCase = tc[1];
 			}
 			ExecuteShellCommand es = new ExecuteShellCommand();
-			String[] dirs = es.executeCommand("find src/test/java/com/automation/tests/ -type d").split("\n");
-
-			for (String dir : dirs) {
-				suite = fu.scanFiles(dir, "public void " + testCase);
-				if (suite != null) {
-					filePath = dir + "/" + suite;
-					break;
-				}
-			}
+			String[] cmd = new String[] {"grep", "-Ril", "public void " + testCase, "src/test/java/com/automation/tests"};
+			filePath = es.executeArrayCommand(cmd);
 		} catch (Exception e) {
 		}
 
