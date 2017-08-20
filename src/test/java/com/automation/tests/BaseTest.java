@@ -2,7 +2,6 @@ package com.automation.tests;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -194,6 +193,7 @@ public class BaseTest extends TestRailUtilities {
 		new File("test-output").mkdir();
 		fu.createFile("test-output/log4j-application.log");
 		org.apache.log4j.PropertyConfigurator.configure("src/test/resources/log4j.properties");
+		ExecuteShellCommand es = new ExecuteShellCommand();
 
 		if (updTestRail && addRun) {
 			
@@ -201,16 +201,24 @@ public class BaseTest extends TestRailUtilities {
 			
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();			
-			logger.info("\n\nrun id | name: " + BaseTest.runId + " | " + runName + "\n");
-			ExecuteShellCommand es = new ExecuteShellCommand();
+			logger.info("\n\nrun id | name: " + BaseTest.runId + " | " + runName + "\n");			
 			String[] cmd1 = new String[] {"sed", "-i.tmp", "s/RUNID/"+BaseTest.runId+"/g", "src/test/resources/testng/testng.xml"};			
 			String[] cmd2 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", "src/test/resources/testng/testng.xml"};			
 			es.executeArrayCommand(cmd1);
 			es.executeArrayCommand(cmd2);
 		}			
+		
+		String[] cmd = new String[] {"sed", "-i.tmp", "s/ENV/"+env+"/g", "src/test/resources/config/env.conf"};			
+		es.executeArrayCommand(cmd);
+		
 		TestConfiguration.setConfig(env);
 		BaseTest.host = TestConfiguration.getConfig().getString("login.url");
-		BaseTest.databaseName = TestConfiguration.getDbConfig().getString("db." + BaseTest.env + ".name");
+		setVars();
+		try {
+			BaseTest.databaseName = TestConfiguration.getDbConfig().getString("db." + BaseTest.env + ".name");
+		} catch (Exception e) {
+			logger.error(errors);
+		}
 		createTestNGfailed(fu);
 		removeTmpFiles();
 	}
@@ -436,10 +444,12 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", testng};
 		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//g", testng};		
 		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/runId\" value=\"\"/runId\" value=\""+BaseTest.runId+"\"/g", testng};
+		String[] cmd4 = new String[] {"sed", "-i.tmp", "s/"+env+"/ENV/g", "src/test/resources/config/env.conf"};			
 		
 		es.executeArrayCommand(cmd1);		
 		es.executeArrayCommand(cmd2);
 		es.executeArrayCommand(cmd3);
+		es.executeArrayCommand(cmd4);
 		removeTmpFiles();
 		logger.info("not passed case ids: " + notPassedCaseIds.toString());
 	}	
