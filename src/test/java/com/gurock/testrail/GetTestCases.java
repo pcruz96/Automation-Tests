@@ -71,8 +71,6 @@ public class GetTestCases extends Log4J {
 	public String getAutomatedTestCaseSteps(String testCase) {
 
 		String testCaseSteps = null;
-		FileUtilities fu = new FileUtilities();
-		String suite = "";
 		String filePath = "";
 		try {
 			if (testCase.contains(".")) {
@@ -80,8 +78,16 @@ public class GetTestCases extends Log4J {
 				testCase = tc[1];
 			}
 			ExecuteShellCommand es = new ExecuteShellCommand();
-			String[] cmd = new String[] {"grep", "-Ril", "public void " + testCase, "src/test/java/com/automation/tests"};
-			filePath = es.executeArrayCommand(cmd);
+			String[] dirs = es.executeCommand("find src/test/java/com/automation/tests/ -type d").split("\n");
+			FileUtilities fu = new FileUtilities();
+
+			for (String dir : dirs) {
+				String suite = fu.scanFiles(dir, "public void " + testCase);
+				if (suite != null) {
+					filePath = dir + "/" + suite;
+					break;
+				}
+			}
 		} catch (Exception e) {
 		}
 
