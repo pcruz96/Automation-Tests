@@ -2,7 +2,6 @@ package com.automation.tests;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -397,11 +396,23 @@ public class BaseTest extends TestRailUtilities {
 				Driver.getDriver().quit();
 			}
 		} catch (Exception e) {}
+		
+		if (cloudTest) {
+			SauceLabs sl = new SauceLabs();
+			sl.createShellScriptUpdateResults(testResults);
+			
+			String[] cmd = new String[] {"bash", "shell scripts/updateSauceLabsResults.sh"};
+			ExecuteShellCommand es = new ExecuteShellCommand();
+			es.executeArrayCommand(cmd);
+		}
+		
+		/*
 		if (failCount == 100) {
 			logger.error("100 tests failed. Exiting...");
 			logger.info("not passed case ids: " + notPassedCaseIds.toString());
 			System.exit(1);
 		}
+		*/
 	}
 	
 	//@AfterClass(alwaysRun = true)
@@ -421,10 +432,7 @@ public class BaseTest extends TestRailUtilities {
 	
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
-		if (cloudTest) {
-			SauceLabs sl = new SauceLabs();
-			sl.createShellScriptUpdateResults(testResults);
-		} else {
+		if (!cloudTest) {
 			logger.info("see test-output/screenshots for failed tests\n");
 		}
 		this.writeSkippedAndFailedTests();
