@@ -400,10 +400,6 @@ public class BaseTest extends TestRailUtilities {
 		if (cloudTest) {
 			SauceLabs sl = new SauceLabs();
 			sl.createShellScriptUpdateResults(testResults);
-			
-			String[] cmd = new String[] {"bash", "shell scripts/updateSauceLabsResults.sh"};
-			ExecuteShellCommand es = new ExecuteShellCommand();
-			es.executeArrayCommand(cmd);
 		}
 		
 		/*

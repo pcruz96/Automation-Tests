@@ -92,11 +92,14 @@ public class SauceLabs extends Log4J {
 	public void createShellScriptUpdateResults(Hashtable<String, ITestResult> testResults) {
 		StringBuilder sb = new StringBuilder();		
 		BufferedWriter output;
+		String file = "shell scripts/updateSauceLabsResults.sh";
 		try {
-			output = new BufferedWriter(new FileWriter("shell scripts/updateSauceLabsResults.sh"));
+			output = new BufferedWriter(new FileWriter(file));
 			Set<String> keys = testResults.keySet();
 			boolean passed = false;
+			String jid = null;
 	        for(String jobId: keys){
+	        	jid = jobId;
 	        	if (testResults.get(jobId).getStatus() == ITestResult.SUCCESS) {				
 	        		passed = true;	        	
 		        } else if (testResults.get(jobId).getStatus() == ITestResult.FAILURE) {
@@ -107,6 +110,17 @@ public class SauceLabs extends Log4J {
 	        }			
 	        output.write("#! /bin/bash\n" + sb.toString());
 	        output.close();
+	        
+	        String[] cmd = new String[] {"bash", file};
+			ExecuteShellCommand es = new ExecuteShellCommand();
+			es.executeArrayCommand(cmd);
+	        
+	        String[] cmd1 = new String[] {"grep", "-nr", jid, file};
+			String result = es.executeArrayCommand(cmd1);
+			String[] s = result.split(":");
+			String[] cmd2 = new String[] {"sed", "-i.tmp", s[1] + "s/curl/#curl/g", file};
+			es.executeArrayCommand(cmd2);
+			
 		} catch (IOException e) {
 			e.printStackTrace(new PrintWriter(errors));
 			logger.error(errors);
