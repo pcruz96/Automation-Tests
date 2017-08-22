@@ -102,7 +102,7 @@ public class SauceLabs extends Log4J {
 		        } else if (testResults.get(jobId).getStatus() == ITestResult.FAILURE) {
 		        	passed = false;	 
 				}
-	            logger.info("job id, "+jobId+", passed is: "+passed);
+	            //logger.info("job id, "+jobId+", passed is: "+passed);
 	            sb.append("curl -X PUT -s -d '{\"passed\": "+passed+"}' -u "+apiKey+" https://saucelabs.com/rest/v1/"+user+"/jobs/" + jobId + "\n");
 	        }			
 	        output.write("#! /bin/bash\n" + sb.toString());
