@@ -114,14 +114,8 @@ public class SauceLabs extends Log4J {
 	        String[] cmd = new String[] {"bash", file};
 			ExecuteShellCommand es = new ExecuteShellCommand();
 			es.executeArrayCommand(cmd);
-	        
-	        String[] cmd1 = new String[] {"grep", "-nr", jid, file};
-			String result = es.executeArrayCommand(cmd1);
-			String[] s = result.split(":");
-			String[] cmd2 = new String[] {"sed", "-i.tmp", s[1] + "s/curl/#curl/g", file};
-			es.executeArrayCommand(cmd2);
 			
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace(new PrintWriter(errors));
 			logger.error(errors);
 		}
