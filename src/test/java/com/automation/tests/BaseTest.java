@@ -300,7 +300,7 @@ public class BaseTest extends TestRailUtilities {
 			}
 		} 
 		
-		String msg = "failed - automation - ui - " + this.getTestSuite() + " - " + BaseTest.browser + " - "
+		String msg = "failed - automation - ui - " + BaseTest.browser + " - " + this.getTestSuite() + " - "
 				+ BaseTest.getMethodName();
 
 		msg = msg.toLowerCase();
@@ -595,7 +595,8 @@ public class BaseTest extends TestRailUtilities {
 		ExecuteShellCommand es = new ExecuteShellCommand();		
 		String[] cmd = new String[] {"grep", "-Ril", "public void " + BaseTest.getMethodName(), "src/test/java/com/automation/tests"};
 		String suite = es.executeArrayCommand(cmd);
-		suite = suite.replace(".java", "");
+		String[] s = suite.split("/");
+		suite = s[s.length - 1].replace(".java", "");
 		return suite;
 	}
 }
