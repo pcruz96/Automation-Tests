@@ -1,17 +1,11 @@
 package com.automation.selenium;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Hashtable;
-import java.util.Set;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
@@ -20,17 +14,20 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.openqa.selenium.remote.SessionId;
 import org.testng.ITestResult;
 
 import com.automation.config.TestConfiguration;
 import com.automation.utils.ExecuteShellCommand;
 import com.automation.utils.HMac;
 import com.automation.utils.Log4J;
+import com.saucelabs.saucerest.SauceREST;
 
 public class SauceLabs extends Log4J {
 	
 	String user = TestConfiguration.getSauceLabsConfig().getString("USER");
 	String apiKey = TestConfiguration.getSauceLabsConfig().getString("APIKEY");
+	String key = TestConfiguration.getSauceLabsConfig().getString("KEY");
 	StringWriter errors = new StringWriter();
 	
 	public String getJobId(Method method) {
@@ -89,31 +86,19 @@ public class SauceLabs extends Log4J {
 		return jobIdLink;
 	}
 	
-	public void createShellScriptUpdateResults(Hashtable<String, ITestResult> testResults) {
-		StringBuilder sb = new StringBuilder();		
-		BufferedWriter output;
-		String file = "shell scripts/updateSauceLabsResults.sh";
+	public void updateSauceLabTestResult(SessionId jobId, ITestResult testResult) {
 		try {
-			output = new BufferedWriter(new FileWriter(file));
-			Set<String> keys = testResults.keySet();
-			boolean passed = false;
-			String jid = null;
-	        for(String jobId: keys){
-	        	jid = jobId;
-	        	if (testResults.get(jobId).getStatus() == ITestResult.SUCCESS) {				
-	        		passed = true;	        	
-		        } else if (testResults.get(jobId).getStatus() == ITestResult.FAILURE) {
-		        	passed = false;	 
-				}
-	            //logger.info("job id, "+jobId+", passed is: "+passed);
-	            sb.append("curl -X PUT -s -d '{\"passed\": "+passed+"}' -u "+apiKey+" https://saucelabs.com/rest/v1/"+user+"/jobs/" + jobId + "\n");
-	        }			
-	        output.write("#! /bin/bash\n" + sb.toString());
-	        output.close();
-	        
-	        String[] cmd = new String[] {"bash", file};
-			ExecuteShellCommand es = new ExecuteShellCommand();
-			es.executeArrayCommand(cmd);
+        	SauceREST saucerest = new SauceREST(user, key);
+        	//logger.info(jobId);
+        		        	
+			if (testResult.getStatus() == ITestResult.SUCCESS) {				
+
+				saucerest.jobPassed(jobId.toString());
+		        	        	
+	        } else if (testResult.getStatus() == ITestResult.FAILURE) {
+	        	
+	        	saucerest.jobFailed(jobId.toString());	 
+			}							
 			
 		} catch (Exception e) {
 			e.printStackTrace(new PrintWriter(errors));

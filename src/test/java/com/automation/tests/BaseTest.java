@@ -18,6 +18,7 @@ import java.util.UUID;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.json.simple.parser.ParseException;
+import org.openqa.selenium.remote.SessionId;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
@@ -57,8 +58,6 @@ public class BaseTest extends TestRailUtilities {
 	public static ThreadLocal<String> testDataName = new ThreadLocal<String>();
 	
 	boolean methodNameCorrect = false;	
-	
-	Hashtable<String, ITestResult> testResults = new Hashtable<String, ITestResult>();
 	
 	final static StringWriter errors = new StringWriter();
 	final static StringBuilder sb = new StringBuilder();
@@ -262,12 +261,12 @@ public class BaseTest extends TestRailUtilities {
 		this.getCaseResults(projectId, suiteId, getCaseId(method));
 		
 		if (cloudTest) {			
-			String jobId = null;
+			SessionId jobId = null;
 			SauceLabs sl = new SauceLabs();
 			
 			if (BaseTest.cloudTestProvider.equals("sauceLabs")) {				
 				try {
-					jobId = sl.getJobId(method);
+					jobId = Driver.getDriver().getSessionId();
 				} catch (Exception e) {
 					jobId = null;
 				}
@@ -284,8 +283,10 @@ public class BaseTest extends TestRailUtilities {
 			if (steps.contains("getCaseResults") && dupResults.contains("Passed")) {
 				cloudTestJobIdLink = "The Sauce Labs session is of a similar test case referenced in the steps. " + dupResults;
 			} else if (jobId != null) {
-				testResults.put(jobId, result);
-				cloudTestJobIdLink = sl.getLinkToSauceLabJobId(jobId);
+				
+				sl.updateSauceLabTestResult(jobId, result);
+				
+				cloudTestJobIdLink = sl.getLinkToSauceLabJobId(jobId.toString());
 				logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
 			} else {
 				try {
@@ -396,11 +397,6 @@ public class BaseTest extends TestRailUtilities {
 				Driver.getDriver().quit();
 			}
 		} catch (Exception e) {}
-		
-		if (cloudTest) {
-			SauceLabs sl = new SauceLabs();
-			sl.createShellScriptUpdateResults(testResults);
-		}
 		
 		/*
 		if (failCount == 100) {
