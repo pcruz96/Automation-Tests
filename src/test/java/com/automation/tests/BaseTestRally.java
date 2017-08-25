@@ -15,7 +15,7 @@ import com.automation.utils.SlackNotifications;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.openqa.selenium.Platform;
+import org.openqa.selenium.remote.SessionId;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -183,7 +183,7 @@ public class BaseTestRally extends Rally {
 		try {			
 			LoginPage login = new LoginPage();
 			who = who != null ? who : "login";
-			//login.login();	
+			login.login(TestConfiguration.getConfig().getString("login.username"), TestConfiguration.getConfig().getString("login.password"));	
 		} catch (Exception e) {
 			logger.error(errors);
 		}
@@ -197,9 +197,9 @@ public class BaseTestRally extends Rally {
 		
 		if (sauceLabs) {
 			SauceLabs sl = new SauceLabs();
-			String jobId = null; 
+			SessionId jobId = null; 
 			try {
-				jobId = sl.getJobId(method);
+				jobId = Driver.getDriver().getSessionId();
 			} catch (Exception e) {
 				jobId = null;
 			}			
@@ -209,8 +209,8 @@ public class BaseTestRally extends Rally {
 			logger.info(steps);
 			
 			if (jobId != null) {
-				testResults.put(jobId, result);
-				sauceLabsJobIdLink = sl.getLinkToSauceLabJobId(jobId);
+				sl.updateSauceLabTestResult(jobId, result);
+				sauceLabsJobIdLink = sl.getLinkToSauceLabJobId(jobId.toString());
 				logger.info("\n" + method.getName() + " - " + sauceLabsJobIdLink + "\n");
 			} else {
 				sauceLabsJobIdLink = "";
@@ -257,10 +257,7 @@ public class BaseTestRally extends Rally {
 	
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
-		if (sauceLabs) {
-			SauceLabs sl = new SauceLabs();
-			sl.createShellScriptUpdateResults(testResults);
-		} else {
+		if (!sauceLabs) {
 			logger.info("see test-output/screenshots for failed tests\n");
 		}
 		this.writeSkippedAndFailedTests();
