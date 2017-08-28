@@ -492,7 +492,6 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public boolean objDisplayed(By locator) {
-		this.waitForElementVisibility(locator);
 		return driver.findElement(locator).isDisplayed();	
 	}
 
