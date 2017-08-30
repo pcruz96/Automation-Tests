@@ -492,7 +492,11 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public boolean objDisplayed(By locator) {
-		return driver.findElement(locator).isDisplayed();	
+		try {
+			return driver.findElement(locator).isDisplayed();	
+		} catch (Exception e) {
+			return false;
+		}			
 	}
 
 	public boolean isEnabled(By locator) {
@@ -755,5 +759,9 @@ public class SeleniumUtils extends Log4J {
 	
 	public void selectOption(String label, String option) {
 		this.selectOption(By.xpath("//*[.='"+label+"']/following::select"), option);
+	}
+	
+	public void refreshPage() {
+		driver.navigate().refresh();
 	}
 }
