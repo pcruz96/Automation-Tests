@@ -119,6 +119,7 @@ public class GetTestCases extends Log4J {
 				}
 				lineNumber++;
 			}
+			filePath = filePath.replace("/", ".").replace("..", ".").replace(".java", "");
 			testCaseSteps = "\n" + sb.toString();
 			return "\n" + filePath + "\n" + testCaseSteps;
 		} catch (IOException e) {
