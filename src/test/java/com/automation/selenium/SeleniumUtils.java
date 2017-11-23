@@ -2,6 +2,8 @@ package com.automation.selenium;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -485,6 +487,7 @@ public class SeleniumUtils extends Log4J {
 
 	public void sendkeys(By locator, Keys key) {
 		try {
+			this.waitForElementPresent(locator);
 			driver.findElement(locator).sendKeys(key);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -763,5 +766,14 @@ public class SeleniumUtils extends Log4J {
 	
 	public void refreshPage() {
 		driver.navigate().refresh();
+	}
+	
+	public void getRelativePath(String path) {
+		try {
+			Driver.getDriver().get(new URI(Driver.getDriver().getCurrentUrl()).resolve(path).toString());
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
