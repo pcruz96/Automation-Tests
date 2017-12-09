@@ -160,4 +160,22 @@ public class Jira {
 			e.printStackTrace();
 		}
 	}
+	
+	public void deleteIssues(String key, String issues) {
+		try {
+			Client client = Client.create();			
+			client.addFilter(new HTTPBasicAuthFilter(username, password));
+			String[] ids = issues.split(",");
+			
+			for (String id : ids) {				
+				String issue = key + "-" + id;
+				WebResource wr = client.resource(host + "/rest/api/2/issue/" + issue);
+				wr.type("application/json").delete();		
+				System.out.println("deleted " + issue);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("finished");
+	}
 }

@@ -346,7 +346,7 @@ public class SeleniumUtils extends Log4J {
 		// can add + or - prefix to days     
 		cal.setTime(cal.getTime());
 		int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-		if (dayOfWeek == 7 || dayOfWeek == 1) {
+		if (dayOfWeek >= 6 || dayOfWeek == 1) {
 			cal.add(Calendar.DATE, days + 2);    				
 		} else {
 			cal.add(Calendar.DATE, days);    
@@ -738,6 +738,7 @@ public class SeleniumUtils extends Log4J {
 		
 		for (WebElement we : elms) {
 			we.click();
+			this.threadSleep(3000);
 		}
     }
     
