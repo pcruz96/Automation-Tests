@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Set;
 import java.util.TimeZone;
@@ -332,10 +333,12 @@ public class SeleniumUtils extends Log4J {
 		return bodyTxt.contains(txt.toLowerCase());
 	}
 
-	public String dateFormat(String format, int days) {
-		DateFormat dateFormat = new SimpleDateFormat(format);
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
-		// can add + or - prefix to days 
+	public String dateFormat(String format, int days) {				
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		Calendar cal = Calendar.getInstance(tz);
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		dateFormat.setTimeZone(tz);
+		// can add + or - prefix to days
 		cal.add(Calendar.DATE, days);    
 		String modifiedDate = dateFormat.format(cal.getTime());		
 		return modifiedDate;
