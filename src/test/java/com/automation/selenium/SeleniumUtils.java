@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -333,7 +334,7 @@ public class SeleniumUtils extends Log4J {
 
 	public String dateFormat(String format, int days) {
 		DateFormat dateFormat = new SimpleDateFormat(format);
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
 		// can add + or - prefix to days 
 		cal.add(Calendar.DATE, days);    
 		String modifiedDate = dateFormat.format(cal.getTime());		
