@@ -334,7 +334,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public String dateFormat(String format, int days) {				
-		TimeZone tz = TimeZone.getTimeZone("UTC");
+		TimeZone tz = TimeZone.getTimeZone("PST");
 		Calendar cal = Calendar.getInstance(tz);
 		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
 		dateFormat.setTimeZone(tz);
@@ -659,9 +659,12 @@ public class SeleniumUtils extends Log4J {
 	} 
 
 	public static String getCurrentDate() {
-		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-		java.util.Date date= new Date();
-		String currentDate = dateFormat.format(date);
+		TimeZone tz = TimeZone.getTimeZone("PST");
+		Calendar cal = Calendar.getInstance(tz);
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+		dateFormat.setTimeZone(tz);
+		cal.add(Calendar.DATE, 0);    
+		String currentDate = dateFormat.format(cal.getTime());		
 		return currentDate; 
 	}
 
