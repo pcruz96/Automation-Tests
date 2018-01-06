@@ -334,9 +334,9 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public String dateFormat(String format, int days) {				
-		TimeZone tz = TimeZone.getTimeZone("PST");
+		TimeZone tz = TimeZone.getTimeZone("UTC");
 		Calendar cal = Calendar.getInstance(tz);
-		DateFormat dateFormat = new SimpleDateFormat(format, Locale.US);
+		DateFormat dateFormat = new SimpleDateFormat(format, Locale.UK);
 		dateFormat.setTimeZone(tz);
 		// can add + or - prefix to days
 		cal.add(Calendar.DATE, days);    
@@ -659,9 +659,9 @@ public class SeleniumUtils extends Log4J {
 	} 
 
 	public static String getCurrentDate() {
-		TimeZone tz = TimeZone.getTimeZone("PST");
+		TimeZone tz = TimeZone.getTimeZone("UTC");
 		Calendar cal = Calendar.getInstance(tz);
-		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.US);
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.UK);
 		dateFormat.setTimeZone(tz);
 		cal.add(Calendar.DATE, 0);    
 		String currentDate = dateFormat.format(cal.getTime());		

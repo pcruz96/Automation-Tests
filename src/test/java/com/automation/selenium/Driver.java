@@ -94,7 +94,8 @@ public class Driver {
         cap.setCapability("tags", env);
         cap.setCapability("build", buildTag.toLowerCase());
         cap.setCapability("screenResolution", "1280x1024");
-        cap.setCapability("acceptSslCerts", true);        
+        cap.setCapability("acceptSslCerts", true);
+        cap.setCapability("timeZone", "London");
 		//cap.setCapability("idleTimeout", 240);
         
         if (cloudTest) {        	
