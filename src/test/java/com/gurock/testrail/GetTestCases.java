@@ -15,7 +15,7 @@ public class GetTestCases extends Log4J {
 
 		logger.info("Args: projectId suiteId startTCID endTCID");
 		if ((args == null) || (args.length == 0) || (args.length < 3)) {
-			logger.info("Check args.\n" + "Usage: projectId suiteId startTCID endTCID");
+			logger.info("Check args.\n" + "Usage: projectId suiteId (comma delimited test case ids without spaces)");
 			System.exit(0);
 		}
 		String projectId = args[0];
@@ -114,7 +114,7 @@ public class GetTestCases extends Log4J {
 				} catch (Exception e) {
 
 				}
-				if (append && line.contains("}") && !line.contains("{")) {
+				if (append && line.contains("}") && !line.contains("{") && !line.contains("};")) {
 					break;
 				}
 				lineNumber++;
