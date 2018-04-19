@@ -140,7 +140,7 @@ public class TestRailUtilities extends Log4J {
 			String[] s1 = steps.toString().split("\n");
 			
 			for (int i = 0; i < s1.length - 1; i++) {
-				if (!s1[i].contains("src") && !s1[i].contains("@Test") && !s1[i].contains("void") && !s1[i].contains("//") && !s1[i].contains("new") && s1[i].contains("_")) {
+				if (!s1[i].contains("src") && !s1[i].contains("@Test") && !s1[i].contains("void") && !s1[i].contains("//") && s1[i].contains("()") && s1[i].contains("_")) {
 					String[] s2 = s1[i].split(" ");
 					dupMethod = s2[1].replace("();", "").trim();
 					String[] s3 = dupMethod.split("_");
