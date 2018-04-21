@@ -141,8 +141,8 @@ public class GetTestCases extends Log4J {
 
 		List<Integer> caseIds = new ArrayList<Integer>();
 
-		String includeGroups = System.getenv("INCLUDEGROUPS");
-		String excludeGroups = System.getenv("EXCLUDEGROUPS");
+		String includeGroups = System.getenv("INCLUDEGROUPS").trim();
+		String excludeGroups = System.getenv("EXCLUDEGROUPS").trim();
 
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		String[] dirs = es.executeCommand("find src/test/java/com/automation/tests/" + project + " -type d")
