@@ -197,15 +197,14 @@ public class GetTestCases extends Log4J {
 													break;
 												}
 											}
-										}
 
-										if (!excludeGroups.isEmpty()) {
+										} else if (!excludeGroups.isEmpty()) {
 
 											g = excludeGroups.split(",");
 
 											for (String group : g) {
-												if (line.contains(group.trim())) {
-													foundTest = false;
+												if (!line.contains(group.trim())) {
+													foundTest = true;
 													break;
 												}
 											}
