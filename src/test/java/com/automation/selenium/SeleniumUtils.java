@@ -50,7 +50,7 @@ import com.automation.utils.StackTraceToString;
 public class SeleniumUtils extends Log4J {
 
 	WebDriver driver = Driver.getDriver();
-	private static final int MAX_WAIT = 90;
+	private static final int MAX_WAIT = 20;
 	boolean printLogs;
 
 	public SeleniumUtils() {		
@@ -123,6 +123,18 @@ public class SeleniumUtils extends Log4J {
 			return true;
 		} catch (Exception e) {
 			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is not visible.\n");			
+		}
+		return false;
+	}
+	
+	public boolean waitForElementInvisibility(By locator) {
+		this.waitForPageLoaded();
+		try {
+			this.fluentWait().until(ExpectedConditions
+					.invisibilityOfElementLocated(locator));
+			return true;
+		} catch (Exception e) {
+			logger.error(BaseTest.getMethodName() + " - " + locator.toString() + " is visible.\n");			
 		}
 		return false;
 	}
@@ -209,10 +221,26 @@ public class SeleniumUtils extends Log4J {
 		executor.executeScript("arguments[0].style.visibility='visible';", driver.findElement(locator));
 		executor.executeScript("arguments[0].click();", driver.findElement(locator));		
 	}
-	
+
 	public void javascriptClick(By locator) {
 		JavascriptExecutor executor = (JavascriptExecutor)driver;
 		executor.executeScript("arguments[0].click();", driver.findElement(locator));
+	}
+
+	public void javascriptExecutor(String script) {
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor.executeScript(script);
+	}
+	
+	public String getFullHeaderValue(By locator, String option) {
+		waitForElementVisibility(locator);
+		List <WebElement> optionElements= driver.findElements(locator);
+		for(WebElement optionElement: optionElements){
+			String textContent = optionElement.getText();
+			if(textContent.toLowerCase().contains(option.toLowerCase()))
+				return textContent;
+		}
+		return null;
 	}
 
 	public void selectOption(By locator, String option) {
@@ -222,6 +250,12 @@ public class SeleniumUtils extends Log4J {
 			list.selectByVisibleText(option);	
 		}		
 		this.waitForPageLoaded();
+	}
+	
+	public int getSelectOptionsCount(By locator) {
+		waitForElementVisibility(locator);
+		Select list = new Select(driver.findElement(locator));
+		return list.getOptions().size();
 	}
 
 	public void selectOptionIndex(By locator, int index) {
@@ -343,7 +377,7 @@ public class SeleniumUtils extends Log4J {
 		String modifiedDate = dateFormat.format(cal.getTime());		
 		return modifiedDate;
 	}
-	
+
 	public String weekdayDateFormat(String format, int days) {
 		DateFormat dateFormat = new SimpleDateFormat(format);
 		Calendar cal = Calendar.getInstance();
@@ -453,7 +487,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public String getTxt(By locator) {
-		this.threadSleep(3000);
+		this.threadSleep(5000);
 		this.waitForElementVisibility(locator);
 		return driver.findElement(locator).getText();
 	}
@@ -512,7 +546,7 @@ public class SeleniumUtils extends Log4J {
 	}
 
 	public void acceptAlert() {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 3; i++) {
 			try {			
 				this.threadSleep(5000);
 				driver.switchTo().alert().accept();
@@ -521,7 +555,7 @@ public class SeleniumUtils extends Log4J {
 			}									
 		}
 	}	
-	
+
 	public void acceptAlert(By obj) {
 		try {			
 			this.clickElement(obj);
@@ -537,7 +571,7 @@ public class SeleniumUtils extends Log4J {
 			driver.switchTo().alert().dismiss();
 		} catch (Exception e) {}		
 	}
-	
+
 	public void dismissAlert(By obj) {
 		try {			
 			this.clickElement(obj);
@@ -571,7 +605,7 @@ public class SeleniumUtils extends Log4J {
 			this.threadSleep(5000);
 			return driver.switchTo().alert().getText();
 		} else {
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 12; i++) {
 				try {			
 					this.threadSleep(5000);
 					String alertTxt = driver.switchTo().alert().getText();
@@ -674,12 +708,12 @@ public class SeleniumUtils extends Log4J {
 		calendar.add(Calendar.DATE, offset);
 		return dateFormat.format(calendar.getTime()).toString();
 	}
-	
+
 	public String getDateFormat(String format) {
 		Calendar cal = Calendar.getInstance();
 		return new SimpleDateFormat(format).format(cal.getTime());
 	}
-	
+
 	public void multiselect(int start, By obj, int get) {		
 		for (int i = start; i < (get + 2); i++) {
 			List<WebElement> items = driver.findElements(obj);
@@ -689,31 +723,37 @@ public class SeleniumUtils extends Log4J {
 			} catch (Exception e) {}
 		}
 	}
-	
-	public void scrollIntoView(By obj) {
-		this.waitForElementPresent(obj);
-		WebElement element = driver.findElement(obj);
-		JavascriptExecutor executor = (JavascriptExecutor)driver;
-		executor.executeScript("arguments[0].scrollIntoView(true);", element);
+
+	public boolean scrollIntoView(By obj) {
+		try {
+			this.waitForElementPresent(obj);
+			WebElement element = driver.findElement(obj);
+			JavascriptExecutor executor = (JavascriptExecutor)driver;
+			executor.executeScript("arguments[0].scrollIntoView(true);", element);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
-	
+
 	public void fileUpload(By obj, String file) {
 		WebElement upload = driver.findElement(obj);
 		File f = new File(file);
 		String file2 = f.getAbsolutePath();
-        upload.sendKeys(file2);
+		upload.sendKeys(file2);
 	}
-	
+
 	public void dragAndDropAction(By src, By tgt) {
+		this.refreshPage();
 		this.waitForElementVisibility(src);
 		Actions builder = new Actions(driver);
 		Action dragAndDrop = builder.clickAndHold(driver.findElement(src))
-		   .moveToElement(driver.findElement(tgt))
-		   .release(driver.findElement(tgt))
-		   .build();
+				.moveToElement(driver.findElement(tgt))
+				.release(driver.findElement(tgt))
+				.build();
 		dragAndDrop.perform();
 	}
-	
+
 	public boolean isTimeStampValid(String format, String inputString) {
 		SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
 		try {
@@ -723,65 +763,73 @@ public class SeleniumUtils extends Log4J {
 			return false;
 		}
 	}
-	
+
 	public String getCssValue(By obj, String cssField) {
 		this.waitForElementVisibility(obj);
 		return driver.findElement(obj).getCssValue(cssField);
 	}
-	
-    
-    public void fillFields(By obj, String str) {
-    	this.waitForElementVisibility(obj);
-    	List<WebElement> elms = driver.findElements(obj);
-		
+
+
+	public void fillFields(By obj, String str) {
+		this.waitForElementVisibility(obj);
+		List<WebElement> elms = driver.findElements(obj);
+
 		for (WebElement we : elms) {
 			we.sendKeys(str);
 		}
-    }
-    
-    public void clickAll(By obj) {
-    	this.waitForElementVisibility(obj);
-    	List<WebElement> elms = driver.findElements(obj);
-		
+	}
+
+	public void clickAll(By obj) {
+		this.waitForElementVisibility(obj);
+		List<WebElement> elms = driver.findElements(obj);
+
 		for (WebElement we : elms) {
 			we.click();
 			this.threadSleep(3000);
 		}
-    }
-    
-    public void uploadFile(String mayBeRelativePath, By obj) {
-    	String filePath = FileUtilities.getAbsoluteFilePath(mayBeRelativePath);
-    	if (BaseTest.cloudTest) {
-    		((RemoteWebDriver) Driver.getDriver()).setFileDetector(new LocalFileDetector());
-    	}
+	}
+
+	public void uploadFile(String mayBeRelativePath, By obj) {
+		String filePath = FileUtilities.getAbsoluteFilePath(mayBeRelativePath);
+		if (BaseTest.cloudTest) {
+			((RemoteWebDriver) Driver.getDriver()).setFileDetector(new LocalFileDetector());
+		}
 		Driver.getDriver().findElement(obj).sendKeys(filePath);
-    }
-    
-    public void doubleClick(By obj) {
-    	this.waitForElementPresent(obj);
-    	Actions action = new Actions(Driver.getDriver());
+	}
+
+	public void doubleClick(By obj) {
+		this.waitForElementPresent(obj);
+		Actions action = new Actions(Driver.getDriver());
 		WebElement element = Driver.getDriver().findElement(obj);
 		action.doubleClick(element).perform();
-    }
-    
-    public String getSelectOptions(String asmptn) {
-		return this.getOptionsText(By.xpath("//*[.='"+asmptn+"']/following::select"));
 	}
-	
+
+	public String getSelectOptions(String txt) {
+		return this.getOptionsText(By.xpath("//*[.='"+txt+"']/following::select"));
+	}
+
 	public void selectOption(String label, String option) {
 		this.selectOption(By.xpath("//*[.='"+label+"']/following::select"), option);
 	}
-	
+
 	public void refreshPage() {
 		driver.navigate().refresh();
+		this.waitForPageLoaded();
 	}
-	
+
 	public void getRelativePath(String path) {
+		this.waitForPageLoaded();
 		try {
 			Driver.getDriver().get(new URI(Driver.getDriver().getCurrentUrl()).resolve(path).toString());
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public String getDayOfTheWeekAbbreviated() {
+		Date now = new Date();
+		SimpleDateFormat simpleDateformat = new SimpleDateFormat("E"); // the day of the week abbreviated
+	    return simpleDateformat.format(now);
 	}
 }
