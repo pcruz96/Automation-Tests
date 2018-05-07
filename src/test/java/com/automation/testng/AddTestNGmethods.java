@@ -14,7 +14,7 @@ public class AddTestNGmethods {
 		File ifile = new File(inputFile);
 		File ofile = new File(outputFile);
 		String[] caseIds = arg[0].split(",");
-		BaseTest.writeCaseIds(BaseTest.runId.toString() + ".txt", arg[0].toString());
+		BaseTest.writeCaseIds("remainingTestRunCaseIds.txt", arg[0].toString());
 
 		try {
 			if (!ofile.exists()) {

@@ -247,7 +247,7 @@ public class GetTestCases extends Log4J {
 			}
 		}
 		logger.info("adding case ids: " + caseIds);
-		BaseTest.writeCaseIds(BaseTest.runId.toString() + ".txt", caseIds.toString());
+		BaseTest.writeCaseIds("remainingTestRunCaseIds.txt", caseIds.toString());
 		return caseIds;
 	}
 }

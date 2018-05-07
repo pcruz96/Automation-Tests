@@ -438,8 +438,8 @@ public class BaseTest extends TestRailUtilities {
 		 //remove caseId with result from list of caseIds in test run txt file so in case a build is aborted if TestRail stops updating results, 
 		 //it's easier to retrieve the remaining list of caseIds to rerun 
 		ExecuteShellCommand es = new ExecuteShellCommand();
-		String runTxt = runId + ".txt";
-		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/"+BaseTest.getTestCaseId()+"//g", runTxt};
+		String runTxt = "remainingTestRunCaseIds.txt";
+		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/"+BaseTest.getTestCaseId().replace("c", "")+"//g", runTxt};
 		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/,,//g", runTxt};
 		es.executeArrayCommand(cmd1);
 		es.executeArrayCommand(cmd2);
