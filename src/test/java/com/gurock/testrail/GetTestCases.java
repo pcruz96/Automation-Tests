@@ -219,20 +219,23 @@ public class GetTestCases extends Log4J {
 
 								String[] s1 = line.split(" ");
 								String[] s2 = s1[2].split("_");
-								Integer caseId = Integer.parseInt(s2[0].replace("c", ""));
-
-								String cids = System.getenv("CASEIDS");
-
-								if (cids != null) {
-									for (String c : cids.split(",")) {
-										if (c.replace("c", "").trim().equals(caseId.toString())) {
-											caseIds.add(caseId);
-											break;
+											
+								try {
+									Integer caseId = Integer.parseInt(s2[0].replace("c", ""));
+	
+									String cids = System.getenv("CASEIDS");
+	
+									if (cids != null) {
+										for (String c : cids.split(",")) {
+											if (c.replace("c", "").trim().equals(caseId.toString())) {
+												caseIds.add(caseId);
+												break;
+											}
 										}
+									} else if (caseId != null) {
+										caseIds.add(caseId);
 									}
-								} else if (caseId != null) {
-									caseIds.add(caseId);
-								}
+								} catch (Exception e) {}
 								foundTest = false;
 							}
 						}
@@ -244,6 +247,7 @@ public class GetTestCases extends Log4J {
 			}
 		}
 		logger.info("adding case ids: " + caseIds);
+		BaseTest.writeCaseIds(BaseTest.runId.toString() + ".txt", caseIds.toString());
 		return caseIds;
 	}
 }

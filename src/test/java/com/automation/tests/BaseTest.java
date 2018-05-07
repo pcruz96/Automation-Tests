@@ -1,5 +1,10 @@
 package com.automation.tests;
 
+import java.awt.HeadlessException;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,11 +13,16 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -31,6 +41,7 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.automation.config.TestConfiguration;
+import com.automation.data.DatabaseUtilities;
 import com.automation.pageObjs.LoginPage;
 import com.automation.selenium.BrowserStack;
 import com.automation.selenium.Driver;
@@ -47,7 +58,7 @@ import com.gurock.testrail.GetTestCases;
 import com.gurock.testrail.TestRailUtilities;
 
 public class BaseTest extends TestRailUtilities {
-	
+
 	protected final static Logger logger = Logger.getLogger(Log4J.class);
 	private static ThreadLocal<String> methodName = new ThreadLocal<String>();
 	private static ThreadLocal<String> testCaseId = new ThreadLocal<String>();	
@@ -55,13 +66,14 @@ public class BaseTest extends TestRailUtilities {
 	private static ThreadLocal<String> caseResults = new ThreadLocal<String>();
 	private static ThreadLocal<Boolean> mxTitles = new ThreadLocal<Boolean>();
 	public static ThreadLocal<String> testDataName = new ThreadLocal<String>();
-	
+	public static ThreadLocal<Boolean> asset = new ThreadLocal<Boolean>();
+
 	boolean methodNameCorrect = false;	
-	
+
 	final static StringWriter errors = new StringWriter();
 	final static StringBuilder sb = new StringBuilder();
 	final static StringBuilder notPassedCaseIds = new StringBuilder();
-	
+
 	public static String host = null;
 	public static String repo = null;
 	public static String project = null;
@@ -73,21 +85,29 @@ public class BaseTest extends TestRailUtilities {
 	public static String runId = null;
 	public static String database = null;
 	public static String databaseName = null;
-	
+
 	public static boolean updTestRail = false;	
 	public static boolean addRun = false;
 	public static boolean cloudTest = false;
+	public static boolean assets = false;
 	public static String cloudTestProvider = null;
-	
+
 	HashMap<String, String> jiraMap = new HashMap<String, String>();
-	
+
 	String runName;
-	public String projectParticipant;
-	public String projectParticipantFullName;
+	public static String user;
+	public static String userFullName;
+	public static String lockedUser;
+	public static String deactivatedUser;
+	public static String lockedUserAdfs;
+	public static String deactivatedUserAdfs;
+	public static String localDBusername;
+	public static String adfsUsername;
+	public static String password;
 	int failCount = 0;
-	
+
 	public String getTestEnv(String testEnv, boolean tag) {
-		
+
 		String env = System.getenv("ENV");
 		if (env != null) {
 			testEnv = env;
@@ -98,38 +118,42 @@ public class BaseTest extends TestRailUtilities {
 			return testEnv + " - ";
 		}
 	}
-	
+
 	public static String getMethodName() {
 		String[] s = methodName.get().split("_");
 		testCaseId.set(s[0]);
-        return methodName.get();
-    }
-	
+		return methodName.get();
+	}
+
 	public static String getTestCaseId() {
 		return testCaseId.get();
-    }
-	
+	}
+
 	public static String getTestDataName() {
 		return testDataName.get();
-    }
-	
+	}
+
 	public static String getMaxTestDataName() {		
 		return maxTestDataName.get();
-    }
-	
+	}
+
+	public static boolean getAssetInd() {
+		return asset.get();
+	}
+
 	public static boolean getMaxTitles() {
 		try {
 			return mxTitles.get();	
 		} catch (Exception e) {
 			return false;	
 		}		
-    }
+	}
 
 	public static String getRandomUUIDString() {
 		String randomUUIDString = UUID.randomUUID().toString();
 		return randomUUIDString;
 	}
-	
+
 	public String getTestCaseName() {		
 		String testCaseName = BaseTest.getMethodName(); 		
 		if (BaseTest.getMethodName().length() > 100) {
@@ -137,7 +161,7 @@ public class BaseTest extends TestRailUtilities {
 		}		
 		return testCaseName;
 	}
-	
+
 	public static String getBuildUrl() {
 		String buildUrl = System.getenv("BUILD_URL");
 		if (buildUrl == null) {
@@ -145,26 +169,34 @@ public class BaseTest extends TestRailUtilities {
 		}
 		return buildUrl;
 	}
-	
+
 	public static String getCaseResults() {		
 		String cr = caseResults.get();
 		if (cr != null) {
 			return cr;
 		} 
 		return "";
-    }
-		
-	public void setVars() {
-
 	}
-	
+
+	public void setVars() {
+		user = TestConfiguration.getConfig().getString("usr");
+		userFullName = TestConfiguration.getConfig().getString("usrFullName");
+		lockedUser = TestConfiguration.getConfig().getString("lockedUser");
+		deactivatedUser = TestConfiguration.getConfig().getString("deactivatedUser");
+		lockedUserAdfs = TestConfiguration.getConfig().getString("lockedUserAdfs");
+		deactivatedUserAdfs = TestConfiguration.getConfig().getString("deactivatedUserAdfs");
+		localDBusername = TestConfiguration.getConfig().getString("login.username");
+		adfsUsername = TestConfiguration.getConfig().getString("adfsUsername");
+		password = TestConfiguration.getConfig().getString("login.password");
+	}
+
 	@BeforeSuite(alwaysRun = true)
 	@Parameters({ "repo", "projectId", "suiteId", "env", "updateTestRail", "addRun", "runId", "cloudTest",
-			"cloudTestProvider", "os", "browser", "database" })
+		"cloudTestProvider", "os", "browser", "database", "assets" })
 	public void beforeSuite(String repo, String projectId, String suiteId, String env, boolean updateTestRail,
 			boolean addRun, String runId, boolean cloudTest, String cloudTestProvider, String os, String browser,
-			@Optional String database) {
-		
+			@Optional String database, boolean assets) {
+
 		BaseTest.repo = repo;
 		String[] suite = this.getClass().getName().split("\\.");		
 		BaseTest.project = suite[suite.length - 2];
@@ -179,7 +211,8 @@ public class BaseTest extends TestRailUtilities {
 		BaseTest.os = os;
 		BaseTest.browser = browser;
 		BaseTest.database = database;
-		
+		BaseTest.assets = assets;
+
 		FileUtilities fu = new FileUtilities();		
 		File dir = new File("test-output");
 		try {
@@ -193,9 +226,9 @@ public class BaseTest extends TestRailUtilities {
 		org.apache.log4j.PropertyConfigurator.configure("src/test/resources/log4j.properties");
 
 		if (updTestRail && addRun) {
-			
+
 			List<String> lst = addRun(getTestEnv(env, false), browser);
-			
+
 			BaseTest.runId = lst.get(0).toString();
 			runName = lst.get(1).toString();			
 			logger.info("\n\nrun id | name: " + BaseTest.runId + " | " + runName + "\n");
@@ -207,19 +240,23 @@ public class BaseTest extends TestRailUtilities {
 		}			
 		TestConfiguration.setConfig(env);
 		BaseTest.host = TestConfiguration.getConfig().getString("login.url");
-		BaseTest.databaseName = TestConfiguration.getDbConfig().getString("db." + BaseTest.env + ".name");
+		setVars();
+		try {
+			BaseTest.databaseName = TestConfiguration.getDbConfig().getString("db." + BaseTest.env + ".name");
+		} catch (Exception e) {
+			logger.error(errors);
+		}
 		createTestNGfailed(fu);
 		removeTmpFiles();
 	}
-	
+
 	@BeforeMethod(alwaysRun = true)
 	@Parameters({ "name", "os", "os_version", "browser", "version", "deviceName", "deviceOrientation", "who" })			
 	public void setup(@Optional String name, @Optional String os, @Optional String os_version,
 			@Optional String browser, @Optional String version,
 			@Optional String deviceName, @Optional String deviceOrientation, @Optional String who, Method method)			
-			throws MalformedURLException {
-		
-		setVars();
+					throws MalformedURLException {
+
 		methodName.set(method.getName());
 		BaseTest.getMethodName();
 
@@ -230,16 +267,17 @@ public class BaseTest extends TestRailUtilities {
 				methodNameCorrect = true;
 			}
 		}
-		
+
 		testDataName.set(BaseTest.getTestCaseId() + "-" + BaseTest.getRandomUUIDString());
 		testDataName.set(BaseTest.getTestDataName().substring(0, 30));		
 
 		SeleniumUtils su = new SeleniumUtils();
 		maxTestDataName.set(BaseTest.getTestDataName() + su.getRandomString(255 - BaseTest.getTestDataName().length()));
+		asset.set(false);
 
 		Driver.createDriver(name, getTestEnv(env, true), os, os_version, browser, version, deviceName,
 				deviceOrientation, cloudTest, method);
-		
+
 		Driver.getDriver().manage().window().maximize();		
 		try {			
 			LoginPage login = new LoginPage();
@@ -255,14 +293,14 @@ public class BaseTest extends TestRailUtilities {
 
 		String cloudTestJobIdLink = "";
 		String steps = null;
-		
+
 		//will display testId for faster tracking
 		this.getCaseResults(projectId, suiteId, getCaseId(method));
-		
+
 		if (cloudTest) {			
 			SessionId jobId = null;
 			SauceLabs sl = new SauceLabs();
-			
+
 			if (BaseTest.cloudTestProvider.equals("sauceLabs")) {				
 				try {
 					jobId = Driver.getDriver().getSessionId();
@@ -270,21 +308,21 @@ public class BaseTest extends TestRailUtilities {
 					jobId = null;
 				}
 			}
-			
+
 			GetTestCases gt = new GetTestCases();			
 			steps = gt.getAutomatedTestCaseSteps(method.getName());
 			logger.info(steps);
 			String dupResults = BaseTest.getCaseResults();
-			
+
 			steps = steps != null ? steps : "";
 			dupResults = dupResults != null ? dupResults : "";			
-			
+
 			if (steps.contains("getCaseResults") && dupResults.contains("Passed")) {
 				cloudTestJobIdLink = "The Sauce Labs session is of a similar test case referenced in the steps. " + dupResults;
 			} else if (jobId != null) {
-				
+
 				sl.updateSauceLabTestResult(jobId, result);
-				
+
 				cloudTestJobIdLink = sl.getLinkToSauceLabJobId(jobId.toString());
 				logger.info("\n" + method.getName() + " - " + cloudTestJobIdLink + "\n");
 			} else {
@@ -299,12 +337,12 @@ public class BaseTest extends TestRailUtilities {
 				}
 			}
 		} 
-		
+
 		String msg = "failed - automation - ui - " + BaseTest.browser + " - " + this.getTestSuite() + " - "
 				+ BaseTest.getMethodName();
 
 		msg = msg.toLowerCase();
-		
+
 		if (updTestRail) {
 			if (runId == null) {				
 				runId = this.getRunId(BaseTest.runId, BaseTest.projectId);
@@ -312,38 +350,44 @@ public class BaseTest extends TestRailUtilities {
 			if (methodNameCorrect) {					
 				if (result.getStatus() == ITestResult.SUCCESS) {				
 					uploadResults(method, result, "", cloudTestJobIdLink);
-					
+					/*
 					Jira j = new Jira();
-					
+
 					if (!j.isStatusClosedOrDone(msg)) {
 						j.closeIssue(msg, cloudTestJobIdLink);
 					}
+					*/
 				}
-				updateCase(method, "1", result, cloudTestJobIdLink); // 1 = Automated
+				if (steps.contains("Partially_Automated")) {
+					updateCase(method, "3", result, cloudTestJobIdLink); 	
+				} else {
+					updateCase(method, "4", result, cloudTestJobIdLink); // 4 = Automated	
+				}	
 			}
 		}
 		if (Retry.retryCount == Retry.MAXRETRYCOUNT && result.getStatus() == ITestResult.FAILURE) {
+
 			ScreenshotOnFailure ss = new ScreenshotOnFailure();
 			String error = null;
 			try {
 				error = ss.takeScreenShotOnFailure(result, Driver.getDriver(), method, cloudTestJobIdLink);
 			} catch (Exception e) {}
-			
+
 			SlackNotifications cn = new SlackNotifications();		
-			
+
 			if (updTestRail) {
-				
+				/*
 				Jira jira = new Jira();
 				String bugId = null;
 				String jiraLink = "";
-				
+
 				if (jira.isNewIssueOrResolutionIsFixedOrStatusIsVerifiedOrClosed(msg)) { 
-					
+
 					String jiraDesc = null; 
-					
+
 					if (cloudTest) {
 						//jiraDesc = cloudTestJobIdLink.replace("/", "\\/");
-						
+
 						String testRailUsername = TestConfiguration.getTestRailConfig().getString("username");
 						String testRailPassword = TestConfiguration.getTestRailConfig().getString("password");						
 						jiraDesc = "TestRail login: " + testRailUsername + " | " + testRailPassword;
@@ -354,27 +398,29 @@ public class BaseTest extends TestRailUtilities {
 					bugId = jira.postIssue(msg, jiraDesc);
 					jiraLink = " - " + TestConfiguration.getJiraConfig().getString("host") + "/browse/" + bugId;
 				}
-				
+				*/
 				TestRailUtilities tr = new TestRailUtilities();
-				tr.uploadResults(method, result, "JIRA bug - " + bugId + " : " + error, cloudTestJobIdLink);
-				
+				//tr.uploadResults(method, result, "JIRA bug - " + bugId + " : " + error, cloudTestJobIdLink);
+				tr.uploadResults(method, result, error, cloudTestJobIdLink);
+
 				String testId = getTestId(BaseTest.projectId, BaseTest.suiteId, getCaseId(method));
-				
-				tr.getTestResults(testId);
-				
+
+				//tr.getTestResults(testId);
+
 				String testResultLink = TestConfiguration.getTestRailConfig().getString("host") + "/index.php?/tests/view/" + testId;
-						
+
 				if (testId == null) {
 					testResultLink = "";
 				}
-				cn.postMsg(msg + " - " + testResultLink + jiraLink);
-				
+				//cn.postMsg(msg + " - " + testResultLink + jiraLink);
+				cn.postMsg(msg + " - " + testResultLink);
+
 				/*
 				 * alternative method to post jira issue using jmeter
 				 *
 				String jiraSummary = method.getName() + " - " + error;
 				String jiraDesc; 
-					
+
 					if (cloudTest) {
 						jiraDesc = msg + " - " + cloudTestJobIdLink.replace("/", "\\/");		
 					} else {
@@ -382,13 +428,22 @@ public class BaseTest extends TestRailUtilities {
 					}	 
 				TestRailUtilities tr = new TestRailUtilities();
 				jiraMap.put(BaseTest.runId + "TESTRAIL" + tr.getCaseId(method) + "JIRA" + jiraSummary, jiraDesc);
-				*/
-				
+				 */
+
 			} else if (cloudTest) {
 				cn.postMsg(msg + " - " + cloudTestJobIdLink);			
 			}		
 			failCount++;			
 		}
+		 //remove caseId with result from list of caseIds in test run txt file so in case a build is aborted if TestRail stops updating results, 
+		 //it's easier to retrieve the remaining list of caseIds to rerun 
+		ExecuteShellCommand es = new ExecuteShellCommand();
+		String runTxt = runId + ".txt";
+		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/"+BaseTest.getTestCaseId()+"//g", runTxt};
+		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/,,//g", runTxt};
+		es.executeArrayCommand(cmd1);
+		es.executeArrayCommand(cmd2);
+		
 		this.appendSkippedAndFailedTests(result, method);		
 		this.removePassedTestsFromTestNG(result, method);
 		try {
@@ -396,31 +451,31 @@ public class BaseTest extends TestRailUtilities {
 				Driver.getDriver().quit();
 			}
 		} catch (Exception e) {}
-		
+
 		/*
 		if (failCount == 100) {
 			logger.error("100 tests failed. Exiting...");
 			logger.info("not passed case ids: " + notPassedCaseIds.toString());
 			System.exit(1);
 		}
-		*/
+		 */
 	}
-	
+
 	//@AfterClass(alwaysRun = true)
 	public void afterClass() {
 		if (updTestRail) {			
 			Iterator<?> it = jiraMap.entrySet().iterator();
-		    while (it.hasNext()) {
-		        @SuppressWarnings("rawtypes")
+			while (it.hasNext()) {
+				@SuppressWarnings("rawtypes")
 				Map.Entry pair = (Map.Entry)it.next();
-		        String summary = pair.getKey().toString();
-		        String desc = pair.getValue().toString();
-		        String assignee = TestConfiguration.getJiraConfig().getString("assignee"); 		        		
-		        createJiraIssue(summary, desc, assignee);
-		    }
+				String summary = pair.getKey().toString();
+				String desc = pair.getValue().toString();
+				String assignee = TestConfiguration.getJiraConfig().getString("assignee"); 		        		
+				createJiraIssue(summary, desc, assignee);
+			}
 		}
 	}
-	
+
 	@AfterSuite(alwaysRun = true)
 	public void afterSuite() {
 		if (!cloudTest) {
@@ -435,14 +490,14 @@ public class BaseTest extends TestRailUtilities {
 		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/BUILD_TAG/"+runName+"/g", testng};
 		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>//g", testng};		
 		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/runId\" value=\"\"/runId\" value=\""+BaseTest.runId+"\"/g", testng};
-		
+
 		es.executeArrayCommand(cmd1);		
 		es.executeArrayCommand(cmd2);
 		es.executeArrayCommand(cmd3);
 		removeTmpFiles();
 		logger.info("not passed case ids: " + notPassedCaseIds.toString());
 	}	
-	
+
 	public void appendSkippedAndFailedTests(ITestResult result, Method method) {
 		if ((!sb.toString().contains(method.getName()) && result.getStatus() == ITestResult.FAILURE && Retry.retryCount == Retry.MAXRETRYCOUNT) || result.getStatus() == ITestResult.SKIP) {
 			sb.append("<include name=\"" + method.getName() + "\" />\n");
@@ -450,21 +505,21 @@ public class BaseTest extends TestRailUtilities {
 			notPassedCaseIds.append("c" + this.getCaseId(method) + ",");
 		} 
 	}	
-	
+
 	public void writeSkippedAndFailedTests() {		
-        BufferedWriter output;
+		BufferedWriter output;
 		try {
 			output = new BufferedWriter(new FileWriter("test-output/failedAndSkippedTests.txt"));
 			output.write("<methods>\n" + sb.toString() + "</methods>");
-	        output.close();
-	        logger.info("list of failed and skipped test cases are saved in failedAndSkippedTests.txt. add to testng.xml to rerun only those test cases for debugging");
+			output.close();
+			logger.info("list of failed and skipped test cases are saved in failedAndSkippedTests.txt. add to testng.xml to rerun only those test cases for debugging");
 		} catch (IOException e) {
 			logger.error("writeSkippedAndFailedTests");
 			e.printStackTrace(new PrintWriter(errors));
 			logger.error(errors);
 		}        
 	}
-		
+
 	public void addFailedTestsToTestNG(Method method) {
 		String[] command = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\"\\.\\*\\\" \\/\\>"
 				+ "/\\<include name\\=\\\""+method.getName()+"\\\" \\/\\>"
@@ -472,7 +527,7 @@ public class BaseTest extends TestRailUtilities {
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		es.executeArrayCommand(command);
 	}
-	
+
 	public void removePassedTestsFromTestNG(ITestResult result, Method method) {
 		if (result.getStatus() == ITestResult.SUCCESS) {
 			String[] command = new String[] {"sed", "-i.tmp", "s/\\<include name\\=\\\""+method.getName()+"\\\" \\/\\>//g", "testng_retryFailed.xml"};
@@ -480,7 +535,7 @@ public class BaseTest extends TestRailUtilities {
 			es.executeArrayCommand(command);
 		}
 	}
-	
+
 	public void createTestNGfailed(FileUtilities fu) {
 
 		String testngDir = "src/test/resources/testng/";		
@@ -493,68 +548,68 @@ public class BaseTest extends TestRailUtilities {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void createJiraIssue(String summary, String desc, String assignee) {
-		
+
 		String[] s1 = summary.split("TESTRAIL");
 		String testRailRunId = s1[0];
 		String[] s2 = s1[1].split("JIRA");
 		String testRailcaseId = s2[0];
 		summary = s2[1].replaceAll("[^a-zA-Z0-9]+"," ");
-		
+
 		String jmx = "src/test/jmeter/jira.jmx";
 		ExecuteShellCommand es = new ExecuteShellCommand();
 		es.executeCommand("cp " + jmx + " " + jmx.replace("jira", "jiraCopy"));
-		
+
 		String[] s3 = desc.split(" - ");
 		String descWithoutLink = desc.replace(" - " + s3[s3.length - 1], "").replace(" - ", "_").replace(" ", "_");
 		String testRailOrCloudTestLink = s3[s3.length - 1];
-				
+
 		String[] cmd = new String[] {"sed", "-i.tmp", "s/REPLACE_SEARCH/"+descWithoutLink+"/g", jmx};
 		es.executeArrayCommand(cmd);
-						
+
 		String[] cmd1 = new String[] {"sed", "-i.tmp", "s/REPLACE_SUMMARY/"+descWithoutLink+"/g", jmx};
 		es.executeArrayCommand(cmd1);
-		
+
 		String[] cmd2 = new String[] {"sed", "-i.tmp", "s/REPLACE_DESC/"+testRailOrCloudTestLink+"/g", jmx};
 		es.executeArrayCommand(cmd2);
-		
+
 		String[] cmd3 = new String[] {"sed", "-i.tmp", "s/REPLACE_ASSIGNEE/"+assignee+"/g", jmx};
 		es.executeArrayCommand(cmd3);
-		
+
 		String[] cmd4 = new String[] {"sed", "-i.tmp", "s/RUN_ID/"+testRailRunId+"/g", jmx};
 		es.executeArrayCommand(cmd4);
-		
+
 		String[] cmd5 = new String[] {"sed", "-i.tmp", "s/CASE_ID/"+testRailcaseId+"/g", jmx};
 		es.executeArrayCommand(cmd5);
-		
+
 		// enable all the tests
 		String[] cmd6 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd6);
-		
+
 		// disable all the tests except for jira.jmx
 		String[] cmd7 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "jira.jmx", "-x"};
 		es.executeArrayCommand(cmd7);
-		
+
 		String jenkinsHome = System.getProperty("JENKINS_HOME");
 		jenkinsHome = System.getProperty("JENKINS_HOME") != null ? jenkinsHome : System.getProperty("user.home") + "/.jenkins";
-		
+
 		String[] cmd8 = new String[] {jenkinsHome + "/tools/hudson.tasks.Maven_MavenInstallation/Maven/bin/mvn", "jmeter:jmeter"};
 		es.executeArrayCommand(cmd8);
-				
+
 		es.executeCommand("cp " + jmx.replace("jira", "jiraCopy") + " " + jmx);
-		
+
 		String[] cmd9 = new String[] {"bash", "shell scripts/disable_jmeter_tests.sh", "*.jmx", "-xe"};
 		es.executeArrayCommand(cmd9);
 	}
-	
+
 	public void removeTmpFiles() {
 		File jmeterDir = new File("src/test/jmeter");
 
 		for (File f : jmeterDir.listFiles())
 			if (f.getName().contains(".tmp") || f.getName().contains("Copy"))
 				f.delete();
-		
+
 		File testngDir = new File("src/test/resources/testng");
 
 		for (File f : testngDir.listFiles())
@@ -562,30 +617,30 @@ public class BaseTest extends TestRailUtilities {
 				f.delete();
 
 	}
-	
+
 	public void skipSauceTestRunLocally() {
 		if (BaseTest.cloudTest) {
 			throw new SkipException("Need to run locally.");
 		}
 	}
-	
+
 	public static void skipBrowser(String browser) {
 		if (BaseTest.browser.equals(browser)) {
 			throw new SkipException("Skipping browser " + browser);
 		}
 	}
-	
+
 	public boolean isPerfTest(Method method) {
 		Test testClass = method.getAnnotation(Test.class);
 
-        for (int i = 0; i < testClass.groups().length; i++) {
-            if (testClass.groups()[i].contains("Performance")) {
-            	return true;
-            }
-        }
-        return false;
+		for (int i = 0; i < testClass.groups().length; i++) {
+			if (testClass.groups()[i].contains("PerformanceTests")) {
+				return true;
+			}
+		}
+		return false;
 	}
-	
+
 	public String getTestSuite() {
 		ExecuteShellCommand es = new ExecuteShellCommand();		
 		String[] cmd = new String[] {"grep", "-Ril", "public void " + BaseTest.getMethodName(), "src/test/java/com/automation/tests"};
@@ -593,5 +648,75 @@ public class BaseTest extends TestRailUtilities {
 		String[] s = suite.split("/");
 		suite = s[s.length - 1].replace(".java", "");
 		return suite;
+	}
+
+	public static String getTestEnv() {
+		String testEnv;
+		String env = System.getenv("ENV");
+		if (env != null) {
+			testEnv = env;
+		} else {
+			testEnv = BaseTest.env;
+		}
+		return testEnv;
+	}
+
+	public String getExistingOrg() {
+		DatabaseUtilities db =new DatabaseUtilities();
+		return db.executeQuery("select org_name from " + BaseTest.databaseName + ".organizations where org_name like '"+BaseTest.getTestCaseId()+"%' order by created_ts desc limit 1");	
+	}
+
+	public String getExistingOrg(String orgName) {
+		DatabaseUtilities db = new DatabaseUtilities();
+		return db.executeQuery("select org_name from " + BaseTest.databaseName + ".organizations where org_name like '"
+				+ orgName + "%' order by created_ts desc limit 1");	
+	}
+
+	public void setClipboardValue(String value) {
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(value), null);
+	}
+
+	public String getClipboardValue() {
+		try {
+			return (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+		} catch (HeadlessException | UnsupportedFlavorException | IOException e) {
+			return null;
+		}
+	}
+
+	public String getLocalizationValue(String localizationPreferences, Double value){
+		String country = (localizationPreferences.equals("EU"))? "DE" : "US";
+		String language = (country.equals("EU"))? "de" : "en";
+		Locale currentLocale = new Locale(language, country);
+		NumberFormat nf = NumberFormat.getNumberInstance(currentLocale);
+		DecimalFormat df = (DecimalFormat)nf;
+		df.applyPattern("#,###.##");
+		return df.format(value);
+	}
+	
+	public String getLocalizationValue_SingleAssumption(String localizationPreferences, Double value){
+		String country = (localizationPreferences.equals("EU"))? "DE" : "US";
+		String language = (country.equals("EU"))? "de" : "en";
+		Locale currentLocale = new Locale(language, country);
+		NumberFormat nf = NumberFormat.getNumberInstance(currentLocale);
+		DecimalFormat df = (DecimalFormat)nf;
+		df.applyPattern("#,###.################");
+		return df.format(value);
+	}
+	
+	public int getOrgId(String url) {
+		Matcher m = Pattern.compile("\\d{2,3}").matcher(url);
+		return Integer.parseInt(m.group().toString());
+	}
+		
+	public static void writeCaseIds(String fileName, String caseIds) {
+		try {
+			FileWriter fileWriter = new FileWriter(fileName);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(caseIds.replace(" ", ""));
+			bufferedWriter.close();
+		} catch (IOException ex) {
+			System.out.println("Error writing to file '" + fileName + "'");
+		}
 	}
 }

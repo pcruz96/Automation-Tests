@@ -2,6 +2,8 @@ package com.automation.testng;
 
 import java.io.*;
 
+import com.automation.tests.BaseTest;
+
 public class AddTestNGmethods {
 
 	@SuppressWarnings("resource")
@@ -12,6 +14,7 @@ public class AddTestNGmethods {
 		File ifile = new File(inputFile);
 		File ofile = new File(outputFile);
 		String[] caseIds = arg[0].split(",");
+		BaseTest.writeCaseIds(BaseTest.runId.toString() + ".txt", arg[0].toString());
 
 		try {
 			if (!ofile.exists()) {
@@ -35,7 +38,7 @@ public class AddTestNGmethods {
 					if (line.contains("<methods>") && i == 0) {
 						for (String caseId : caseIds) {
 							caseId += "_.*";
-							bw.write("<include name=\""+caseId.replace(",", "").trim()+"\" />" + "\n");							
+							bw.write("<include name=\".*"+caseId.replace(",", "").trim()+"\" />" + "\n");							
 						}
 						i++;
 					}					
