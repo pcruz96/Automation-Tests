@@ -2,8 +2,6 @@ package com.automation.testng;
 
 import java.io.*;
 
-import com.automation.tests.BaseTest;
-
 public class AddTestNGmethods {
 
 	@SuppressWarnings("resource")
@@ -14,7 +12,7 @@ public class AddTestNGmethods {
 		File ifile = new File(inputFile);
 		File ofile = new File(outputFile);
 		String[] caseIds = arg[0].split(",");
-		BaseTest.writeCaseIds("remainingTestRunCaseIds.txt", arg[0].toString());
+		AddTestNGmethods.writeCaseIds("remainingTestRunCaseIds.txt", arg[0]);
 
 		try {
 			if (!ofile.exists()) {
@@ -52,6 +50,17 @@ public class AddTestNGmethods {
 			ofile.renameTo(ifile);
 			System.out.println("updated " + inputFile);
 		} catch (IOException e) {
+		}
+	}
+	
+	public static void writeCaseIds(String fileName, String caseIds) {
+		try {
+			FileWriter fileWriter = new FileWriter(fileName);
+			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+			bufferedWriter.write(caseIds.replace(" ", ""));
+			bufferedWriter.close();
+		} catch (IOException ex) {
+			System.out.println("Error writing to file '" + fileName + "'");
 		}
 	}
 }
