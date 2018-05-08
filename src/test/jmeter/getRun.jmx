@@ -324,7 +324,7 @@
             <collectionProp name="Arguments.arguments">
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;webhookbot&quot;, &quot;text&quot;: &quot;name: ${name}\nurl: ${url}\nis_completed: ${is_completed}\npassed_count: ${passed_count}\nfailed_count: ${failed_count}\nuntested_count: ${untested_count}&quot;}</stringProp>
+                <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;jenkins automated tests&quot;, &quot;text&quot;: &quot;name: ${name}\nurl: ${url}\nis_completed: ${is_completed}\npassed_count: ${passed_count}\nfailed_count: ${failed_count}\nuntested_count: ${untested_count}&quot;}</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
               </elementProp>
             </collectionProp>
