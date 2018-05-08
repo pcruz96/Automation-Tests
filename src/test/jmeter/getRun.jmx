@@ -109,8 +109,8 @@
         <stringProp name="ThreadGroup.delay"></stringProp>
       </ThreadGroup>
       <hashTree>
-        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${run_id}&quot; == &quot;RUN_ID&quot;" enabled="true">
-          <stringProp name="IfController.condition">&quot;${run_id}&quot; == &quot;RUN_ID&quot;</stringProp>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${run_id}&quot; == &quot;&quot;" enabled="true">
+          <stringProp name="IfController.condition">&quot;${run_id}&quot; == &quot;&quot;</stringProp>
           <boolProp name="IfController.evaluateAll">false</boolProp>
         </IfController>
         <hashTree>
