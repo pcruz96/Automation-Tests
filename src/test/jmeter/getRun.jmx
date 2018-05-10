@@ -318,33 +318,39 @@
           </RegexExtractor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="slack msg" enabled="true">
-          <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
-            <collectionProp name="Arguments.arguments">
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;jenkins automated tests&quot;, &quot;text&quot;: &quot;name: ${name}\nurl: ${url}\nis_completed: ${is_completed}\npassed_count: ${passed_count}\nfailed_count: ${failed_count}\nuntested_count: ${untested_count}&quot;}</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-              </elementProp>
-            </collectionProp>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">hooks.slack.com</stringProp>
-          <stringProp name="HTTPSampler.port"></stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          <stringProp name="HTTPSampler.protocol">https</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-          <stringProp name="HTTPSampler.path">${slackWebhook}</stringProp>
-          <stringProp name="HTTPSampler.method">POST</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <boolProp name="HTTPSampler.monitor">false</boolProp>
-          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-        </HTTPSamplerProxy>
-        <hashTree/>
+        <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If &quot;${name}&quot; != &quot;\$\{name\}&quot;" enabled="true">
+          <stringProp name="IfController.condition">&quot;${name}&quot; != &quot;\$\{name\}&quot;</stringProp>
+          <boolProp name="IfController.evaluateAll">false</boolProp>
+        </IfController>
+        <hashTree>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="slack msg" enabled="true">
+            <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+              <collectionProp name="Arguments.arguments">
+                <elementProp name="" elementType="HTTPArgument">
+                  <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                  <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;jenkins automated tests&quot;, &quot;text&quot;: &quot;name: ${name}\nurl: ${url}\nis_completed: ${is_completed}\npassed_count: ${passed_count}\nfailed_count: ${failed_count}\nuntested_count: ${untested_count}&quot;}</stringProp>
+                  <stringProp name="Argument.metadata">=</stringProp>
+                </elementProp>
+              </collectionProp>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain">hooks.slack.com</stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="HTTPSampler.protocol">https</stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">${slackWebhook}</stringProp>
+            <stringProp name="HTTPSampler.method">POST</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <boolProp name="HTTPSampler.monitor">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
         <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="false">
           <boolProp name="displayJMeterProperties">false</boolProp>
           <boolProp name="displayJMeterVariables">true</boolProp>
