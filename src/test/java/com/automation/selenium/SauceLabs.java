@@ -53,6 +53,9 @@ public class SauceLabs extends Log4J {
         } else if (testResult.getStatus() == ITestResult.FAILURE) {
         	
         	saucerest.jobFailed(jobId.toString());	 
-		}	
+		} else {
+			logger.info("updateSauceLabTestResult failed. stopping the tests.");
+			System.exit(0);
+		}
 	}
 }
