@@ -105,6 +105,7 @@ public class BaseTest extends TestRailUtilities {
 	public static String adfsUsername;
 	public static String password;
 	int failCount = 0;
+	int noResultsCount = 0;
 
 	public String getTestEnv(String testEnv, boolean tag) {
 
@@ -345,9 +346,13 @@ public class BaseTest extends TestRailUtilities {
 
 		if (updTestRail) {
 			
-			if (result.getStatus() != ITestResult.SUCCESS || result.getStatus() != ITestResult.FAILURE) {
-				logger.info("test result is neither pass or fail. stopping the tests.");
-				System.exit(0);
+			if (result.getStatus() != ITestResult.SUCCESS && result.getStatus() != ITestResult.FAILURE) {
+				noResultsCount++;
+				
+				if (noResultsCount > 10) {
+					logger.info("greater than 10 test results neither passed or failed. stopping the tests.");
+					System.exit(0);
+				}
 			}
 			
 			if (runId == null) {				
