@@ -345,7 +345,7 @@ public class BaseTest extends TestRailUtilities {
 
 		if (updTestRail) {
 			
-			if (result.getStatus() != ITestResult.SUCCESS || result.getStatus() != ITestResult.FAILURE) {
+			if (result.getStatus() != ITestResult.SUCCESS && result.getStatus() != ITestResult.FAILURE) {
 				logger.info("test result is neither pass or fail. stopping the tests.");
 				System.exit(0);
 			}
