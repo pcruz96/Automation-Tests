@@ -281,15 +281,6 @@
             <stringProp name="RegexExtractor.match_number">1</stringProp>
           </RegexExtractor>
           <hashTree/>
-          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="is_completed" enabled="true">
-            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-            <stringProp name="RegexExtractor.refname">is_completed</stringProp>
-            <stringProp name="RegexExtractor.regex">&quot;is_completed&quot;:(.*?),</stringProp>
-            <stringProp name="RegexExtractor.template">$1$</stringProp>
-            <stringProp name="RegexExtractor.default"></stringProp>
-            <stringProp name="RegexExtractor.match_number">1</stringProp>
-          </RegexExtractor>
-          <hashTree/>
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="passed_count" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">passed_count</stringProp>
@@ -329,7 +320,7 @@
               <collectionProp name="Arguments.arguments">
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;jenkins automated tests&quot;, &quot;text&quot;: &quot;name: ${name}\nurl: ${url}\nis_completed: ${is_completed}\npassed_count: ${passed_count}\nfailed_count: ${failed_count}\nuntested_count: ${untested_count}&quot;}</stringProp>
+                  <stringProp name="Argument.value">payload={&quot;channel&quot;: &quot;#${slackChannel}&quot;, &quot;username&quot;: &quot;jenkins automated tests&quot;, &quot;text&quot;: &quot;test run name: ${name}\nurl: ${url}\npassed: ${passed_count}\nfailed: ${failed_count}\nuntested: ${untested_count}&quot;}</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                 </elementProp>
               </collectionProp>
