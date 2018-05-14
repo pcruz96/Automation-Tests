@@ -124,9 +124,6 @@ public class TestRailUtilities extends Log4J {
 			statusId = "1";
 		} else if (result.getStatus() == ITestResult.FAILURE) {
 			statusId = "5";	
-		} else {
-			logger.info("uploadResults failed. stopping the tests.");
-			System.exit(0);
 		}
 		
 		// Add parameters to the hash map

@@ -344,6 +344,12 @@ public class BaseTest extends TestRailUtilities {
 		msg = msg.toLowerCase();
 
 		if (updTestRail) {
+			
+			if (result.getStatus() != ITestResult.SUCCESS || result.getStatus() != ITestResult.FAILURE) {
+				logger.info("test result is neither pass or fail. stopping the tests.");
+				System.exit(0);
+			}
+			
 			if (runId == null) {				
 				runId = this.getRunId(BaseTest.runId, BaseTest.projectId);
 			}					
