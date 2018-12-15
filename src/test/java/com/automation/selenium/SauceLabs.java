@@ -38,6 +38,7 @@ public class SauceLabs extends Log4J {
 				| IllegalBlockSizeException
 				| BadPaddingException e) {
 			e.printStackTrace(new PrintWriter(errors));
+			logger.error(“test2”);
 			logger.error(errors);
 		}
 		return jobIdLink;
